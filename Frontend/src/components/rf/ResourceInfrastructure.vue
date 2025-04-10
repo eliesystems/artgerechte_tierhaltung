@@ -47,10 +47,8 @@ const options = [
     { label: 'Weidehaltung ganzjährig', value: 'year_round_pasture' }
 ];
 
-// HaltungsformChoice wird aus dem Pinia Store abgerufen, um die Auswahl anzuzeigen
 const selectedChoices = computed(() => resourceStore.getAnswerByKey('RF_008_1') ?? []);
 
-// Funktion zum Abrufen der Beschriftung basierend auf dem Wert
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);
   return option?.label ?? value;

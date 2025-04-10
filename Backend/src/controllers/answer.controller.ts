@@ -25,9 +25,9 @@ export const createAnswers = async (req: Request, res: Response) => {
 				question_key: a.question_key,
 				section: sectionEnumValue,
 				string_answer: a.string_answer ?? null,
-				string_array_answer: Array.isArray(a.string_array_answer) ? a.string_array_answer : null,
+				string_array_answer: Array.isArray(a.string_array_answer) ? a.string_array_answer : [],
 				numeric_answer: a.numeric_answer ?? null,
-				numeric_array_answer: Array.isArray(a.numeric_array_answer) ? a.numeric_array_answer : null,
+				numeric_array_answer: Array.isArray(a.numeric_array_answer) ? a.numeric_array_answer : [],
 				file_url: a.file_url ?? null,
 			};
 		  

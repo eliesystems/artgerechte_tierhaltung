@@ -55,11 +55,11 @@ const router = useRouter();
 const farmId = router.currentRoute.value.query.farmId as string;
 
 const questionnaireComponents = {
-	wellbeingSocialBehaviorAndComfort: WellbeingSocialBehaviorAndComfort,
-	wellbeingFoodAndWater: WellbeingFoodAndWater,
-	wellbeingMovingAndRestingBehavior: WellbeingMovingAndRestingBehavior,
-	wellbeingCondition: WellbeingCondition,
-	wellbeingOther: WellbeingOther
+	socialBehavior: WellbeingSocialBehaviorAndComfort,
+	foodAndWater: WellbeingFoodAndWater,
+	movingAndRestingBehavior: WellbeingMovingAndRestingBehavior,
+	condition: WellbeingCondition,
+	other: WellbeingOther
 }
 
 const currentQuestionnaireComponent = computed(() => {
@@ -90,7 +90,7 @@ const hasPreviousQuestionnaire = computed(() => {
 });
 
 const goToHome = () => {
-	router.push('/home');
+	wellbeingStore.resetStore();
 	router.push('/home');
 };
 
@@ -130,7 +130,9 @@ const saveResources = async () => {
         console.error("Error saving answers to backend:", error);
     }
 
-    router.push('/mf');
+	wellbeingStore.resetStore();
+	navigationStore.reset();
+    router.push('/home');
 };
 
 

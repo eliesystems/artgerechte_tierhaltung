@@ -3,14 +3,32 @@ import farmRoutes from "./routes/farm.routes";
 import userRoutes from "./routes/user.routes"
 import answerRoutes from "./routes/answer.routes"
 import cors from 'cors';
+import { PrismaClient } from "@prisma/client";
 
 require('dotenv').config();
+
+const prisma = new PrismaClient();
+
+// Test the DB connection when the app starts
+async function testDbConnection() {
+	try {
+	  	await prisma.$connect();  // Attempt to connect to the DB
+	  	console.log('Successfully connected to the database');
+	} catch (error) {
+		console.error('Error connecting to the database:', error);
+	}
+};
+  
+// Run the test connection function on server startup
+testDbConnection();
 
 const app = express();	
 
 app.use(cors({
-    origin: "https://artgerechtepferdehaltung.elie.de"
+    origin: process.env.FRONTEND_URL
 }));
+
+console.log("Frontend: " + process.env.FRONTEND_URL);
 
 app.use(express.json());
 

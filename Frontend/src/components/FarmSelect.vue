@@ -26,7 +26,7 @@
                         Ressourcenbezogene Fragen
                     </div>
                 </RouterLink>
-                <RouterLink to="/mf" class="flex items-center p-4 mb-4 hover:bg-[#f2f2f2] hover:cursor-pointer rounded-lg border border-color-black hover:border-[#d1a62c]">
+                <RouterLink :to="{ name: 'mf', query: { farmId: farmId } }" class="flex items-center p-4 mb-4 hover:bg-[#f2f2f2] hover:cursor-pointer rounded-lg border border-color-black hover:border-[#d1a62c]">
                     <div class="text-base font-medium">
                         Managementbezogene Fragen
                     </div>
