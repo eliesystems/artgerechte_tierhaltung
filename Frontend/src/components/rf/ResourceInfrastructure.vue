@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Infrastruktur" topic-text="Beantworten Sie die folgenden Fragen...">
+    <QuestionaireCard topic-name="Infrastruktur">
         <template #content>
             <MultipleChoice
                 question="Wie sind die Pferde untergebracht?"

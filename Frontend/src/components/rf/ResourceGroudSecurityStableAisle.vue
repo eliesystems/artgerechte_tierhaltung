@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Bode, Sicherheit und Stallgasse" topic-text="Hey">
+    <QuestionaireCard topic-name="Boden, Sicherheit und Stallgasse">
         <template #content>
             <div>
                 Welche der Abbildungen entspricht dem Boden in der Schlechtwetterperiode auf den Auslauflaufflächen für die freie Bewegung?

@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Weidehaltung" topic-text="Hi ich bin ein Text">
+    <QuestionaireCard topic-name="Weidehaltung">
         <template #content>
             <Radio
                 question="Gibt es für alle Pferde Weidegang?"

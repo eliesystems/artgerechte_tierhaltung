@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Witterungsschutz" topic-text="Vielleich gar nicht nötig">
+    <QuestionaireCard topic-name="Witterungsschutz">
         <template #content>
             <RadioYesNo
                 question="Gibt es einen natürlichen bzw. natürlich gewachsenen oder künstlichen Witterungsschutz?"
