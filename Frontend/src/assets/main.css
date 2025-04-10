@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+.manrope-header {
+    font-family: Manrope;
+    font-weight: 400;
+    font-size: 32px;
+}
+
+.manrope-h3 {
+    font-family: Manrope;
+    font-weight: 400;
+    font-size: 22px;
+}
+
+.manrope-brown {
+    font-family: Manrope;
+    font-weight: 700;
+    font-size: 18px;
+    color: brown;
+}
+
+.manrope-text {
+	font-family: Manrope;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.roboto-answers {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: gray;
+}
+
