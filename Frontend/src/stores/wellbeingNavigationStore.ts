@@ -15,6 +15,10 @@ export const useNavigationStore = defineStore('wellbeingNavigation', {
 	}),
 
 	actions: {
+		reset() {
+			this.$reset();
+		},
+		
 		setCurrentQuestionnaire(questionnaire: string) {
 			this.currentQuestionnaire = questionnaire;
 		},

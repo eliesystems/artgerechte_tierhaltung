@@ -143,7 +143,9 @@ const saveResources = async () => {
         console.error("Error saving answers to backend:", error);
     }
 
-    router.push('/mf');
+	resourceStore.resetStore();
+	navigationStore.reset();
+    router.push({ name: 'mf', query: { farmId: farmId } });
 };
 
 

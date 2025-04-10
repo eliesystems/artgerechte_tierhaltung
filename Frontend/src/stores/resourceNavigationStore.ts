@@ -21,6 +21,10 @@ export const useNavigationStore = defineStore('resourceNavigation', {
 	}),
 
   	actions: {
+		reset() {
+			this.$reset();
+		},
+
     	setCurrentQuestionnaire(questionnaire: string) {
       		this.currentQuestionnaire = questionnaire;
     	},
