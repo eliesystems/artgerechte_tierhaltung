@@ -24,13 +24,21 @@ testDbConnection();
 
 const app = express();	
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL
-}));
+const corsOptions = {
+	origin: process.env.FRONTEND_URL,
+	credentials: true,
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+	allowedHeaders: ['Content-Type', 'Authorization'],
+	optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions))
+app.options('/*api', cors(corsOptions));
 
 console.log("Frontend: " + process.env.FRONTEND_URL);
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true}))
 
 app.use((req, res, next) => {
 	console.log(`${req.method} ${req.url}`);
