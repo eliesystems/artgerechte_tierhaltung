@@ -41,6 +41,7 @@ import ManagementFeeding from '@/components/mf/ManagementFeeding.vue';
 import ManagementDrinking from '@/components/mf/ManagementDrinking.vue';
 import ManagementControll from '@/components/mf/ManagementControll.vue';
 import ManagementHealth from '@/components/mf/ManagementHealth.vue';
+import ManagementNotes from '@/components/mf/ManagementNotes.vue';
 
 import { onMounted, computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -60,7 +61,8 @@ const questionnaireComponents = {
     feeding: ManagementFeeding,
     drinking: ManagementDrinking,
     controll: ManagementControll,
-    health: ManagementHealth
+    health: ManagementHealth,
+	notes: ManagementNotes
 }
 
 const currentQuestionnaireComponent = computed(() => {

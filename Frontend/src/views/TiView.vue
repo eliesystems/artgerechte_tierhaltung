@@ -41,6 +41,7 @@ import WellbeingFoodAndWater from '@/components/ti/WellbeingFoodAndWater.vue'
 import WellbeingMovingAndRestingBehavior from '@/components/ti/WellbeingMovingAndRestingBehavior.vue';
 import WellbeingCondition from '@/components/ti/WellbeingCondition.vue';
 import WellbeingOther from '@/components/ti/WellbeingOther.vue';
+import WellbeingNotes from '@/components/ti/WellbeingNotes.vue';
 
 import { onMounted, computed, ref } from 'vue';
 import { useWellbeingStore } from '@/stores/wellbeingStore';
@@ -60,7 +61,8 @@ const questionnaireComponents = {
 	foodAndWater: WellbeingFoodAndWater,
 	movingAndRestingBehavior: WellbeingMovingAndRestingBehavior,
 	condition: WellbeingCondition,
-	other: WellbeingOther
+	other: WellbeingOther,
+	notes: WellbeingNotes
 }
 
 const currentQuestionnaireComponent = computed(() => {
