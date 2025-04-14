@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Ausläufe" topic-text="...">
+    <QuestionaireCard topic-name="Ausläufe">
         <template #content>
             <Radio
                 question="Haben alle Pferde täglich freie Bewegung im Auslauf?"

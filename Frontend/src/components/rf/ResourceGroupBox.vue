@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Gruppenhaltung" topic-text="Irgendwas...">
+    <QuestionaireCard topic-name="Gruppenhaltung">
         <template #content>
             <MultipleChoice
                 question="Welche Formen der Gruppenhaltung gibt es?"

@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Betriebsstruktur und Flächen" topic-text="Beantworten Sie die folgenden Fragen...">
+    <QuestionaireCard topic-name="Betriebsstruktur und Flächen">
         <template #content>
             <Radio
                 question="Welche Betriebsform liegt vor?"

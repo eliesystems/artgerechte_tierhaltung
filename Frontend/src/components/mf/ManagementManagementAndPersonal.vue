@@ -20,7 +20,7 @@
 				]" />
 			<Text
 				v-for="(choice, index) in selectedAnswer" :key="`RF_009_${index}`"
-				:question="`Seit wann besteht diese Qualifikation? ${choice.getLabel()}`"
+				:question="`Seit wann besteht diese Qualifikation? ${getLabel(choice)}`"
 				:question-key="`MF_002_${index}`"
 				:store="managementStore"
 				input-type="number" />
@@ -121,11 +121,11 @@ const options = [
 	{ label: 'Keine Qualifikation', value: 'no_qualification' }
 ]
 
-const caretaker = computed(() => props.managementStore.getAnswerByKey('MF_010') ?? [])
+const caretaker = computed(() => props.managementStore.getAnswerByKey('MF_010_1') ?? [])
 const replacement = computed(() => props.managementStore.getAnswerByKey('MF_008') ?? '')
-const selectedAnswer = computed(() => props.managementStore.getAnswerByKey('MF_001') ?? []);
+const selectedAnswer = computed(() => props.managementStore.getAnswerByKey('MF_001_1') ?? []);
 const personal = computed(() => props.managementStore.getAnswerByKey('MF_004') ?? 0);
-const selectedQual = computed(() => props.managementStore.getAnswerByKey('MF_006') ?? []);
+const selectedQual = computed(() => props.managementStore.getAnswerByKey('MF_006_1') ?? []);
 
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);

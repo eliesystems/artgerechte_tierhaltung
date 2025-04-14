@@ -1,5 +1,5 @@
 <template>
-    <QuestionaireCard topic-name="Einzelboxenhaltung" topic-text="Irgendwas...">
+    <QuestionaireCard topic-name="Einzelboxenhaltung">
         <template #content>
             <MultipleChoice
                 question="Welche Formen der Einzelhaltung gibt es?"

@@ -238,5 +238,5 @@ const props = defineProps({
 
 const powerFoodAutomatic = computed(() => props.managementStore.getAnswerByKey('MF_030') ?? '');
 const foodAutomatic = computed(() => props.managementStore.getAnswerByKey('MF_022') ?? '');
-const stableFood = computed(() => props.managementStore.getAnswerByKey('MF_012') ?? []);
+const stableFood = computed(() => props.managementStore.getAnswerByKey('MF_012_1') ?? []);
 </script>
