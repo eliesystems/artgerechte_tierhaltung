@@ -17,7 +17,7 @@
         v-if="selectedAnswers.includes('other')"
         input-type="text"
         :question-key="questionKey + '_2'"
-        placeholder-text="Zusätzlichen Betriebszweig eingeben"
+        :placeholder-text=placeholderText
         :store="store" />
 </template>
 
@@ -42,6 +42,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    placeholderText: {
+        type: String,
+        default: ''
+    }
 });
 
 const selectedAnswers = ref<string[]>(

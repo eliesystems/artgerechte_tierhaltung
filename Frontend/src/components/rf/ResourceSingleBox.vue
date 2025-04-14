@@ -7,9 +7,9 @@
                 :options="options"
                 :store="resourceStore" />
             <Text
-                v-for="(choice, index) in selectedChoices" :key="index"
+                v-for="(choice, index) in selectedChoices" :key="`RF_012_${index}`"
                 :question="`Wie viele Pferde befinden sich in ${getLabel(choice)}`"
-                question-key="RF_012"
+                :question-key="`RF_012_${index}`"
                 input-type="number"
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
                 :store="resourceStore" />
@@ -31,7 +31,7 @@ const props = defineProps({
     },
 });
 
-const selectedChoices = computed(() => props.resourceStore.getAnswerByKey('RF_011') ?? []);
+const selectedChoices = computed(() => props.resourceStore.getAnswerByKey('RF_011_1') ?? []);
 
 const options = [
     { label: 'Innenboxen', value: 'indoor_boxes' },

@@ -30,12 +30,15 @@ export const useNavigationStore = defineStore('resourceNavigation', {
     	},
 
     	shouldSkipQuestionnaire(current: string) {
-			const answer = this.resourceStore.getAnswerByKey('RF_008_1') || [];
+			const selectedHousing = this.resourceStore.getAnswerByKey('RF_008_1') || [];
 			if (current === 'singleBox') {
-				return !answer.includes('individual_stabling');
+				return !selectedHousing.includes('individual_stabling');
 			}
 			if (current === 'groupBox') {
-				return !answer.includes('group_housing');
+				return !selectedHousing.includes('group_housing');
+			}
+			if (current === 'outlet') {
+				return !selectedHousing.includes('year_round_pasture');
 			}
 			return false;
 		},

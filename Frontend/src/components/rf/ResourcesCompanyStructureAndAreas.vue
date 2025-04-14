@@ -14,6 +14,7 @@
                 question="Welche Betriebszweige sind vorhanden?"
                 question-key="RF_002"
                 :store="resourceStore"
+                placeholder-text="Bitte tragen Sie die weiteren Betriebszweige ein."
                 :options="[
                     { label: 'Pensionspferdehaltung', value: 'boarding_horses' },
                     { label: 'Zucht und Aufzucht (als Pensionsbetrieb)', value: 'breeding_boarding' },

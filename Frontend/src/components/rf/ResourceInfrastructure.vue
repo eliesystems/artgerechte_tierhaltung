@@ -7,14 +7,14 @@
                 :options="options"
                 :store="resourceStore" />
             <Text
-                v-for="(choice, index) in selectedChoices" :key="`RF_009_${index}`"
+                v-for="(choice, index) in selectedHousing" :key="`RF_009_${index}`"
                 :question="`Wie viele Pferde befinden sich in ${getLabel(choice)}?`"
                 :question-key="`RF_009_${choice}`"
                 input-type="number"
                 placeholder-text="Anzahl der Pferde"
                 :store="resourceStore" />
             <Text
-                v-for="(choice, index) in selectedChoices" :key="`RF_010_${index}`"
+                v-for="(choice, index) in selectedHousing" :key="`RF_010_${index}`"
                 :question="`Wie viele freie Plätze gibt es in ${getLabel(choice)}?`"
                 :question-key="`RF_010_${choice}`"
                 input-type="number"
@@ -47,7 +47,7 @@ const options = [
     { label: 'Weidehaltung ganzjährig', value: 'year_round_pasture' }
 ];
 
-const selectedChoices = computed(() => resourceStore.getAnswerByKey('RF_008_1') ?? []);
+const selectedHousing = computed(() => resourceStore.getAnswerByKey('RF_008_1') ?? []);
 
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);

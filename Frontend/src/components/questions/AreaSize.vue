@@ -11,6 +11,7 @@
             :value="'first'">
         <input
             type="number"
+            v-model="areaValues[index][0]"
             class="mx-2 my-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
             placeholder="Fläche in Quadratmetern"
             :disabled="selectedOption[index] === 'second'"
@@ -23,6 +24,7 @@
             :value="'second'">
         <input
             type="number"
+            v-model="areaValues[index][1]"
             class="mx-2 my-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
             placeholder="z.B. 100"
             :disabled="selectedOption[index] === 'first'"
@@ -30,6 +32,7 @@
         x
         <input
             type="number"
+            v-model="areaValues[index][2]"
             class="mx-2 my-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
             placeholder="z.B. 100"
             :disabled="selectedOption[index] === 'first'"
@@ -67,12 +70,16 @@ watch(() => props.areaCount, (newCount, oldCount) => {
         for (let i = newCount + 1; i <= oldCount; i++) {
             const key = `${props.questionKey}_${i}`;
             props.store.deleteAnswer(key);
+            delete areaValues.value[i]; // Remove unused values
         }
     }
 
     for (let i = 1; i <= newCount; i++) {
         if (!selectedOption.value[i]) {
             selectedOption.value[i] = "first"; 
+        }
+        if (!areaValues.value[i]) {
+            areaValues.value[i] = [0, 0]; // Initialize as an array with default values
         }
     }
 }, { immediate: true });
@@ -91,8 +98,8 @@ const saveAnswers = () => {
         }
 
         if (selectedOption.value[i] === 'second') {
-            const width = areaValues.value[i]?.[0];
-            const height = areaValues.value[i]?.[1];
+            const width = areaValues.value[i]?.[1];
+            const height = areaValues.value[i]?.[2];
             if (width !== undefined && height !== undefined) {
                 props.store.saveAnswer(key, [width, height]);  // Save array of values
             }

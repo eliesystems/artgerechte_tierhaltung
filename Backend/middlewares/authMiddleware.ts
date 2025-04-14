@@ -12,7 +12,6 @@ async function getJWKS() {
 }
   
 async function getPublicKey(kid: string) {
-	console.info("Getting publik key...");
 	const keys = await getJWKS();
 	const key = keys.find((k: { kid: string }) => k.kid === kid);
   
@@ -36,8 +35,6 @@ const validateJWT = async (req: any, res: any, next: Function) => {
 	}
   
 	try {
-		console.log("Logging");
-		console.info("Decoding header");
 		const decodedHeader: any = jwt.decode(token, { complete: true });
   
 	  	if (!decodedHeader || !decodedHeader.header.kid) {

@@ -1,6 +1,6 @@
 <template>
 	<div class="max-w-4xl mx-auto flex flex-col flex-grow">
-		<div v-if="currentQuestionnaireComponent" class="max-w-4xl mx-auto px-12 py-2 flex-grow">
+		<div v-if="answerLoaded && currentQuestionnaireComponent" class="max-w-4xl mx-auto px-12 py-2 flex-grow">
 			<component :is="currentQuestionnaireComponent" :management-store="managementStore" />
 		</div>
 		<div class="mt-6 mb-20 px-16 flex justify-between">
@@ -42,7 +42,7 @@ import ManagementDrinking from '@/components/mf/ManagementDrinking.vue';
 import ManagementControll from '@/components/mf/ManagementControll.vue';
 import ManagementHealth from '@/components/mf/ManagementHealth.vue';
 
-import { onMounted, computed } from 'vue';
+import { onMounted, computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNavigationStore } from '@/stores/managementNavigationStore';
 import { getAnswers, createAnswers } from '@/composables/services/answer';
@@ -53,6 +53,7 @@ const managementStore = useManagementStore();
 const navigationStore = useNavigationStore();
 const router = useRouter();
 const farmId = router.currentRoute.value.query.farmId as string;
+const answerLoaded = ref(false);
 
 const questionnaireComponents = {
     managementAndPersonal: ManagementManagementAndPersonal,
@@ -163,6 +164,7 @@ onMounted(async () => {
         		}
     		});
 		};
+		answerLoaded.value = true;
 	} catch (error) {
 		console.error('Error fetching answers');
 	}

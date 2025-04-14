@@ -1,6 +1,6 @@
 <template>
 	<div class="max-w-4xl mx-auto flex flex-col flex-grow">
-		<div v-if="currentQuestionnaireComponent" class="max-w-4xl mx-auto px-12 py-2 flex-grow">
+		<div v-if="answerLoaded && currentQuestionnaireComponent" class="max-w-4xl mx-auto px-12 py-2 flex-grow">
 			<component :is="currentQuestionnaireComponent" :resource-store="resourceStore" />
 		</div>
 		<div class="mt-6 mb-20 px-16 flex justify-between">
@@ -48,7 +48,7 @@ import ResourceClimateAndLight from '@/components/rf/ResourceClimateAndLight.vue
 import ResourceStableBedding from '@/components/rf/ResourceStableBedding.vue';
 import ResourceFence from '@/components/rf/ResourceFence.vue';
 
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useNavigationStore } from '@/stores/resourceNavigationStore';
 import { useResourceStore } from '@/stores/resourceStore';
 import { useRouter } from 'vue-router';
@@ -60,6 +60,7 @@ const navigationStore = useNavigationStore();
 const resourceStore = useResourceStore();
 const router = useRouter();
 const farmId = router.currentRoute.value.query.farmId as string;
+const answerLoaded = ref(false);
 
 const questionnaireComponents = {
 	companyStructure: ResourcesCompanyStructureAndAreas,
@@ -155,6 +156,7 @@ onMounted(async () => {
 
 		if (response.length > 0) {
 			response.forEach(answer => {
+				console.log(answer);
         		// Check for string_answer
         		if (answer.string_answer !== undefined && answer.string_answer !== '') {
            			resourceStore.saveAnswer(answer.question_key, answer.string_answer);
@@ -176,6 +178,7 @@ onMounted(async () => {
         		}
     		});
 		};
+		answerLoaded.value = true;
 	} catch (error) {
 		console.error('Error fetching answers');
 	}

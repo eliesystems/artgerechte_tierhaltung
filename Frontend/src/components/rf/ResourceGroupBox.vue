@@ -7,9 +7,9 @@
                 :options="options"
                 :store="resourceStore" />
             <Text
-                v-for="(choice, index) in selectedChoices" :key="index"
+                v-for="(choice, index) in selectedForms" :key="`RF_014_${index}`"
                 :question="`Wie viele Pferde sind in ${getLabel(choice)} untergebracht?`"
-                question-key="RF_014"
+                :question-key="`RF_014_${index}`"
                 input-type="number"
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
                 :store="resourceStore" />
@@ -21,7 +21,7 @@
                 question="Gibt es einen separaten Integrationsbereich?"
                 question-key="RF_016"
                 :store="resourceStore" />
-            <Text
+            <Textarea
                 v-if="selectedAnswer === 'yes'"
                 question="Wie ist der Integrationsbereich gestaltet?"
                 question-key="RF_017"
@@ -37,6 +37,7 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 import Text from '../questions/Text.vue';
+import Textarea from '../questions/Textarea.vue';
 
 import { computed, watch } from 'vue';
 
@@ -48,7 +49,7 @@ const props = defineProps({
 });
 
 const selectedAnswer = computed(() => props.resourceStore.getAnswerByKey('RF_016') ?? '');
-const selectedChoices = computed(() => props.resourceStore.getAnswerByKey('RF_013') ?? []);
+const selectedForms = computed(() => props.resourceStore.getAnswerByKey('RF_013_1') ?? []);
 
 const options = [
     { label: 'Innenlaufstall', value: 'indoor_loose_housing' },

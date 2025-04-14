@@ -46,7 +46,7 @@
         </form>
     </div>
     <div class="h-full flex flex-col justify-end">
-        <div class="flex justify-between">
+        <div class="flex justify-between mb-5 py-3">
             <button @click="showForm = !showForm"
                     class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                 Neue Farm erstellen +
@@ -57,11 +57,13 @@
             </button>
         </div>
     </div>
+
+
     <div v-if="showForm" class="fixed inset-0 flex items-center justify-center z-50 bg-gray-400/50">
         <FloatingCard cardClass="max-w-full md:max-w-lg">
             <form class="w-full max-w-lg" @submit.prevent="addFarm">
                 <div class="text-base font-medium -mx-3 mb-4">
-                    Füge eine neue Farm hinzu
+                    Füge einen neuen Betrieb hinzu
                 </div>
                 <div class="flex flex-col -mx-3 mb-6">
                     <label for="name" class="uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
