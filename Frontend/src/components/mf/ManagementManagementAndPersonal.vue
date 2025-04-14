@@ -5,24 +5,14 @@
 				question="Welche Qualifikationen hat die Betriebsleitung?"
 				question-key="MF_001"
 				:store="managementStore"
-				:options="[
-					{ label: 'Sachkundenachweis', value: 'certificate_of_knowledge' },
-					{ label: 'Pferdewirt', value: 'horse_specialist' },
-					{ label: 'Pferdewirtschaftsmeister', value: 'horse_management_master' },
-					{ label: 'Landwirt', value: 'farmer' },
-					{ label: 'Trainer ABC', value: 'trainer_abc' },
-					{ label: 'Textfeld für spezifische Qualifikationen', value: 'specific_qualifications' },
-					{ label: 'Berufliche Erfahrung in der Pferdebranche', value: 'experience_in_horse_industry' },
-					{ label: 'Abschluss Pferdewissenschaften', value: 'degree_in_horse_sciences' },
-					{ label: 'Abschluss Agrarwissenschaften', value: 'degree_in_agricultural_sciences' },
-					{ label: 'Andere Qualifikation', value: 'other_qualification' },
-					{ label: 'Keine Qualifikation', value: 'no_qualification' }
-				]" />
+				placeholder-text="Tragen Sie bitte die Qualifikation ein."
+				:options="options" />
 			<Text
 				v-for="(choice, index) in selectedAnswer" :key="`RF_009_${index}`"
 				:question="`Seit wann besteht diese Qualifikation? ${getLabel(choice)}`"
 				:question-key="`MF_002_${index}`"
 				:store="managementStore"
+				placeholder-text="Tragen Sie bitte die Jahreszahl ein."
 				input-type="number" />
 			<Radio
 				question="Wird an Weiterbildungsangeboten teilgenommen?"
@@ -39,6 +29,7 @@
 				question="Wie viele Mitarbeiter gibt es auf dem Betrieb?"
 				question-key="MF_004"
 				input-type="number"
+				placeholder-text="Bitte tragen Sie die Anzahl der Mitarbeiter ein."
 				:store="managementStore" />
 			<MultipleChoice
 				question="Wer führt die tägliche Tierkontrolle durch?"
@@ -55,6 +46,7 @@
 				question="Welche Qualifikation/en hat/haben die für die Tiere verantwortliche/n Person/en (Tierbetreuer)?"
 				question-key="MF_006"
 				:store="managementStore"
+				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:options="options" />
 			<Text
 				v-if="personal > 0"
@@ -62,6 +54,7 @@
 				:question="`Seit wann besteht diese ${getLabel(choice)}?`"
 				:question-key="`MF_007_${index}`"
 				input-type="number"
+				placeholder-text="Tragen Sie bitte die Jahreszahl ein."
 				:store="managementStore" />
 			<RadioYesNo
 				question="Gibt es eine Vertretung oder eine Notfallvertretung für den Tierbetreuer?"
@@ -72,6 +65,7 @@
 				question="Welche Qualifikationen hat die Vertretung?"
 				question-key="MF_009"
 				:store="managementStore"
+				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:options="options" />
 			<MultipleChoice
 				question="Wer führt die Pflege des Außenbereichs durch (z.B. Grünlandmanagement und Anlagenpflegen)"
@@ -88,6 +82,7 @@
 				v-if="caretaker.size > 0"
 				question="Welche Qualifikation hat diese Person?"
 				question-key="MF_011"
+				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:store="managementStore"
 				:options="options" />
 		</template>

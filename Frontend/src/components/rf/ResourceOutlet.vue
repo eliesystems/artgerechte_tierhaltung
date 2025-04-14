@@ -11,6 +11,7 @@
                     { label: 'Nein', value: 'no' }
                 ]" />
             <MultipleChoice
+                v-if="selectedDailyMovement !== 'no'"
                 question="Wie lange haben die Pferde täglich die Möglichkeit zur freien Bewegung auf dem Auslauf?"
                 question-key="RF_026"
                 :store="resourceStore"
@@ -20,7 +21,6 @@
                     { label: 'Mehr als 2 Stunden', value: 'more_than_two' },
                     { label: 'Weniger als 2 Stunden', value: 'less_than_two' },
                     { label: 'Kein freie Bewegung täglich', value: 'no_movement' }
-
                 ]" />
             <Radio
                 question="Sind die Pferde einzeln oder in Gruppen auf dem Auslauf?"
@@ -48,14 +48,17 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import Radio from '../questions/Radio.vue';
 
-defineProps({
+const props = defineProps({
     resourceStore: {
         type: Object,
         required: true,
     }
-})
+});
+
+const selectedDailyMovement = computed(() => props.resourceStore.getAnswerByKey('RF_025') ?? 'no');
 </script>
