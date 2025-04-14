@@ -47,6 +47,7 @@ import ResourceGroundSecurityStableAisle from '@/components/rf/ResourceGroudSecu
 import ResourceClimateAndLight from '@/components/rf/ResourceClimateAndLight.vue';
 import ResourceStableBedding from '@/components/rf/ResourceStableBedding.vue';
 import ResourceFence from '@/components/rf/ResourceFence.vue';
+import ResourceNotes from '@/components/rf/ResourceNotes.vue';
 
 import { computed, onMounted, ref } from 'vue';
 import { useNavigationStore } from '@/stores/resourceNavigationStore';
@@ -74,6 +75,7 @@ const questionnaireComponents = {
 	climateAndLight: ResourceClimateAndLight,
 	stableBedding: ResourceStableBedding,
 	fence: ResourceFence,
+	notes: ResourceNotes,
 };
 
 const currentQuestionnaireComponent = computed(() => {

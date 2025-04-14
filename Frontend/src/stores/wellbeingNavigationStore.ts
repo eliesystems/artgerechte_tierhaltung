@@ -11,6 +11,7 @@ export const useNavigationStore = defineStore('wellbeingNavigation', {
 			'movingAndRestingBehavior',
 			'condition',
 			'other',
+			'notes',
 		],
 	}),
 

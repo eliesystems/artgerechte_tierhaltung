@@ -17,6 +17,7 @@ export const useNavigationStore = defineStore('resourceNavigation', {
 			'climateAndLight',
 			'stableBedding',
 			'fence',
+			'notes',
 		],
 	}),
 
