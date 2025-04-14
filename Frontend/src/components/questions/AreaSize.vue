@@ -62,8 +62,24 @@ const props = defineProps({
     },
 });
 
-const selectedOption = ref<{ [key: number]: string}>({});
+const selectedOption = ref<{ [key: number]: string }>({});
 const areaValues = ref<{ [key: number]: number[] }>({});
+
+for (let i = 1; i <= props.areaCount; i++) {
+    const key = `${props.questionKey}_${i}`;
+    const answer = props.store.getAnswerByKey(key);
+
+    if (typeof answer === 'number') {
+        selectedOption.value[i] = 'first';
+        areaValues.value[i] = [answer];
+    } else if (Array.isArray(answer)) {
+        selectedOption.value[i] = 'second';
+        areaValues.value[i] = [0, ...answer];
+    } else {
+        selectedOption.value[i] = 'first';
+        areaValues.value[i] = [0, 0, 0];
+    }
+};
 
 watch(() => props.areaCount, (newCount, oldCount) => {
     if (oldCount !== undefined && oldCount > newCount) {
