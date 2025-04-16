@@ -1,6 +1,6 @@
 <template>
 	<div class="max-w-4xl mx-auto flex flex-col flex-grow">
-		<div v-if="answerLoaded && currentQuestionnaireComponent" class="max-w-4xl mx-auto px-12 py-2 flex-grow">
+		<div v-if="answerLoaded && currentQuestionnaireComponent" class="w-full mx-auto px-12 py-2 flex-grow">
 			<component :is="currentQuestionnaireComponent" :management-store="managementStore" />
 		</div>
 		<div class="mt-6 mb-20 px-16 flex justify-between">

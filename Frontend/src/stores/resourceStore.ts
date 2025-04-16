@@ -7,7 +7,6 @@ export const useResourceStore = defineStore("resource", {
 
 	actions: {
 		saveAnswer(key: string, value: any) {
-			console.log(key + ": " + value);
 			this.answers[key] = value;
 		},
 

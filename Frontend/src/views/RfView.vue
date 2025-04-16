@@ -158,7 +158,6 @@ onMounted(async () => {
 
 		if (response.length > 0) {
 			response.forEach(answer => {
-				console.log(answer);
         		// Check for string_answer
         		if (answer.string_answer !== undefined && answer.string_answer !== '') {
            			resourceStore.saveAnswer(answer.question_key, answer.string_answer);
