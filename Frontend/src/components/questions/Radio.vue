@@ -8,14 +8,22 @@
                 type="radio"
                 :value="option.value"
                 v-model="selectedAnswer"
+                @change="updateAnswer"
                 class="accent-black">
                 {{ option.label }}
         </label>
     </div>
+    <Text
+        v-if="selectedAnswer === 'other'"
+        :input-type=inputType
+        :question-key="questionKey + '_1'"
+        :placeholder-text=placeholderText
+        :store="store" />
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
+import Text from "./Text.vue";
 
 const props = defineProps({
     question: {
@@ -34,7 +42,21 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    placeholderText: {
+        type: String,
+        default: '',
+    },
+    inputType: {
+        type: String,
+        default: '',
+    },
 });
+
+const updateAnswer = () => {
+    if(selectedAnswer.value !== 'other') {
+        props.store.deleteAnswer(props.questionKey + "_1");
+    }
+}
 
 const selectedAnswer = computed({
     get: () => props.store.getAnswerByKey(props.questionKey) ?? '',

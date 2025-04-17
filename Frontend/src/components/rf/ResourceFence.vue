@@ -2,7 +2,7 @@
     <QuestionaireCard topic-name="Zäune">
         <template #content>
             <Radio
-                question="Ist die verwendete Einstreu jederzeit gesundheitlich unbedenklich (z.B. schimmelfreies Stroh, unbedenkliches Schreddergut)?"
+                question="Wird eine tägliche Sichtkontrolle des Zauns durchgeführt (Spannung der Litzen und Querverstrebungen)??"
                 question-key="RF_040"
                 :store="resourceStore"
                 :options="[
