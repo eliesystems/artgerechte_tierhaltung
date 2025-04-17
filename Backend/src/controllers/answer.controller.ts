@@ -35,6 +35,7 @@ export const createAnswers = async (req: Request, res: Response) => {
 		});
 
 		const result = await answerService.createAnswers(sanitizedAnswers);
+		console.info("Saved " + result.count + " Answers");
 
 		res.status(201).json({ count: result });
 	} catch (err) {
@@ -82,6 +83,7 @@ export const getAnswers = async (req: Request, res: Response): Promise<void> => 
 			return filteredAnswer;
 		});
 
+		console.info("Fetching " + filteredAnswers.length + " Answers");
 		res.json(filteredAnswers);
 	} catch (err) {
 		res.status(500).json({ err: "Failed to fetch answers" });
