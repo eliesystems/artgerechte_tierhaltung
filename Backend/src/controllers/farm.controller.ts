@@ -20,7 +20,7 @@ export const createFarm = async (req: Request, res: Response): Promise<void> => 
                 connect: { id: String(userId) }
             },
         });
-		console.log('Farm created:', farm);
+		console.log('Farm created with ID:', farm.id);
 
 		const sanitizedFarm = (farm: any) => ({
 			id: farm.id,
@@ -37,10 +37,16 @@ export const createFarm = async (req: Request, res: Response): Promise<void> => 
     }
 };
 
-export const getFarms = async (_req: Request, res: Response) => {
+export const getFarmsByUserId = async (req: Request, res: Response) => {
   	try {
-		console.log("Fetching Farms");
-    	const farms = await farmService.getFarms();
+		const userId = (req as any).user.sub;
+
+        if (!userId) {
+            res.status(400).json({ error: "User ID is missing" });
+            return;
+        }
+
+    	const farms = await farmService.getFarmsByUserId(userId);
 
 		const sanitizedFarms = farms.map(farm => ({
 			id: farm.id,
@@ -48,8 +54,9 @@ export const getFarms = async (_req: Request, res: Response) => {
 			zip_code: farm.zip_code,
 			place: farm.place,
 			person_in_charge: farm.person_in_charge
-		  }));
+		}));
 
+		console.info("Fetching " + sanitizedFarms.length + " Farms");
    		res.json(sanitizedFarms);
   	} catch (err) {
     	res.status(500).json({ error: "Failed to fetch farms" });
