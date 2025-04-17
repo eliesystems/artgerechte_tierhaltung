@@ -21,6 +21,7 @@ export const useAuthStore = defineStore("auth", {
         		const authenticated = await this.keycloak.init({
           			onLoad: "check-sso",
           			checkLoginIframe: false,
+					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home"
         		});
         		if (authenticated) {
             		this.token = this.keycloak.token ?? null;
