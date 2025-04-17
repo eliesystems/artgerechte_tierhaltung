@@ -41,21 +41,22 @@
 					{ label: 'Mitarbeiter', value: 'staff' },
 					{ label: 'Pferdebesitzer', value: 'horse_owner' }
 				]" />
-			<MultipleChoice
-				v-if="personal > 0"
-				question="Welche Qualifikation/en hat/haben die für die Tiere verantwortliche/n Person/en (Tierbetreuer)?"
-				question-key="MF_006"
-				:store="managementStore"
-				placeholder-text="Tragen Sie bitte die Qualifikation ein."
-				:options="options" />
-			<Text
-				v-if="personal > 0"
-				v-for="(choice, index) in selectedQual" :key="`MF_007_${index}`"
-				:question="`Seit wann besteht diese ${getLabel(choice)}?`"
-				:question-key="`MF_007_${index}`"
-				input-type="number"
-				placeholder-text="Tragen Sie bitte die Jahreszahl ein."
-				:store="managementStore" />
+			<div v-for="index in personal" :key="index">
+				<MultipleChoice
+					question="Welche Qualifikation/en hat/haben die für die Tiere verantwortliche/n Person/en (Tierbetreuer)?"
+					:question-key="`MF_006_${index}`"
+					:store="managementStore"
+					placeholder-text="Tragen Sie bitte die Qualifikation ein."
+					:options="options" />
+				<div v-for="choice in getSelectedQuals(index)" :key="`RF_007_${index}_${choice}`">
+					<Text
+						:question="`Seit wann besteht ${getLabel(choice)}?`"
+						:question-key="`MF_007_${index}_${choice}`"
+						input-type="number"
+						placeholder-text="Tragen Sie bitte die Jahreszahl ein."
+						:store="managementStore" />
+				</div>
+			</div>
 			<RadioYesNo
 				question="Gibt es eine Vertretung oder eine Notfallvertretung für den Tierbetreuer?"
 				question-key="MF_008"
@@ -120,7 +121,25 @@ const caretaker = computed(() => props.managementStore.getAnswerByKey('MF_010_1'
 const replacement = computed(() => props.managementStore.getAnswerByKey('MF_008') ?? '')
 const selectedAnswer = computed(() => props.managementStore.getAnswerByKey('MF_001_1') ?? []);
 const personal = computed(() => props.managementStore.getAnswerByKey('MF_004') ?? 0);
-const selectedQual = computed(() => props.managementStore.getAnswerByKey('MF_006_1') ?? []);
+function getSelectedQuals(personIndex: number) {
+    const result: string[] = [];
+    let qualIndex = 1;
+
+    while (true) {
+        const key = `MF_006_${personIndex}_${qualIndex}`;
+        const qualifications = props.managementStore.getAnswerByKey(key);
+
+        if (!qualifications) {
+            break;
+        }
+
+        result.push(...qualifications);
+        qualIndex++;
+    }
+
+	console.log(result);
+    return result;
+}
 
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);

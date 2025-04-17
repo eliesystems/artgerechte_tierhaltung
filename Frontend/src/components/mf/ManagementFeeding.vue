@@ -157,6 +157,8 @@
                 question="Wie oft erfolgt die Raufuttergabe?"
                 question-key="MF_027"
                 :store="managementStore"
+                placeholder-text="Bitte geben Sie an wie häufig die Raufuttergabe erfolgt."
+                input-type="number"
                 :options="[
                     { label: '1x täglich', value: 'once_daily' },
                     { label: '2x täglich', value: 'twice_daily' },
@@ -177,15 +179,22 @@
                     question="Wie erfolgt die Kraftfuttervorlage?"
                     question-key="MF_031"
                     :store="managementStore"
+                    placeholder-text="Bitte beschreiben Sie wie die Kraftfuttervorlage erfolgt."
                     :options="[
                         { label: 'Manuell', value: 'manual' },
                         { label: 'Automatisch', value: 'automatic' },
                         { label: 'Anderes', value: 'other' }
                     ]" />
-                <RadioYesNo
+                <Radio
                     question="Erfolgt die Kraftfuttergabe zeitlich getrennt von der Raufuttergabe?"
                     question-key="MF_032"
-                    :store="managementStore" />
+                    :store="managementStore"
+                    :options="[
+                        { label: 'Ja, vor der Raufuttergabe', value: 'yes_before_fiber_feed' },
+                        { label: 'Ja, nach der Raufuttergabe', value: 'yes_after_fiber_feed' },
+                        { label: 'Abruf des Kraftfutters über automatische Fütterungseinrichtung', value: 'automatic_concentrate_feed_retrieval' },
+                        { label: 'Nein', value: 'no' }
+                    ]" />
             </div>
             <Radio
                 question="Falls ja, in welchem Abstand zur Raufuttergabe?"
@@ -211,11 +220,12 @@
                 question="Steht allen Pferden ein Salzleckstein zur Verfügung?"
                 question-key="MF_035"
                 :store="managementStore"
+                placeholder-text="Bitte beschreiben Sie inwiefern ein Salzleckstein zur Verfügung steht"
                 :options="[
                     { label: 'Ja, permanent', value: 'yes_permanent' },
                     { label: 'Ja, aber nicht dauerhaft verfügbar', value: 'yes_not_permanently_available' },
                     { label: 'Nein', value: 'no' },
-                    { label: 'Anderes', value: 'other_other' }
+                    { label: 'Anderes', value: 'other' }
                 ]" />
         </template>
     </QuestionaireCard>

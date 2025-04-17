@@ -39,7 +39,7 @@ export const useNavigationStore = defineStore('resourceNavigation', {
 				return !selectedHousing.includes('group_housing');
 			}
 			if (current === 'outlet') {
-				return !selectedHousing.includes('year_round_pasture');
+				return selectedHousing.includes('year_round_pasture');
 			}
 			return false;
 		},
