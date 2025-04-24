@@ -10,13 +10,23 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(async (config) => {
-    const authStore = useAuthStore();
-    const token = authStore.token;
+	const authStore = useAuthStore();
 
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+	if (authStore.keycloak) {
+		try {
+			await authStore.refreshToken();
+			const token = authStore.keycloak.token;
+
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`;
+			}
+		} catch (error) {
+			console.error("Token refresh failed in request", error);
+			authStore.logout();
+		}
+	}
+
+	return config;
 });
 
 export { apiClient };

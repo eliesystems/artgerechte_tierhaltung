@@ -25,6 +25,9 @@ export const useAuthStore = defineStore("auth", {
         		});
         		if (authenticated) {
             		this.token = this.keycloak.token ?? null;
+					setInterval(async () => {
+						this.refreshToken();
+					}, 60000);
 					await this.saveTokenToBackend();
         		} else {
             		this.token = null;
@@ -45,7 +48,9 @@ export const useAuthStore = defineStore("auth", {
 
 		logout() {
 			if (this.keycloak) {
-				this.keycloak.logout();
+				this.keycloak.logout({
+					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/login"
+				});
 			}
 		},
 
@@ -55,7 +60,8 @@ export const useAuthStore = defineStore("auth", {
 					await this.keycloak.updateToken(30);
 					this.token = this.keycloak.token ?? null;
 				} catch (error) {
-					console.error("Failed to refresh token", error);
+					console.error("Manual token refresh failed", error);
+					this.logout();
 				}
 			}
 		},

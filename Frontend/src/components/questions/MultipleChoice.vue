@@ -54,6 +54,7 @@ const selectedAnswers = ref<string[]>(
 
 const updateAnswers = () => {
 	if (selectedAnswers.value.length > 0) {
+        console.log(props.questionKey + "_1");
     	props.store.saveAnswer(props.questionKey + "_1", selectedAnswers.value);
   	} else {
     	props.store.deleteAnswer(props.questionKey + "_1");

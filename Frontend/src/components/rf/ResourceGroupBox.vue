@@ -9,7 +9,7 @@
             <Text
                 v-for="(choice, index) in selectedForms" :key="`RF_014_${index}`"
                 :question="`Wie viele Pferde sind in ${getLabel(choice)} untergebracht?`"
-                :question-key="`RF_014_${index}`"
+                :question-key="`RF_014_${choice}`"
                 input-type="number"
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
                 :store="resourceStore" />
@@ -26,7 +26,6 @@
                 question="Wie ist der Integrationsbereich gestaltet?"
                 question-key="RF_017"
                 placeholder-text="Bitte beschreiben Sie den Integrationsbereich kurz."
-                input-type="text"
                 :store="resourceStore" />
         </template>
     </QuestionaireCard>

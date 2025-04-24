@@ -121,24 +121,24 @@ const caretaker = computed(() => props.managementStore.getAnswerByKey('MF_010_1'
 const replacement = computed(() => props.managementStore.getAnswerByKey('MF_008') ?? '')
 const selectedAnswer = computed(() => props.managementStore.getAnswerByKey('MF_001_1') ?? []);
 const personal = computed(() => props.managementStore.getAnswerByKey('MF_004') ?? 0);
-function getSelectedQuals(personIndex: number) {
-    const result: string[] = [];
-    let qualIndex = 1;
+function getSelectedQuals(personIndex: number): string[] {
+	const result: Set<string> = new Set();
 
-    while (true) {
-        const key = `MF_006_${personIndex}_${qualIndex}`;
-        const qualifications = props.managementStore.getAnswerByKey(key);
+	const baseKey = `MF_006_${personIndex}`;
+	const selected = props.managementStore.getAnswerByKey(baseKey + '_1');
 
-        if (!qualifications) {
-            break;
-        }
+	if (!selected) return [];
 
-        result.push(...qualifications);
-        qualIndex++;
-    }
+	for (const answer of selected) {
+		if (answer === 'other') {
+			const otherValue = props.managementStore.getAnswerByKey(baseKey + '_2');
+			if (otherValue) result.add(otherValue);
+		} else {
+			result.add(answer);
+		}
+	}
 
-	console.log(result);
-    return result;
+	return Array.from(result);
 }
 
 function getLabel(value: string) {
