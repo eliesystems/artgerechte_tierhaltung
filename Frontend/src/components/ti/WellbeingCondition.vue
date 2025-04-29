@@ -4,7 +4,7 @@
 			<Radio
 				question="Treten wiederholt kleine Verletzungen (z. B. Abschürfungen am Fesselgelenk, Druckstellen an den Sprunggelenken) bei den Pferden auf?"
 				question-key="TI_014"
-				:store="wellbeingStore"
+				:answer-store="answerStore"
 				:options="[
 					{ label: 'Ja, regelmäßig', value: 'yes' },
 					{ label: 'Nein, selten', value: 'no' }
@@ -12,7 +12,7 @@
 			<RadioYesNo
 				question="Findet bei allen Pferden eine regelmäßige Hufpflege statt?"
 				question-key="TI_015"
-				:store="wellbeingStore" />
+				:answer-store="answerStore" />
 		</template>
 	</QuestionaireCard>
 </template>
@@ -24,7 +24,7 @@ import RadioYesNo from '../questions/RadioYesNo.vue';
 
 
 defineProps({
-	wellbeingStore: {
+	answerStore: {
 		type: Object,
 		required: true,
 	},

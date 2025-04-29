@@ -4,11 +4,11 @@
             <RadioYesNo
                 question="Ist die Liegefläche trocken und verformbar?"
                 question-key="RF_035"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <MultipleChoice
                 question="Wie ist die Liegefläche gestaltet?"
                 question-key="RF_036"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 placeholder-text="Bitte beschreiben Sie kurz die Liegefläche im Ruhebereich. "
                 :options="[
                     { label: 'Betonboden oder vergleichbares', value: 'concrete_or_similar' },
@@ -20,12 +20,12 @@
             <RadioYesNo
                 question="Wird auf der Liegefläche eine Einstreu verwendet?"
                 question-key="RF_037"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <MultipleChoice
                 v-if="selectedLitter === 'yes'"
                 question="Welche Art von Einstreu wird genutzt?"
                 question-key="RF_038"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Stroh', value: 'straw' },
                     { label: 'Strohpellets', value: 'straw_pellets' },
@@ -44,7 +44,7 @@
             <RadioYesNo
                 question="Ist die verwendete Einstreu jederzeit gesundheitlich unbedenklich (z.B. schimmelfreies Stroh, unbedenkliches Schreddergut)?"
                 question-key="RF_039"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -56,11 +56,11 @@ import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 const props = defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
-const selectedLitter = computed(() => props.resourceStore.getAnswerByKey('RF_037') ?? '');
+const selectedLitter = computed(() => props.answerStore.getAnswerByKey('RF_037') ?? '');
 </script>

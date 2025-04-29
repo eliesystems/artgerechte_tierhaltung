@@ -4,7 +4,7 @@
             <MultipleChoice
                 question="Welches Grundfutter wird verfüttert?"
                 question-key="MF_012"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Heu', value: 'hay' },
                     { label: 'Heulage', value: 'haylage' },
@@ -15,7 +15,7 @@
                 <MultipleChoice
                     question="Welche Farbe hat das Raufutter (Heulage)?"
                     question-key="MF_013"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Grünlich bis bräunlich-gelblich', value: 'green_to_brownish_yellow' },
                         { label: 'Bräunlich bis stark gelblich', value: 'brownish_to_strong_yellow' },
@@ -25,7 +25,7 @@
                 <MultipleChoice
                     question="Wie riecht das Raufutter (Heulage)?"
                     question-key="MF_014"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Angenehm, säuerlich, aromatisch', value: 'pleasant_sour_aromatic' },
                         { label: 'Leicht stechender Essigsäuregeruch oder leicht brandig', value: 'slightly_pungent_acetic_or_scorched' },
@@ -35,7 +35,7 @@
                 <MultipleChoice
                     question="Wie ist die Struktur des Raufutters (Heulage) zu beurteilen?"
                     question-key="MF_015"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Viele Stängel, Rispen vorhanden', value: 'many_stems_with_panicles' },
                         { label: 'Wenig harte Stängel, wenig Rispen', value: 'few_hard_stems_few_panicles' },
@@ -47,7 +47,7 @@
                 <MultipleChoice
                     question="Welche Farbe hat das Raufutter (Heu)?"
                     question-key="MF_016"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Grünlich/bräunlich', value: 'greenish_brownish' },
                         { label: 'Bräunlich/braun', value: 'brownish_brown' },
@@ -57,7 +57,7 @@
                 <MultipleChoice
                     question="Wie riecht das Raufutter (Heu)?"
                     question-key="MF_017"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Sehr aromatisch', value: 'very_aromatic' },
                         { label: 'Fad', value: 'bland' },
@@ -67,7 +67,7 @@
                 <MultipleChoice
                     question="Wie ist die Struktur des Raufutters (Heu) zu beurteilen?"
                     question-key="MF_018"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Viele Stängel, Rispen deutlich sichtbar, rau und steif im Griff', value: 'many_stems_panicles_visible_rough_and_stiff' },
                         { label: 'Wenig harte Stängel, wenig Rispen sichtbar, weniger hart im Griff', value: 'few_hard_stems_few_panicles_visible_less_stiff' },
@@ -79,7 +79,7 @@
                 <MultipleChoice
                     question="Welche Farbe hat das Raufutter (Stroh)?"
                     question-key="MF_019"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Gelb/gelblich', value: 'yellow_yellowish' },
                         { label: 'Ausgeblichen', value: 'faded' },
@@ -89,7 +89,7 @@
                 <MultipleChoice
                     question="Wie riecht das Raufutter (Stroh)?"
                     question-key="MF_020"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Typisch Strohgeruch', value: 'typical_straw_smell' },
                         { label: 'Fad', value: 'bland' },
@@ -99,7 +99,7 @@
                 <MultipleChoice
                     question="Wie ist die Struktur des Raufutters (Stroh) zu beurteilen?"
                     question-key="MF_021"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Massig hart/wenig Halme', value: 'moderately_hard_few_stems' },
                         { label: 'Sehr hart/vorwiegend Halme', value: 'very_hard_prevalent_stems' },
@@ -109,7 +109,7 @@
             <Radio
                 question="Erfolgt die Raufuttergabe automatisiert oder manuell?"
                 question-key="MF_022"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Manuell', value: 'manual' },
                     { label: 'Automatisch', value: 'automatic' },
@@ -119,7 +119,7 @@
                 <MultipleChoice
                     question="Wie erfolgt die manuelle Raufuttervorlage?"
                     question-key="MF_023"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Lose Fütterung auf dem Boden', value: 'loose_feeding_on_ground' },
                         { label: 'Fütterung in Heunetzen/Heutonnen', value: 'feeding_in_hay_nets_hay_bins' },
@@ -131,7 +131,7 @@
                 <Radio
                     question="Wird das Raufutter portioniert oder steht es dauerhaft zur Verfügung?"
                     question-key="MF_024"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Unbegrenzt/zur freien Verfügung', value: 'unlimited_free_access' },
                         { label: 'Portionierte Raufuttervorlage', value: 'portioned_fiber_feed_supply' }
@@ -141,7 +141,7 @@
                 <MultipleChoice
                     question="Wie erfolgt die automatische Raufuttervorlage?"
                     question-key="MF_025"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Fütterung in Heuboxen', value: 'feeding_in_hay_boxes' },
                         { label: 'Im Fressstand', value: 'in_feed_rack' },
@@ -151,12 +151,12 @@
                 <RadioYesNo
                     question="Gibt es eine Zeitsteuerung für die automatisierte Raufuttergabe (z. B. Futterautomaten, Heuraufen mit zeitgesteuerten Öffnungen)?"
                     question-key="MF_026"
-                    :store="managementStore" />
+                    :answer-store="answerStore" />
             </div>
             <Radio
                 question="Wie oft erfolgt die Raufuttergabe?"
                 question-key="MF_027"
-                :store="managementStore"
+                :answer-store="answerStore"
                 placeholder-text="Bitte geben Sie an wie häufig die Raufuttergabe erfolgt."
                 input-type="number"
                 :options="[
@@ -169,16 +169,16 @@
             <RadioYesNo
                 question="Werden die Fütterungseinrichtungen täglich auf Funktionalität kontrolliert?"
                 question-key="MF_029"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Wird Kraftfutter gegeben?"
                 question-key="MF_030"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <div v-if="powerFoodAutomatic === 'yes'">
                 <Radio
                     question="Wie erfolgt die Kraftfuttervorlage?"
                     question-key="MF_031"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     placeholder-text="Bitte beschreiben Sie wie die Kraftfuttervorlage erfolgt."
                     :options="[
                         { label: 'Manuell', value: 'manual' },
@@ -188,7 +188,7 @@
                 <Radio
                     question="Erfolgt die Kraftfuttergabe zeitlich getrennt von der Raufuttergabe?"
                     question-key="MF_032"
-                    :store="managementStore"
+                    :answer-store="answerStore"
                     :options="[
                         { label: 'Ja, vor der Raufuttergabe', value: 'yes_before_fiber_feed' },
                         { label: 'Ja, nach der Raufuttergabe', value: 'yes_after_fiber_feed' },
@@ -199,7 +199,7 @@
             <Radio
                 question="Falls ja, in welchem Abstand zur Raufuttergabe?"
                 question-key="MF_033"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Vor der Raufuttergabe', value: 'before_fiber_feed' },
                     { label: 'Nach der Raufuttergabe', value: 'after_fiber_feed' },
@@ -208,7 +208,7 @@
             <MultipleChoice
                 question="Wie erfolgt die Mineralstoffversorgung?"
                 question-key="MF_034"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Über die Heumenge', value: 'over_hay_quantity' },
                     { label: 'Über mineralisiertes Kraftfutter', value: 'over_mineralized_concentrate_feed' },
@@ -219,7 +219,7 @@
             <Radio
                 question="Steht allen Pferden ein Salzleckstein zur Verfügung?"
                 question-key="MF_035"
-                :store="managementStore"
+                :answer-store="answerStore"
                 placeholder-text="Bitte beschreiben Sie inwiefern ein Salzleckstein zur Verfügung steht"
                 :options="[
                     { label: 'Ja, permanent', value: 'yes_permanent' },
@@ -240,13 +240,13 @@ import RadioYesNo from '../questions/RadioYesNo.vue';
 
 
 const props = defineProps({
-    managementStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
-const powerFoodAutomatic = computed(() => props.managementStore.getAnswerByKey('MF_030') ?? '');
-const foodAutomatic = computed(() => props.managementStore.getAnswerByKey('MF_022') ?? '');
-const stableFood = computed(() => props.managementStore.getAnswerByKey('MF_012_1') ?? []);
+const powerFoodAutomatic = computed(() => props.answerStore.getAnswerByKey('MF_030') ?? '');
+const foodAutomatic = computed(() => props.answerStore.getAnswerByKey('MF_022') ?? '');
+const stableFood = computed(() => props.answerStore.getAnswerByKey('MF_012_1') ?? []);
 </script>

@@ -56,7 +56,7 @@ const props = defineProps({
         type: Number,
         default: 0,
     },
-    store: {
+    answerStore: {
         type: Object,
         required: true,
     },
@@ -67,7 +67,7 @@ const areaValues = ref<{ [key: number]: number[] }>({});
 
 for (let i = 1; i <= props.areaCount; i++) {
     const key = `${props.questionKey}_${i}`;
-    const answer = props.store.getAnswerByKey(key);
+    const answer = props.answerStore.getAnswerByKey(key);
 
     if (typeof answer === 'number') {
         selectedOption.value[i] = 'first';
@@ -85,7 +85,7 @@ watch(() => props.areaCount, (newCount, oldCount) => {
     if (oldCount !== undefined && oldCount > newCount) {
         for (let i = newCount + 1; i <= oldCount; i++) {
             const key = `${props.questionKey}_${i}`;
-            props.store.deleteAnswer(key);
+            props.answerStore.deleteAnswer(key);
             delete areaValues.value[i]; // Remove unused values
         }
     }
@@ -109,7 +109,7 @@ const saveAnswers = () => {
         if (selectedOption.value[i] === 'first') {
             const areaValue = areaValues.value[i]?.[0];
             if (areaValue !== undefined) {
-                props.store.saveAnswer(key, areaValue);  // Save single value
+                props.answerStore.saveAnswer(key, areaValue);  // Save single value
             }
         }
 
@@ -117,7 +117,7 @@ const saveAnswers = () => {
             const width = areaValues.value[i]?.[1];
             const height = areaValues.value[i]?.[2];
             if (width !== undefined && height !== undefined) {
-                props.store.saveAnswer(key, [width, height]);  // Save array of values
+                props.answerStore.saveAnswer(key, [width, height]);  // Save array of values
             }
         }
     }

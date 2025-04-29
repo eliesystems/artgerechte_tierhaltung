@@ -5,12 +5,12 @@
                 v-if="selectedHousing.includes('seasonal_pasture') || selectedGrazing === 'during_vegetation_period'"
                 question="Gibt es einen natürlichen bzw. natürlich gewachsenen oder künstlichen Witterungsschutz?"
                 question-key="RF_022"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Radio
                 v-if="selectedHousing.includes('year_round_pasture')"
                 question="Gibt es einen künstlichen Witterungsschutz?"
                 question-key="RF_023"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Ja', value: 'yes' },
                     { label: 'Nein', value: 'no' },
@@ -21,7 +21,7 @@
                     && selectedGrazing !== 'no_access' && (naturalProtection === 'yes' || artificalProtection !== 'no')"
                 question="Können alle Pferde gleichzeitig den künstlichen Witterungsschutz aufsuchen?"
                 question-key="RF_024"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -33,15 +33,15 @@ import Radio from '../questions/Radio.vue'
 import { computed } from 'vue';
 
 const props = defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
-const naturalProtection = computed(() => props.resourceStore.getAnswerByKey('RF_022') ?? '');
-const artificalProtection = computed(() => props.resourceStore.getAnswerByKey('RF_023') ?? '');
-const selectedHousing = computed(() => props.resourceStore.getAnswerByKey('RF_008_1') ?? []);
-const selectedGrazing = computed(() => props.resourceStore.getAnswerByKey('RF_018_1') ?? '');
+const naturalProtection = computed(() => props.answerStore.getAnswerByKey('RF_022') ?? '');
+const artificalProtection = computed(() => props.answerStore.getAnswerByKey('RF_023') ?? '');
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008_1') ?? []);
+const selectedGrazing = computed(() => props.answerStore.getAnswerByKey('RF_018_1') ?? '');
 
 </script>

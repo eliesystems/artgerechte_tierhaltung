@@ -8,7 +8,7 @@
             <Radio
                 question="Sind Fenster sowie Leitungen, Kabel und Metallteile im Pferdebereich gesichert sofern sie sich in Reichweite der Pferde befinden?"
                 question-key="RF_030"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { 
                         label: 'Ja, es handelt sich bei den Fenstern um Sicherheitsglas bzw. Einscheibensicherheitsglas (ESG) oder Verbundsicherheitsglas (VSG) und die elektrischen Installationen entsprechen den VDE-Normen', 
@@ -26,7 +26,7 @@
             <RadioYesNo
                 question="Können alle Pferde auf der Stallgasse verletzungsfrei geführt werden?"
                 question-key="RF_031"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -37,7 +37,7 @@ import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },

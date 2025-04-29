@@ -4,7 +4,7 @@
             <Radio
                 question="Welche Betriebsform liegt vor?"
                 question-key="RF_001"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Gewerbliche Pferdehaltung', value: 'commercial_keeping' },
                     { label: 'Private Pferdehaltung', value: 'private_keeping' },
@@ -13,7 +13,7 @@
             <MultipleChoice
                 question="Welche Betriebszweige sind vorhanden?"
                 question-key="RF_002"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 placeholder-text="Bitte tragen Sie die weiteren Betriebszweige ein."
                 :options="[
                     { label: 'Pensionspferdehaltung', value: 'boarding_horses' },
@@ -31,31 +31,31 @@
                 question-key="RF_003"
                 placeholder-text="landwirtschaftliche Nutzfläche in ha"
                 input-type="number"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Text
                 question="Wie viel dieser Fläche steht dauerhaft der Pferdehaltung zur Verfügung (in ha)?"
                 question-key="RF_004"
                 placeholder-text="Fläche für die Pferdehaltung in ha"
                 input-type="number"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Text
                 question="Wie viel Weidefläche steht den Pferden zur Verfügung (ha)?"
                 question-key="RF_005"
                 placeholder-text="Weiderfläche der Pferde in ha"
                 input-type="number"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Text
                 question="Wie viele Auslaufflächen (ohne Weideflächen) gibt es?"
                 question-key="RF_006"
                 placeholder-text="Anzahl der Auslaufflächen (ohne Weideflächen)"
                 input-type="number"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <AreaSize
                 v-if="areaCount > 0"
                 question="Welche Größe haben diese Flächen jeweils?"
                 question-key="RF_007"
                 :area-count=areaCount
-                :store="resourceStore"
+                :answer-store="answerStore"
                 />
         </template>
     </QuestionaireCard>
@@ -71,11 +71,11 @@ import Text from '../questions/Text.vue';
 import { computed } from 'vue';
 
 const props = defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
-const areaCount = computed(() => props.resourceStore.getAnswerByKey('RF_006') ?? 0);
+const areaCount = computed(() => props.answerStore.getAnswerByKey('RF_006') ?? 0);
 </script>

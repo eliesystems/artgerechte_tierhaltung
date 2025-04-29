@@ -4,12 +4,12 @@
             <RadioYesNo
                 question="Gibt es ein organisiertes Entwurmungsmanagement?"
                 question-key="MF_042"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <MultipleChoice
                 v-if="worms === 'yes'"
                 question="Wie sieht dieses Entwurmungsmanagement aus?"
                 question-key="MF_043"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Wird durch die Pferdebesitzer organisiert', value: 'organized_by_horse_owner' },
                     { label: 'Durch die Betriebsleitung ausgeführt - bestandsweise und zeitgleich', value: 'executed_by_farm_management_stock_based_simultaneous' },
@@ -20,7 +20,7 @@
             <MultipleChoice
                 question="Werden alle Pferde regelmäßig immunisiert (z. B. Tetanus, Influenza)?"
                 question-key="MF_044"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, Dokumentation der Impfungen', value: 'yes_vaccination_documentation' },
                     { label: 'Nein, ohne Kontrolle', value: 'no_no_control' },
@@ -30,7 +30,7 @@
             <Radio
                 question="Erfolgt eine jährliche Zahnkontrolle der Pferde?"
                 question-key="MF_045"
-                :store="managementStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, wird durch die Pferdebesitzer organisiert', value: 'yes_organized_by_horse_owner' },
                     { label: 'Ja, wird durch die Betriebsleitung ausgeführt', value: 'yes_executed_by_farm_management' },
@@ -39,15 +39,15 @@
             <RadioYesNo
                 question="Wird alle ca. 6-8 Wochen eine Hufpflege durchgeführt?"
                 question-key="MF_046"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Werden neue Pferde schrittweise in die Herde integriert?"
                 question-key="MF_047"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Gibt es eine Dokumentation des Gesundheitsmanagements?"
                 question-key="MF_048"
-                :store="managementStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -60,11 +60,11 @@ import RadioYesNo from '../questions/RadioYesNo.vue';
 import Radio from '../questions/Radio.vue';
 
 const props = defineProps({
-    managementStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 })
 
-const worms = computed(() => props.managementStore.getAnswerByKey('MF_042') ?? '');
+const worms = computed(() => props.answerStore.getAnswerByKey('MF_042') ?? '');
 </script>

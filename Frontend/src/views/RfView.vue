@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-4xl mx-auto flex flex-col flex-grow">
 		<div v-if="answerLoaded && currentQuestionnaireComponent" class="w-full mx-auto px-12 py-2 flex-grow">
-			<component :is="currentQuestionnaireComponent" :resource-store="resourceStore" />
+			<component :is="currentQuestionnaireComponent" :answer-store="temporaryAnswerStore" />
 		</div>
 		<div class="mt-6 mb-20 px-16 flex justify-between">
 			<button
@@ -51,17 +51,18 @@ import ResourceNotes from '@/components/rf/ResourceNotes.vue';
 
 import { computed, onMounted, ref } from 'vue';
 import { useNavigationStore } from '@/stores/resourceNavigationStore';
-import { useResourceStore } from '@/stores/resourceStore';
 import { useRouter } from 'vue-router';
-import { getAnswers, createAnswers } from '@/composables/services/answer';
-import type { CreateAnswerDto } from '@/composables/model/answerDtos';
-
+import { useTemporaryAnswerStore } from '@/stores/temporaryAnswerStore';
+import { useAnswerStore } from '@/stores/answerStore';
 
 const navigationStore = useNavigationStore();
-const resourceStore = useResourceStore();
 const router = useRouter();
 const farmId = router.currentRoute.value.query.farmId as string;
 const answerLoaded = ref(false);
+
+const answerStore = useAnswerStore();
+const temporaryAnswerStore = useTemporaryAnswerStore();
+const originalAnswers = ref<Record<string, {value:any;id?:number}>>({});
 
 const questionnaireComponents = {
 	companyStructure: ResourcesCompanyStructureAndAreas,
@@ -106,8 +107,8 @@ const hasPreviousQuestionnaire = computed(() => {
 });
 
 const goToHome = () => {
-	resourceStore.resetStore();
-	router.push('/home');
+	temporaryAnswerStore.resetStore();
+	router.push({ path: '/home', query: { sync: 'true' } });
 };
 
 const saveResources = async () => {
@@ -116,72 +117,32 @@ const saveResources = async () => {
         return;
     }
 
-    const answersToSave = Object.entries(resourceStore.answers).map(([key, value]) => {
-		const answerDto: CreateAnswerDto = {
-			farm_id: farmId,
-			question_key: key,
-			section: 'resources'
-		};
+	Object.entries(temporaryAnswerStore.answers).forEach(([key, { value, id }]) => {
+		const origValue = originalAnswers.value[key]?.value;
+		if (JSON.stringify(value) === JSON.stringify(origValue)) {
+			return;
+		}
 
-        if (Array.isArray(value)) {
-            if (typeof value[0] === "string") {
-                answerDto.string_array_answer = value;
-            } else if (typeof value[0] === "number") {
-                answerDto.numeric_array_answer = value;
-            }
-        } else {
-            if (typeof value === "string") {
-                answerDto.string_answer = value;
-            } else if (typeof value === "number") {
-                answerDto.numeric_answer = value;
-            }
-        }
+		answerStore.saveAnswer(farmId, key, { value, id });
+	});
 
-        return answerDto;
-    });
-
-    try {
-        await createAnswers(answersToSave);
-    } catch (error) {
-        console.error("Error saving answers to backend:", error);
-    }
-
-	resourceStore.resetStore();
+	temporaryAnswerStore.resetStore();
 	navigationStore.reset();
     router.push({ name: 'mf', query: { farmId: farmId } });
 };
 
 
 onMounted(async () => {
+	console.log(originalAnswers);
 	try {
-		const response = await getAnswers(farmId, 'resources');
-
-		if (response.length > 0) {
-			response.forEach(answer => {
-        		// Check for string_answer
-        		if (answer.string_answer !== undefined && answer.string_answer !== '') {
-           			resourceStore.saveAnswer(answer.question_key, answer.string_answer);
-        		}
-
-        		// Check for string_array_answer (non-empty array)
-        		else if (Array.isArray(answer.string_array_answer) && answer.string_array_answer.length > 0) {
-            		resourceStore.saveAnswer(answer.question_key, answer.string_array_answer);
-        		}
-
-       			// Check for numeric_answer
-        		else if (answer.numeric_answer !== undefined && !isNaN(answer.numeric_answer)) {
-            		resourceStore.saveAnswer(answer.question_key, answer.numeric_answer);
-        		}
-
-        		// Check for numeric_array_answer (non-empty array)
-        		else if (Array.isArray(answer.numeric_array_answer) && answer.numeric_array_answer.length > 0) {
-            		resourceStore.saveAnswer(answer.question_key, answer.numeric_array_answer);
-        		}
-    		});
-		};
-		answerLoaded.value = true;
+		originalAnswers.value = answerStore.getAnswersByFarmIdAndSection(farmId, 'resources');
+		Object.entries(originalAnswers).forEach(([key, { value, id }]) => {
+			temporaryAnswerStore.saveAnswer(key, value, id);
+		});
 	} catch (error) {
-		console.error('Error fetching answers');
+		console.log("Was not able to load answers from store: ", error);
+	} finally {
+		answerLoaded.value = true;
 	}
 });
 

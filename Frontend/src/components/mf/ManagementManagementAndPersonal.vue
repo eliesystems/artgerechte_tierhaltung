@@ -4,20 +4,20 @@
 			<MultipleChoice
 				question="Welche Qualifikationen hat die Betriebsleitung?"
 				question-key="MF_001"
-				:store="managementStore"
+				:answer-store="answerStore"
 				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:options="options" />
 			<Text
 				v-for="(choice, index) in selectedAnswer" :key="`RF_009_${index}`"
 				:question="`Seit wann besteht diese Qualifikation? ${getLabel(choice)}`"
 				:question-key="`MF_002_${index}`"
-				:store="managementStore"
+				:answer-store="answerStore"
 				placeholder-text="Tragen Sie bitte die Jahreszahl ein."
 				input-type="number" />
 			<Radio
 				question="Wird an Weiterbildungsangeboten teilgenommen?"
 				question-key="MF_003"
-				:store="managementStore"
+				:answer-store="answerStore"
 				:options="[
 					{ label: '1x/Jahr', value: 'once_per_year' },
 					{ label: '2x/Jahr', value: 'twice_per_year' },
@@ -30,11 +30,11 @@
 				question-key="MF_004"
 				input-type="number"
 				placeholder-text="Bitte tragen Sie die Anzahl der Mitarbeiter ein."
-				:store="managementStore" />
+				:answer-store="answerStore" />
 			<MultipleChoice
 				question="Wer führt die tägliche Tierkontrolle durch?"
 				question-key="MF_005"
-				:store="managementStore"
+				:answer-store="answerStore"
 				:options="[
 					{ label: 'Betriebsleiter', value: 'farm_manager' },
 					{ label: 'Auszubildende', value: 'trainee' },
@@ -45,7 +45,7 @@
 				<MultipleChoice
 					question="Welche Qualifikation/en hat/haben die für die Tiere verantwortliche/n Person/en (Tierbetreuer)?"
 					:question-key="`MF_006_${index}`"
-					:store="managementStore"
+					:answer-store="answerStore"
 					placeholder-text="Tragen Sie bitte die Qualifikation ein."
 					:options="options" />
 				<div v-for="choice in getSelectedQuals(index)" :key="`RF_007_${index}_${choice}`">
@@ -54,24 +54,24 @@
 						:question-key="`MF_007_${index}_${choice}`"
 						input-type="number"
 						placeholder-text="Tragen Sie bitte die Jahreszahl ein."
-						:store="managementStore" />
+						:answer-store="answerStore" />
 				</div>
 			</div>
 			<RadioYesNo
 				question="Gibt es eine Vertretung oder eine Notfallvertretung für den Tierbetreuer?"
 				question-key="MF_008"
-				:store="managementStore" />
+				:answer-store="answerStore" />
 			<MultipleChoice
 				v-if="replacement === 'yes'"
 				question="Welche Qualifikationen hat die Vertretung?"
 				question-key="MF_009"
-				:store="managementStore"
+				:answer-store="answerStore"
 				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:options="options" />
 			<MultipleChoice
 				question="Wer führt die Pflege des Außenbereichs durch (z.B. Grünlandmanagement und Anlagenpflegen)"
 				question-key="MF_010"
-				:store="managementStore"
+				:answer-store="answerStore"
 				:options="[
 					{ label: 'Betriebsleiter', value: 'farm_manager' },
 					{ label: 'Auszubildende', value: 'trainee' },
@@ -84,7 +84,7 @@
 				question="Welche Qualifikation hat diese Person?"
 				question-key="MF_011"
 				placeholder-text="Tragen Sie bitte die Qualifikation ein."
-				:store="managementStore"
+				:answer-store="answerStore"
 				:options="options" />
 		</template>
 	</QuestionaireCard>
@@ -99,7 +99,7 @@ import { computed } from 'vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 const props = defineProps({
-	managementStore: {
+	answerStore: {
 		type: Object,
 		required: true,
 	},
@@ -117,21 +117,21 @@ const options = [
 	{ label: 'Keine Qualifikation', value: 'no_qualification' }
 ]
 
-const caretaker = computed(() => props.managementStore.getAnswerByKey('MF_010_1') ?? [])
-const replacement = computed(() => props.managementStore.getAnswerByKey('MF_008') ?? '')
-const selectedAnswer = computed(() => props.managementStore.getAnswerByKey('MF_001_1') ?? []);
-const personal = computed(() => props.managementStore.getAnswerByKey('MF_004') ?? 0);
+const caretaker = computed(() => props.answerStore.getAnswerByKey('MF_010_1') ?? [])
+const replacement = computed(() => props.answerStore.getAnswerByKey('MF_008') ?? '')
+const selectedAnswer = computed(() => props.answerStore.getAnswerByKey('MF_001_1') ?? []);
+const personal = computed(() => props.answerStore.getAnswerByKey('MF_004') ?? 0);
 function getSelectedQuals(personIndex: number): string[] {
 	const result: Set<string> = new Set();
 
 	const baseKey = `MF_006_${personIndex}`;
-	const selected = props.managementStore.getAnswerByKey(baseKey + '_1');
+	const selected = props.answerStore.getAnswerByKey(baseKey + '_1');
 
 	if (!selected) return [];
 
 	for (const answer of selected) {
 		if (answer === 'other') {
-			const otherValue = props.managementStore.getAnswerByKey(baseKey + '_2');
+			const otherValue = props.answerStore.getAnswerByKey(baseKey + '_2');
 			if (otherValue) result.add(otherValue);
 		} else {
 			result.add(answer);

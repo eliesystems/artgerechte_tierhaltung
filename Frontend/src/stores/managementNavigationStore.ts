@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
-import { useManagementStore } from './managementStore';
 
 export const useNavigationStore = defineStore('managementNavigation', {
     state: () => ({
         currentQuestionnaire: 'managementAndPersonal',
-        managementStore: useManagementStore(),
         questionnaireOrder: [
             'managementAndPersonal',
             'feeding',

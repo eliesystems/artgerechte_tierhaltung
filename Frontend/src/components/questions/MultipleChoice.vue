@@ -18,7 +18,7 @@
         input-type="text"
         :question-key="questionKey + '_2'"
         :placeholder-text=placeholderText
-        :store="store" />
+        :answer-store="answerStore" />
 </template>
 
 <script setup lang="ts">
@@ -38,7 +38,7 @@ const props = defineProps({
         type: Array as () => { label: string; value: string }[],
         default: () => [],
     },
-    store: {
+    answerStore: {
         type: Object,
         required: true,
     },
@@ -49,18 +49,17 @@ const props = defineProps({
 });
 
 const selectedAnswers = ref<string[]>(
-	props.store.getAnswerByKey(props.questionKey + '_1') || []
+	props.answerStore.getAnswerByKey(props.questionKey + '_1') || []
 );
 
 const updateAnswers = () => {
 	if (selectedAnswers.value.length > 0) {
-        console.log(props.questionKey + "_1");
-    	props.store.saveAnswer(props.questionKey + "_1", selectedAnswers.value);
+    	props.answerStore.saveAnswer(props.questionKey + "_1", selectedAnswers.value);
   	} else {
-    	props.store.deleteAnswer(props.questionKey + "_1");
+    	props.answerStore.deleteAnswer(props.questionKey + "_1");
   	}
 	if (!selectedAnswers.value.includes('other')) {
-		props.store.deleteAnswer(props.questionKey + "_2");
+		props.answerStore.deleteAnswer(props.questionKey + "_2");
 	}
 };
 

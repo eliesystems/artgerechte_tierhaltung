@@ -51,7 +51,7 @@
                     class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                 Neue Farm erstellen +
             </button>
-            <button @click="authStore.logout()"
+            <button @click="handleLogout"
                     class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                 Logout
             </button>
@@ -125,12 +125,22 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, watch, onUnmounted, onMounted } from 'vue';
+import { reactive, ref, watch, onUnmounted, onMounted, computed } from 'vue';
 import type { CreateFarmDto, Farm } from '@/composables/model/farmDtos';
 import { useAuthStore } from '@/stores/authStore';
 import { createFarm, getFarms } from '@/composables/services/farm';
-import FloatingCard from './common/FloatingCard.vue';;
+import FloatingCard from './common/FloatingCard.vue';
+import { usefarmsStore } from '@/stores/farmStore';
+import { useAnswerStore } from '@/stores/answerStore';
+import { createAnswers, getAnswersByFarmId, updateAnswers } from '@/composables/services/answer';
+import { v4 as uuid } from 'uuid';
+import type { Answer, CreateAnswerDto, UpdateAnswersDto } from '@/composables/model/answerDtos';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
+const isOnline = ref(navigator.onLine);
+const farmStore = usefarmsStore();
+const answerStore = useAnswerStore();
 const authStore = useAuthStore();
 const showForm = ref(false);
 const showQuestionaires = ref(false);
@@ -148,16 +158,217 @@ const formData = reactive<CreateFarmDto>({
     place: ''
 });
 
-const farms = ref<Farm[]>();
+const farms = computed(() => farmStore.farms);
 
 onMounted(async () => {
-	try {
-        const response = await getFarms();
-        farms.value = response;
-	} catch (error) {
-		console.error('Error fetching farms');
+	const route = router.currentRoute.value;
+
+	const hasUnsyncedFarms = farmStore.farms.some(f => f.unsynced);
+	const hasUnsyncedAnswers = Object.values(answerStore.answers).some(
+		answerMap => Object.values(answerMap).some(a => a.dirty)
+	);
+
+	if (route.query.login === 'true') {
+		if (hasUnsyncedFarms || hasUnsyncedAnswers) {
+			await syncFarms();
+		} else {
+			await preload();
+		}
+		router.replace({ path: '/home' });
+	} else if (route.query.sync === 'true') {
+		await syncFarms();
+		router.replace({ path: '/home' });
 	}
 });
+
+const handleLogout = async () => {
+    try {
+        await syncFarms();
+    } finally {
+        authStore.logout();
+    }
+}
+
+const preload = async () => {
+    try {
+        const response = await getFarms();
+        farmStore.setFarms(response);
+
+        for (const farm of response) {
+            try {
+                const allAnswers = await getAnswersByFarmId(farm.id);
+                console.log(allAnswers);
+
+                allAnswers.forEach(answer => {
+                    const val = answer.string_answer ?? answer.numeric_answer ?? 
+                        answer.string_array_answer ?? answer.numeric_array_answer;
+
+                    if (val !== undefined && val !== null) {
+                        answerStore.updateAnswer(farm.id, answer.question_key, { value: val, id: answer.id });
+                    }
+                });
+                console.info("fetched answers");
+            } catch (error) {
+                console.error("failed to fetch answers: ", error);
+            }
+        }
+        console.info("Pre loaded farms and answers");
+    } catch (error) {
+        console.error("Failed to preload: ", error);
+    }
+}
+
+const syncFarms = async () => {
+    if (isOnline.value) {
+        for (const farm of [...farmStore.farms]) {
+            if (farm.unsynced === true) {
+                try {
+                    const oldId = farm.id;
+                    const answers = answerStore.getAnswersByFarmId(farm.id);
+
+                    const newFarm: CreateFarmDto = {
+                        name: farm.name,
+                        zip_code: farm.zip_code,
+                        place: farm.place,
+                        person_in_charge: farm.person_in_charge
+                    };
+
+                    const savedFarm = await createFarm(newFarm);
+
+                    if (savedFarm) {
+                        const index = farmStore.farms.findIndex(f => f.id === oldId);
+
+                        if (index !== -1) {
+                            farmStore.farms.splice(index, 1, savedFarm);
+                            console.info("Synced farm and replaced in store");
+                        }
+
+                        const answersToSave = Object.entries(answers).map(([key, value]) => {
+                            const sectionName = answerStore.getSectionFromKey(key);
+
+                            const answerDto: CreateAnswerDto = {
+                                farm_id: savedFarm.id,
+                                question_key: key,
+                                section: sectionName,
+                                ...assignAnswerValue(value.value),
+                            }
+
+                            return answerDto;
+                        })
+
+                        const savedAnswers = await createAnswers(answersToSave);
+
+                        savedAnswers.forEach((savedAnswer) => {
+                            const value = getAnswerValue(savedAnswer);
+                            answerStore.updateAnswer(savedFarm.id, savedAnswer.question_key, {
+                                value: value,
+                                id: savedAnswer.id,
+                            });
+                        });
+
+                        delete answerStore.answers[oldId];
+
+                        console.info("Synced answers and replaced in store");
+                    }
+                } catch (error) {
+                    console.error("Was not able to sync data: ", error);
+                }
+            } else {
+                try {
+                    const answers = answerStore.getAnswersByFarmId(farm.id);
+                    const answersToUpdate: UpdateAnswersDto[] = [];
+                    const answersToSave: CreateAnswerDto[] = [];
+
+                    if (answers !== undefined) {
+                        Object.entries(answers).map(([key, value]) => {
+                            if (value.dirty) {
+                                const id = value.id;
+
+                                if (id !== undefined && id > 0) {
+                                    const updateAnswerDto: UpdateAnswersDto = {
+                                        id: id,
+                                        ...assignAnswerValue(value.value),
+                                    }
+
+                                    answersToUpdate.push(updateAnswerDto);
+                                } else {
+                                    const sectionName = answerStore.getSectionFromKey(key);
+
+                                    const answerDto: CreateAnswerDto = {
+                                        farm_id: farm.id,
+                                        question_key: key,
+                                        section: sectionName,
+                                        ...assignAnswerValue(value.value),
+                                    }
+                                    
+                                    answersToSave.push(answerDto);
+                                }
+                            }
+                        });
+
+                        if (answersToUpdate.length > 0) {
+                            const updatedAnswers = await updateAnswers(answersToUpdate);
+
+                            updatedAnswers.forEach((updatedAnswer) => {
+                                const value = getAnswerValue(updatedAnswer);
+                                answerStore.updateAnswer(farm.id, updatedAnswer.question_key, {
+                                    value: value,
+                                    id: updatedAnswer.id, 
+                                });
+                            });
+                        }
+                        
+                        if (answersToSave.length > 0) {
+                            const savedAnswers = await createAnswers(answersToSave);
+
+                            savedAnswers.forEach((savedAnswer) => {
+                                const value = getAnswerValue(savedAnswer);
+                                answerStore.updateAnswer(farm.id, savedAnswer.question_key, {
+                                    value: value,
+                                    id: savedAnswer.id,
+                                });
+                            });
+                        }
+                        
+                        console.info("Synced answers and replaced in store");
+                    }
+                } catch (error) {
+                    console.error("Was not able to sync data: ", error);
+                }
+            }
+        }
+    } else {
+        console.error("Was not able to sync data, because there is not internet connection");
+    }
+};
+
+const getAnswerValue = (answer: Answer) => {
+    if (answer.string_answer !== undefined && answer.string_answer !== '') {
+        return answer.string_answer;
+    } else if (Array.isArray(answer.string_array_answer && answer.string_array_answer.length > 0)) {
+        return answer.string_array_answer;
+    } else if (answer.numeric_answer !== undefined && !isNaN(answer.numeric_answer)) {
+        return answer.numeric_answer;
+    } else if (Array.isArray(answer.numeric_array_answer && answer.numeric_array_answer.length > 0)) {
+        return answer.numeric_array_answer;
+    }
+};
+
+const assignAnswerValue = (value: any) => {
+    if (Array.isArray(value)) {
+        if (typeof value[0] === "string") {
+            return { string_array_answer: value };
+        } else if (typeof value[0] === "number") {
+            return { numeric_array_answer: value };
+        }
+    } else {
+        if (typeof value === "string") {
+            return { string_answer: value };
+        } else if (typeof value === "number") {
+            return { numeric_answer: value };
+        }
+    }
+};
 
 const addFarm = async () => {
     if (!formData.name || !formData.person_in_charge || !formData.zip_code || !formData.place) {
@@ -165,10 +376,20 @@ const addFarm = async () => {
         return;
     } else {
         try {
-            const response = await createFarm(formData);
-			if (response) {
-				farms.value?.push(response);
-			}
+            if (isOnline.value) {
+                const response = await createFarm(formData);
+			    if (response) {
+                    farmStore.farms.push(response);
+			    }
+            } else {
+                const fakeId = uuid();
+                const offlineFarm = {
+                    ...formData,
+                    id: fakeId,
+                    unsynced: true,
+                };
+                farmStore.farms.push(offlineFarm);
+            }           
         } catch (error) {
 			console.error('Error creating farm');
         } finally {

@@ -4,15 +4,15 @@
             <RadioYesNo
                 question="Werden die Tränkeeinrichtungen täglich auf Sauberkeit kontrolliert?"
                 question-key="MF_036"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Werden alle Tränkeeinrichtungen täglich auf Funktionalität und Durchflussgeschwindigkeit (ca. 7-15 l/min) kontrolliert?"
                 question-key="MF_037"
-                :store="managementStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Wird bei allen Tränkeeinrichtungen regelmäßig die Durchflussgeschwindigkeit (ca. 10-20 l/min) kontrolliert?"
                 question-key="MF_037.1"
-                :store="managementStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -23,7 +23,7 @@ import RadioYesNo from '../questions/RadioYesNo.vue';
 
 
 defineProps({
-    managementStore: {
+    answerStore: {
         type: Object,
         required: true,
     },

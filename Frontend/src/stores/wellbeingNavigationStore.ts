@@ -1,10 +1,8 @@
 import { defineStore } from 'pinia';
-import { useWellbeingStore } from './wellbeingStore';
 
 export const useNavigationStore = defineStore('wellbeingNavigation', {
 	state: () => ({
 		currentQuestionnaire: 'socialBehavior',
-		wellbeingStore: useWellbeingStore(),
 		questionnaireOrder: [
 			'socialBehavior',
 			'foodAndWater',

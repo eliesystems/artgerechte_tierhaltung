@@ -7,6 +7,7 @@ export const createAnswers = async (req: Request, res: Response) => {
 		const answers = req.body;
 
 		if (!Array.isArray(answers) || answers.length === 0) {
+			console.error("No answers provided");
 			res.status(400).json({ error: "No answers provided" });
 			return;
 		}
@@ -35,14 +36,43 @@ export const createAnswers = async (req: Request, res: Response) => {
 		});
 
 		const result = await answerService.createAnswers(sanitizedAnswers);
-		console.info("Saved " + result.count + " Answers");
+		console.info("Saved " + result.length + " Answers");
 
-		res.status(201).json({ count: result });
+		res.status(201).json(result);
 	} catch (err) {
-		console.error("Error saving answers:", err);
+		console.error("Error saving answers: ", err);
 		res.status(500).json({ error: "Failed to save answers" });
 	}
 };
+
+export const updateAnswers = async (req: Request, res: Response): Promise<void> => {
+	try {
+		const answers = req.body;
+
+		const sanitizedAnswers = answers.map((a) => {
+
+			const data: Prisma.answersUpdateWithoutFarmInput = {
+				string_answer: a.string_answer ?? null,
+				string_array_answer: Array.isArray(a.string_array_answer) ? a.string_array_answer : [],
+				numeric_answer: a.numeric_answer ?? null,
+				numeric_array_answer: Array.isArray(a.numeric_array_answer) ? a.numeric_array_answer : [],
+				file_url: a.file_url ?? null,
+			};
+
+			return {id: a.id, data: data};
+		});
+
+		const result = await Promise.all(
+			sanitizedAnswers.map(({ id, data }) => answerService.updateAnswer(id, data))
+		);
+
+		console.info("Updated " + result.length + " Answers");
+		res.status(200).json(result);
+	} catch (error) {
+		console.log("Error updating answers: ", error);
+		res.status(500).json({ error: "Failed to update answers" });
+	}
+}
 
 export const getAnswers = async (req: Request, res: Response): Promise<void> => {
 	try {
@@ -50,6 +80,7 @@ export const getAnswers = async (req: Request, res: Response): Promise<void> => 
 		const section = (req.query.section as string) || 'resources';
 
 		if (!farmId) {
+			console.error("No FarmId present in Request");
 			res.status(400).json({ error: "farmId is required" });
 			return;
 		}
@@ -59,33 +90,67 @@ export const getAnswers = async (req: Request, res: Response): Promise<void> => 
         );
 
 		if (!sectionEnumValue) {
-			res.status(400).json({ error: `Invalid section value: ${section}` });
+			console.error("Invalid section: " + sectionEnumValue);
+			res.status(400).json({ error: "Invalid section value" });
 			return;
 		}
 
 		const answers = await answerService.getAnswers(farmId, sectionEnumValue);
 
-		const filteredAnswers = answers.map(answer => {
-			const filteredAnswer: any = {};
-	  
-			if (answer.string_answer) filteredAnswer.string_answer = answer.string_answer;
-			if (answer.string_array_answer && answer.string_array_answer.length > 0) filteredAnswer.string_array_answer = answer.string_array_answer;
-			if (answer.numeric_answer !== null) filteredAnswer.numeric_answer = answer.numeric_answer;
-			if (answer.numeric_array_answer && answer.numeric_array_answer.length > 0) filteredAnswer.numeric_array_answer = answer.numeric_array_answer;
-			if (answer.file_url) filteredAnswer.file_url = answer.file_url;
-	  
-			filteredAnswer.id = answer.id;
-			filteredAnswer.farm_id = answer.farm_id;
-			filteredAnswer.question_key = answer.question_key;
-			filteredAnswer.section = answer.section;
-			filteredAnswer.created_at = answer.created_at;
-	  
-			return filteredAnswer;
+		const filteredAnswers = answers.map(({ 
+			id, farm_id, question_key, section, created_at, 
+			string_answer, string_array_answer, numeric_answer, 
+			numeric_array_answer, file_url 
+		}) => {
+			const filtered = {
+				id, farm_id, question_key, section, created_at,
+				...(string_answer && { string_answer }),
+				...(string_array_answer?.length > 0 && { string_array_answer }),
+				...(numeric_answer !== null && { numeric_answer }),
+				...(numeric_array_answer?.length > 0 && { numeric_array_answer }),
+				...(file_url && { file_url })
+			};
+			return filtered;
 		});
 
 		console.info("Fetching " + filteredAnswers.length + " Answers");
 		res.json(filteredAnswers);
-	} catch (err) {
-		res.status(500).json({ err: "Failed to fetch answers" });
+	} catch (error) {
+		console.error("Error fetching answers: ", error);
+		res.status(500).json({ error: "Failed to fetch answers" });
+	}
+};
+
+export const getAnswersByFarmId = async (req: Request, res: Response): Promise<void> => {
+	try {
+		const farmId = req.query.farmId as string;
+
+		if (!farmId) {
+			res.status(400).json({ error: "farmId is required" });
+			return;
+		}
+
+		const answers = await answerService.getAnswersByFarmId(farmId);
+		const filteredAnswers = answers.map(({ 
+			id, farm_id, question_key, section, created_at, 
+			string_answer, string_array_answer, numeric_answer, 
+			numeric_array_answer, file_url 
+		}) => {
+			const filtered = {
+				id, farm_id, question_key, section, created_at,
+				...(string_answer && { string_answer }),
+				...(string_array_answer?.length > 0 && { string_array_answer }),
+				...(numeric_answer !== null && { numeric_answer }),
+				...(numeric_array_answer?.length > 0 && { numeric_array_answer }),
+				...(file_url && { file_url })
+			};
+			return filtered;
+		});
+
+		console.info("Fetching " + filteredAnswers.length + " Answers");
+		res.json(filteredAnswers);
+	} catch (error) {
+		console.error("Error fetching answers: ", error);
+		res.status(500).json({ error: "Failed to fetch answers" });
 	}
 };

@@ -1,7 +1,7 @@
 <template>
 	<div class="max-w-4xl mx-auto flex flex-col flex-grow">
 		<div v-if="answerLoaded && currentQuestionnaireComponent" class="w-full mx-auto px-12 py-2 flex-grow">
-			<component :is="currentQuestionnaireComponent" :management-store="managementStore" />
+			<component :is="currentQuestionnaireComponent" :answer-store="temporaryAnswerStore" />
 		</div>
 		<div class="mt-6 mb-20 px-16 flex justify-between">
 			<button
@@ -28,7 +28,7 @@
 			<button
 				v-if="!hasNextQuestionnaire"
 				class="bg-[#d1a62c] hover:bg-[#dac17c] text-white manrope-text py-2 px-4 border rounded shadow flex items-center min-w-42"
-				@click="saveResources">
+				@click="saveManagement">
 				Speichern und weiter zu den Tierwohl Indikatoren
 			</button>
 		</div>
@@ -46,15 +46,17 @@ import ManagementNotes from '@/components/mf/ManagementNotes.vue';
 import { onMounted, computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNavigationStore } from '@/stores/managementNavigationStore';
-import { getAnswers, createAnswers } from '@/composables/services/answer';
-import type { CreateAnswerDto } from '@/composables/model/answerDtos';
-import { useManagementStore } from '@/stores/managementStore';
+import { useAnswerStore } from '@/stores/answerStore'
+import { useTemporaryAnswerStore } from '@/stores/temporaryAnswerStore';
 
-const managementStore = useManagementStore();
 const navigationStore = useNavigationStore();
 const router = useRouter();
 const farmId = router.currentRoute.value.query.farmId as string;
 const answerLoaded = ref(false);
+
+const answerStore = useAnswerStore();
+const temporaryAnswerStore = useTemporaryAnswerStore();
+const originalAnswers = ref<Record<string, {value:any;id?:number}>>({});
 
 const questionnaireComponents = {
     managementAndPersonal: ManagementManagementAndPersonal,
@@ -93,47 +95,26 @@ const hasPreviousQuestionnaire = computed(() => {
 });
 
 const goToHome = () => {
-	managementStore.resetStore();
-	router.push('/home');
+	temporaryAnswerStore.resetStore();
+	router.push({ path: '/home', query: { sync: 'true' } });
 };
 
-const saveResources = async () => {
+const saveManagement = async () => {
     if (!farmId) {
         console.error("Farm ID is missing");
         return;
     }
 
-    const answersToSave = Object.entries(managementStore.answers).map(([key, value]) => {
-		const answerDto: CreateAnswerDto = {
-			farm_id: farmId,
-			question_key: key,
-			section: 'management'
-		};
+	Object.entries(temporaryAnswerStore.answers).forEach(([key, { value, id }]) => {
+		const origValue = originalAnswers.value[key]?.value;
+		if (JSON.stringify(value) === JSON.stringify(origValue)) {
+			return;
+		}
 
-        if (Array.isArray(value)) {
-            if (typeof value[0] === "string") {
-                answerDto.string_array_answer = value;
-            } else if (typeof value[0] === "number") {
-                answerDto.numeric_array_answer = value;
-            }
-        } else {
-            if (typeof value === "string") {
-                answerDto.string_answer = value;
-            } else if (typeof value === "number") {
-                answerDto.numeric_answer = value;
-            }
-        }
+		answerStore.saveAnswer(farmId, key, { value, id });
+	});
 
-        return answerDto;
-    });
-
-    try {
-        await createAnswers(answersToSave);
-    } catch (error) {
-        console.error("Error saving answers to backend:", error);
-    }
-	
-	managementStore.resetStore();
+	temporaryAnswerStore.resetStore();
 	navigationStore.reset();
     router.push({ name: 'ti', query: { farmId: farmId } });
 };
@@ -141,34 +122,16 @@ const saveResources = async () => {
 
 onMounted(async () => {
 	try {
-		const response = await getAnswers(farmId, 'management');
-
-		if (response.length > 0) {
-			response.forEach(answer => {
-        		// Check for string_answer
-        		if (answer.string_answer !== undefined && answer.string_answer !== '') {
-                    managementStore.saveAnswer(answer.question_key, answer.string_answer);
-        		}
-
-        		// Check for string_array_answer (non-empty array)
-        		else if (Array.isArray(answer.string_array_answer) && answer.string_array_answer.length > 0) {
-            		managementStore.saveAnswer(answer.question_key, answer.string_array_answer);
-        		}
-
-       			// Check for numeric_answer
-        		else if (answer.numeric_answer !== undefined && !isNaN(answer.numeric_answer)) {
-            		managementStore.saveAnswer(answer.question_key, answer.numeric_answer);
-        		}
-
-        		// Check for numeric_array_answer (non-empty array)
-        		else if (Array.isArray(answer.numeric_array_answer) && answer.numeric_array_answer.length > 0) {
-            		managementStore.saveAnswer(answer.question_key, answer.numeric_array_answer);
-        		}
-    		});
-		};
-		answerLoaded.value = true;
+		originalAnswers.value = answerStore.getAnswersByFarmIdAndSection(farmId, 'management');
+		Object.entries(originalAnswers).forEach(([key, { value, id }]) => {
+			temporaryAnswerStore.saveAnswer(key, value, id);
+			console.log(answerLoaded.value);
+			console.log(temporaryAnswerStore.answers);
+		});
 	} catch (error) {
-		console.error('Error fetching answers');
+		console.log("Was not able to load answers from store: ", error);
+	} finally {
+		answerLoaded.value = true;
 	}
 });
 

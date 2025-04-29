@@ -24,19 +24,19 @@ const props = defineProps({
         type: String,
         default: '',
     },
-    store: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
 const inputValue = computed({
-    get: () => props.store.getAnswerByKey(props.questionKey) ?? '',
+    get: () => props.answerStore.getAnswerByKey(props.questionKey) ?? '',
     set: (newValue) => {
 		if (newValue === '') {
-			props.store.deleteAnswer(props.questionKey);
+			props.answerStore.deleteAnswer(props.questionKey);
 		} else {
-			props.store.saveAnswer(props.questionKey, newValue);
+			props.answerStore.saveAnswer(props.questionKey, newValue);
 		}
     }
 });

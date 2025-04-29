@@ -18,7 +18,7 @@
         :input-type=inputType
         :question-key="questionKey + '_1'"
         :placeholder-text=placeholderText
-        :store="store" />
+        :answer-store="answerStore" />
 </template>
 
 <script setup lang="ts">
@@ -38,7 +38,7 @@ const props = defineProps({
         type: Array as () => { label: String, value: String}[],
         default: () => []
     },
-    store: {
+    answerStore: {
         type: Object,
         required: true,
     },
@@ -54,14 +54,14 @@ const props = defineProps({
 
 const updateAnswer = () => {
     if(selectedAnswer.value !== 'other') {
-        props.store.deleteAnswer(props.questionKey + "_1");
+        props.answerStore.deleteAnswer(props.questionKey + "_1");
     }
 }
 
 const selectedAnswer = computed({
-    get: () => props.store.getAnswerByKey(props.questionKey) ?? '',
-    set: (newValue) => {
-        props.store.saveAnswer(props.questionKey, newValue);
+    get: () => props.answerStore.getAnswerByKey(props.questionKey) ?? '',
+    set: (newValue: string) => {
+        props.answerStore.saveAnswer(props.questionKey, newValue);
     }
 });
 </script>

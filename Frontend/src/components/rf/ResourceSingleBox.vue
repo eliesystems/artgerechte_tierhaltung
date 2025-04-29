@@ -5,14 +5,14 @@
                 question="Welche Formen der Einzelhaltung gibt es?"
                 question-key="RF_011"
                 :options="options"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Text
                 v-for="(choice, index) in selectedChoices" :key="`RF_012_${index}`"
                 :question="`Wie viele Pferde befinden sich in ${getLabel(choice)}`"
                 :question-key="`RF_012_${index}`"
                 input-type="number"
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -25,13 +25,13 @@ import MultipleChoice from '../questions/MultipleChoice.vue';
 import { computed } from 'vue';
 
 const props = defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
-const selectedChoices = computed(() => props.resourceStore.getAnswerByKey('RF_011_1') ?? []);
+const selectedChoices = computed(() => props.answerStore.getAnswerByKey('RF_011_1') ?? []);
 
 const options = [
     { label: 'Innenboxen', value: 'indoor_boxes' },

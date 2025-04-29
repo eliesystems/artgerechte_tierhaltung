@@ -30,16 +30,16 @@ const props = defineProps({
         type: String,
         default: 'text',
     },
-    store: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
 const inputValue = computed({
-    get: () => props.store.getAnswerByKey(props.questionKey) ?? '',
+    get: () => props.answerStore.getAnswerByKey(props.questionKey) ?? '',
     set: (newValue) => {
-		props.store.saveAnswer(props.questionKey, newValue);
+		props.answerStore.saveAnswer(props.questionKey, newValue);
     }
 });
 

@@ -16,6 +16,7 @@ async function getPublicKey(kid: string) {
 	const key = keys.find((k: { kid: string }) => k.kid === kid);
   
 	if (!key) {
+		console.error("Public key not found");
 		throw new Error("Public key not found.");
 	}
   
@@ -26,8 +27,6 @@ async function getPublicKey(kid: string) {
   
 const validateJWT = async (req: any, res: any, next: Function) => {
 	const token = req.headers.authorization?.split(' ')[1];
-
-	console.log("validating token...");
 
 	if (!token) {
 		console.error("No token provided");

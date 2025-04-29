@@ -4,7 +4,7 @@
             <Textarea
                 question="Hier können Sie sich noch Notizen machen: "
                 question-key="TI_notes"
-                :store="wellbeingStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -15,7 +15,7 @@ import Textarea from '../questions/Textarea.vue';
 
 
 defineProps({
-    wellbeingStore: {
+    answerStore: {
         type: Object,
         required: true,
     },

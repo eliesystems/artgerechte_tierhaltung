@@ -5,28 +5,28 @@
                 question="Welche Formen der Gruppenhaltung gibt es?"
                 question-key="RF_013"
                 :options="options"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Text
                 v-for="(choice, index) in selectedForms" :key="`RF_014_${index}`"
                 :question="`Wie viele Pferde sind in ${getLabel(choice)} untergebracht?`"
                 :question-key="`RF_014_${choice}`"
                 input-type="number"
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Können kranke oder verletzte Pferde separat aber mit Sichtkontakt zu Artgenossen untergebracht werden?"
                 question-key="RF_015"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Gibt es einen separaten Integrationsbereich?"
                 question-key="RF_016"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Textarea
                 v-if="selectedAnswer === 'yes'"
                 question="Wie ist der Integrationsbereich gestaltet?"
                 question-key="RF_017"
                 placeholder-text="Bitte beschreiben Sie den Integrationsbereich kurz."
-                :store="resourceStore" />
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -41,14 +41,14 @@ import Textarea from '../questions/Textarea.vue';
 import { computed, watch } from 'vue';
 
 const props = defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
 });
 
-const selectedAnswer = computed(() => props.resourceStore.getAnswerByKey('RF_016') ?? '');
-const selectedForms = computed(() => props.resourceStore.getAnswerByKey('RF_013_1') ?? []);
+const selectedAnswer = computed(() => props.answerStore.getAnswerByKey('RF_016') ?? '');
+const selectedForms = computed(() => props.answerStore.getAnswerByKey('RF_013_1') ?? []);
 
 const options = [
     { label: 'Innenlaufstall', value: 'indoor_loose_housing' },
@@ -64,7 +64,7 @@ function getLabel(value: string) {
 
 watch(selectedAnswer, (newValue) => {
 	if (newValue === 'no') {
-		props.resourceStore.deleteAnswer('RF_017');
+		props.answerStore.deleteAnswer('RF_017');
 	}
 });
 

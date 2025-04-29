@@ -4,12 +4,12 @@
 			<RadioYesNo
 				question="Haben sich in der Vergangenheit Verhaltensänderungen bei den Pferden gezeigt?"
 				question-key="TI_016"
-				:store="wellbeingStore" />
+				:answer-store="answerStore" />
 			<Textarea
 				v-if="behavioralChange === 'yes'"
 				question="Welche Veränderungen wurden festgestellt, über welchen Zeitraum, und welche Maßnahmen wurden ergriffen?"
 				question-key="TI_017"
-				:store="wellbeingStore"
+				:answer-store="answerStore"
 				placeholder-text="Beschreiben Sie diese kurz" />
 		</template>
 	</QuestionaireCard>
@@ -22,11 +22,11 @@ import RadioYesNo from '../questions/RadioYesNo.vue';
 import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
-	wellbeingStore: {
+	answerStore: {
 		type: Object,
 		required: true,
 	}
 });
 
-const behavioralChange = computed(() => props.wellbeingStore.getAnswerByKey('TI_016') ?? '');
+const behavioralChange = computed(() => props.answerStore.getAnswerByKey('TI_016') ?? '');
 </script>

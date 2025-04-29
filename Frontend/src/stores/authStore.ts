@@ -21,7 +21,7 @@ export const useAuthStore = defineStore("auth", {
         		const authenticated = await this.keycloak.init({
           			onLoad: "check-sso",
           			checkLoginIframe: false,
-					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home"
+					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home?login=true"
         		});
         		if (authenticated) {
             		this.token = this.keycloak.token ?? null;
@@ -41,7 +41,7 @@ export const useAuthStore = defineStore("auth", {
 		login() {
 			if (this.keycloak) {
 				this.keycloak.login({
-					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home",
+					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home?login=true",
 				});
 			}
 		},
@@ -69,19 +69,19 @@ export const useAuthStore = defineStore("auth", {
 		async saveTokenToBackend() {
 			if (!this.token) {
 		  		console.error("No token available");
-		  	return;
-		}
+		  		return;
+			}
   
-		try {
-			await axios.post(import.meta.env.VITE_API_BASE_URL + "/save-user", null, {
-				headers: {
-			  		Authorization: `Bearer ${this.token}`,
-				},
-		  	});
-		} catch (error) {
-		  	console.error("Error saving token to backend", error);
-		}
-	  },
+			try {
+				await axios.post(import.meta.env.VITE_API_BASE_URL + "/save-user", null, {
+					headers: {
+			  			Authorization: `Bearer ${this.token}`,
+					},
+		  		});
+			} catch (error) {
+		  		console.error("Error saving token to backend", error);
+			}
+	  	},
   	},
 
   	getters: {

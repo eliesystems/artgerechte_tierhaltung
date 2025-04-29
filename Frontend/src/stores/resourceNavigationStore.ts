@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { useResourceStore } from './resourceStore';
+import { useTemporaryAnswerStore } from './temporaryAnswerStore';
 
 export const useNavigationStore = defineStore('resourceNavigation', {
 	state: () => ({
     	currentQuestionnaire: 'companyStructure',
-    	resourceStore: useResourceStore(),
+		store: useTemporaryAnswerStore(),
     	questionnaireOrder: [
 			'companyStructure',
 			'infrastructure',
@@ -31,7 +31,7 @@ export const useNavigationStore = defineStore('resourceNavigation', {
     	},
 
     	shouldSkipQuestionnaire(current: string) {
-			const selectedHousing = this.resourceStore.getAnswerByKey('RF_008_1') || [];
+			const selectedHousing = this.store.getAnswerByKey('RF_008_1') || [];
 			if (current === 'singleBox') {
 				return !selectedHousing.includes('individual_stabling');
 			}

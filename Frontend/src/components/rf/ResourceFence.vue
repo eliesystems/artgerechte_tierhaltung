@@ -4,7 +4,7 @@
             <Radio
                 question="Wird eine tägliche Sichtkontrolle des Zauns durchgeführt (Spannung der Litzen und Querverstrebungen)??"
                 question-key="RF_040"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, täglich', value: 'yes_daily' },
                     { label: 'Ja, aber nicht täglich', value: 'yes_not_daily' },
@@ -13,7 +13,7 @@
             <Radio
                 question="Wird zur Kontrolle der Zaunspannung ein Zaunprüfgerät verwendet?"
                 question-key="RF_041"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, täglich', value: 'yes_daily' },
                     { label: 'Ja, aber nicht täglich', value: 'yes_not_daily' },
@@ -22,15 +22,15 @@
             <RadioYesNo
                 question="Haben alle Zäune mindestens zwei Querverstrebungen oder zwei stromführende Leiter (Bänder, Seile, Litze)?"
                 question-key="RF_042"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <RadioYesNo
                 question="Haben Zäune in Risikobereichen (z. B. entlang von Straßen oder an unübersichtlichen Stellen) mindestens drei Querverstrebungen und drei stromführende Leiter (Bänder, Seile, Litze)?"
                 question-key="RF_043"
-                :store="resourceStore" />
+                :answer-store="answerStore" />
             <Radio
                 question="Gibt es eine Dokumentation der Zaunkontrollen?"
                 question-key="RF_044"
-                :store="resourceStore"
+                :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, schriftlich', value: 'yes_written' },
                     { label: 'Ja, digital', value: 'yes_digital' },
@@ -46,7 +46,7 @@ import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 defineProps({
-    resourceStore: {
+    answerStore: {
         type: Object,
         required: true,
     },
