@@ -133,14 +133,15 @@ const saveResources = async () => {
 
 
 onMounted(async () => {
-	console.log(originalAnswers);
 	try {
 		originalAnswers.value = answerStore.getAnswersByFarmIdAndSection(farmId, 'resources');
-		Object.entries(originalAnswers).forEach(([key, { value, id }]) => {
+
+		const rawAnswers = originalAnswers.value;
+		Object.entries(rawAnswers).forEach(([key, { value, id }]) => {
 			temporaryAnswerStore.saveAnswer(key, value, id);
 		});
 	} catch (error) {
-		console.log("Was not able to load answers from store: ", error);
+		console.error("Was not able to load answers from store: ", error);
 	} finally {
 		answerLoaded.value = true;
 	}

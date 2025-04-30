@@ -123,13 +123,13 @@ const saveManagement = async () => {
 onMounted(async () => {
 	try {
 		originalAnswers.value = answerStore.getAnswersByFarmIdAndSection(farmId, 'management');
-		Object.entries(originalAnswers).forEach(([key, { value, id }]) => {
+
+		const rawAnswers = originalAnswers.value;
+		Object.entries(rawAnswers).forEach(([key, { value, id }]) => {
 			temporaryAnswerStore.saveAnswer(key, value, id);
-			console.log(answerLoaded.value);
-			console.log(temporaryAnswerStore.answers);
 		});
 	} catch (error) {
-		console.log("Was not able to load answers from store: ", error);
+		console.error("Was not able to load answers from store: ", error);
 	} finally {
 		answerLoaded.value = true;
 	}

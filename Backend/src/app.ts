@@ -2,6 +2,7 @@ import express from "express";
 import farmRoutes from "./routes/farm.routes";
 import userRoutes from "./routes/user.routes"
 import answerRoutes from "./routes/answer.routes"
+import healthRoutes from "./routes/health.routes"
 import cors from 'cors';
 import { PrismaClient } from "@prisma/client";
 
@@ -50,5 +51,6 @@ app.use((req, res, next) => {
 app.use("/api/farms", farmRoutes);
 app.use("/api/save-user", userRoutes);
 app.use("/api/answers", answerRoutes);
+app.use("/api/health", healthRoutes);
 
 export default app;

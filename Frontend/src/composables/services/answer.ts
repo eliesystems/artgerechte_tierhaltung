@@ -2,7 +2,6 @@ import { apiClient } from "../apiClient";
 import type { CreateAnswerDto, Answer, UpdateAnswersDto } from "../model/answerDtos";
 
 export const createAnswers = async (answers: CreateAnswerDto[]) => {
-	console.log("Making POst Requst...");
 	const response = await apiClient.post<Answer[]>("/answers", answers);
 	return response.data;
 };
