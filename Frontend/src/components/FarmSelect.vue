@@ -222,6 +222,14 @@ const handleLogout = async () => {
     try {
         await syncFarms();
     } finally {
+        if (await healthCheck()) {    
+            alert('ACHTUNG! Es ist keine Internetverbindung vorhanden, Daten können verloren gehen.');
+            return;
+        }
+
+        farmStore.$reset();
+        answerStore.$reset();
+
         authStore.logout();
     }
 }

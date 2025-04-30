@@ -7,6 +7,7 @@ export const useAuthStore = defineStore("auth", {
     	keycloak: null as Keycloak | null,
     	isAuthenticated: false,
     	token: null as string | null,
+		offlineToken: null as string | null
   	}),
 
   	actions: {
@@ -25,6 +26,13 @@ export const useAuthStore = defineStore("auth", {
         		});
         		if (authenticated) {
             		this.token = this.keycloak.token ?? null;
+					this.offlineToken = localStorage.getItem('offlineToken') ?? null;
+
+					if (this.keycloak.refreshToken && !this.offlineToken) {
+                        this.offlineToken = this.keycloak.refreshToken;
+                        localStorage.setItem('offlineToken', this.offlineToken);
+                    }
+
 					setInterval(async () => {
 						this.refreshToken();
 					}, 60000);
@@ -48,6 +56,9 @@ export const useAuthStore = defineStore("auth", {
 
 		logout() {
 			if (this.keycloak) {
+				localStorage.clear();
+				localStorage.removeItem('offlineToken');
+				
 				this.keycloak.logout({
 					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/login"
 				});
@@ -57,8 +68,12 @@ export const useAuthStore = defineStore("auth", {
 		async refreshToken() {
 			if (this.keycloak) {
 				try {
-					await this.keycloak.updateToken(30);
-					this.token = this.keycloak.token ?? null;
+					const refreshed = await this.keycloak.updateToken(30);
+					if (refreshed) {
+						this.token = this.keycloak.token ?? null;
+					} else {
+						console.error("Token refresh failed");
+					}
 				} catch (error) {
 					console.error("Manual token refresh failed", error);
 					this.logout();
@@ -86,5 +101,6 @@ export const useAuthStore = defineStore("auth", {
 
   	getters: {
     	getToken: (state) => state.token,
+		getOfflineToken: (state) => state.offlineToken,
   	}
 });

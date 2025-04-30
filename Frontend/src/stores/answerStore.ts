@@ -59,10 +59,6 @@ export const useAnswerStore = defineStore("answers", {
                 delete this.answers[farmId][key];
             }
         },
-      
-        resetStore() {
-            this.answers = {};
-        },
 
         getSectionFromKey(key: string): "resources" | "management" | "animal_welfare" {
             if (key.startsWith('RF_')) {
