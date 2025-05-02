@@ -2,7 +2,7 @@
 FROM node:22 AS build-stage
 WORKDIR /app
 
-COPY .. .
+COPY Backend/. ./
 
 RUN npm install
 
