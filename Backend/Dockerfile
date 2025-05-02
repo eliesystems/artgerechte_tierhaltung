@@ -6,11 +6,11 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY Backend/prisma ./Backend/prisma
 
-RUN npx prisma generate
+# Generate Prisma client
+RUN npx prisma generate --schema=./Backend/prisma/schema.prisma
 
-# Step 2: Run the backend service
 FROM node:22
 
 WORKDIR /app
