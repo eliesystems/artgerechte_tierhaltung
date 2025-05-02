@@ -2,7 +2,7 @@
 FROM node:22 AS build-stage
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json ./Backend
 
 RUN npm install
 
