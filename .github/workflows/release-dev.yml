@@ -17,11 +17,11 @@ jobs:
       contents: read
       packages: write
     env:
-      VITE_API_BASE_URL: ${vars.API_BASE_URI}
-      VITE_REDIRECT_URI: ${vars.FRONTEND_URL}
-      KEYCLOAK_URL: ${vars.KEYCLOAK_AUTH_SERVER}
-      KEYCLOAK_REALM: ${vars.KEYCLOAK_REALM}
-      KEYCLOAK_CLIENT_ID: ${vars.KEYCLOAK_CLIENT_ID}
+      VITE_API_BASE_URL: ${{ vars.API_BASE_URI }}
+      VITE_REDIRECT_URI: ${{ vars.FRONTEND_URL }}
+      KEYCLOAK_URL: ${{ vars.KEYCLOAK_AUTH_SERVER }}
+      KEYCLOAK_REALM: ${{ vars.KEYCLOAK_REALM }}
+      KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
 
     steps:
       - name: Checkout repository
@@ -48,11 +48,11 @@ jobs:
           tags: ${{ steps.meta-web.outputs.tags }}
           labels: ${{ steps.meta-web.outputs.labels }}
           build-args: |
-            VITE_API_BASE_URL: ${vars.API_BASE_URI}
-            VITE_REDIRECT_URI: ${vars.FRONTEND_URL}
-            KEYCLOAK_URL: ${vars.KEYCLOAK_AUTH_SERVER}
-            KEYCLOAK_REALM: ${vars.KEYCLOAK_REALM}
-            KEYCLOAK_CLIENT_ID: ${vars.KEYCLOAK_CLIENT_ID}
+            VITE_API_BASE_URL: ${{ vars.API_BASE_URI }}
+            VITE_REDIRECT_URI: ${{ vars.FRONTEND_URL }}
+            KEYCLOAK_URL: ${{ vars.KEYCLOAK_AUTH_SERVER }}
+            KEYCLOAK_REALM: ${{ vars.KEYCLOAK_REALM }}
+            KEYCLOAK_CLIENT_ID: ${{ vars.KEYCLOAK_CLIENT_ID }}
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta-api
