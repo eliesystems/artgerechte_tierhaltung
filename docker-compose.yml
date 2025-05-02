@@ -1,0 +1,52 @@
+services:
+  horse-frontend:
+    image: ${CONTAINER_REGISTRY}horse-frontend:dev
+    restart: unless-stopped
+    container_name: horse-frontend
+    ports:
+      - "9505:80"
+    depends_on:
+      - horse-backend
+    networks:
+      - horse_network
+      - websites
+
+  horse-backend:
+    image: ${CONTAINER_REGISTRY}horse-backend:dev
+    restart: unless-stopped
+    container_name: horse-backend
+    ports:
+      - "9506:9506"
+    environment:
+      DATABASE_URL: ${DATABASE_CONNECTION_STRING}
+      KEYCLOAK_URL: ${KEYCLOAK_AUTH_SERVER}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      FRONTEND_URL: ${FRONTEND_URL}
+    depends_on:
+      - horse-db
+    networks:
+      - horse_network
+      - websites
+
+  horse-db:
+    image: postgres:latest
+    restart: unless-stopped
+    container_name: horse-db
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - horse_network
+  
+networks:
+  horse_network:
+    driver: bridge
+  websites:
+    external: true
+  
+volumes:
+  db-data:

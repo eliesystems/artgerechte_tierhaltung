@@ -1,0 +1,75 @@
+name: Create and Publsih Docker image on dev push
+
+on:
+  push:
+    branches: [ 'dev' ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: eliesystems/horse
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      contents: read
+      packages: write
+    env:
+      VITE_API_BASE_URL: ${vars.API_BASE_URI}
+      VITE_REDIRECT_URI: ${vars.FRONTEND_URL}
+      KEYCLOAK_URL: ${vars.KEYCLOAK_AUTH_SERVER}
+      KEYCLOAK_REALM: ${vars.KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT_ID: ${vars.KEYCLOAK_CLIENT_ID}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-web
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-web
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./Frontend
+          push: true
+          tags: ${{ steps.meta-web.outputs.tags }}
+          labels: ${{ steps.meta-web.outputs.labels }}
+          build-args: |
+            VITE_API_BASE_URL: ${vars.API_BASE_URI}
+            VITE_REDIRECT_URI: ${vars.FRONTEND_URL}
+            KEYCLOAK_URL: ${vars.KEYCLOAK_AUTH_SERVER}
+            KEYCLOAK_REALM: ${vars.KEYCLOAK_REALM}
+            KEYCLOAK_CLIENT_ID: ${vars.KEYCLOAK_CLIENT_ID}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta-api
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-api
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Backend/Dockerfile
+          push: true
+          tags: ${{ steps.meta-api.outputs.tags }}
+          labels: ${{ steps.meta-api.outputs.labels }}
+
+      - name: Trigger Portainer Webhook
+        run: |
+          curl -X POST "${{ secrets.PORTAINER_WEBHOOK_URL }}"
+      
