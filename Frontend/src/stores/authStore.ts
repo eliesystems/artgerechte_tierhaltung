@@ -22,16 +22,12 @@ export const useAuthStore = defineStore("auth", {
         		const authenticated = await this.keycloak.init({
           			onLoad: "check-sso",
           			checkLoginIframe: false,
-					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home?login=true"
+					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home?login=true",
+					scope: "openid offline_access"
         		});
+
         		if (authenticated) {
             		this.token = this.keycloak.token ?? null;
-					this.offlineToken = localStorage.getItem('offlineToken') ?? null;
-
-					if (this.keycloak.refreshToken && !this.offlineToken) {
-                        this.offlineToken = this.keycloak.refreshToken;
-                        localStorage.setItem('offlineToken', this.offlineToken);
-                    }
 
 					setInterval(async () => {
 						this.refreshToken();
@@ -50,6 +46,7 @@ export const useAuthStore = defineStore("auth", {
 			if (this.keycloak) {
 				this.keycloak.login({
 					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/home?login=true",
+					scope: "openid offline_access",
 				});
 			}
 		},
@@ -57,7 +54,6 @@ export const useAuthStore = defineStore("auth", {
 		logout() {
 			if (this.keycloak) {
 				localStorage.clear();
-				localStorage.removeItem('offlineToken');
 				
 				this.keycloak.logout({
 					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/login"
@@ -71,8 +67,6 @@ export const useAuthStore = defineStore("auth", {
 					const refreshed = await this.keycloak.updateToken(30);
 					if (refreshed) {
 						this.token = this.keycloak.token ?? null;
-					} else {
-						console.error("Token refresh failed");
 					}
 				} catch (error) {
 					console.error("Manual token refresh failed", error);

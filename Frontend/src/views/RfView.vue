@@ -134,6 +134,7 @@ const saveResources = async () => {
 
 onMounted(async () => {
 	try {
+		answerLoaded.value = false;
 		originalAnswers.value = answerStore.getAnswersByFarmIdAndSection(farmId, 'resources');
 
 		const rawAnswers = originalAnswers.value;

@@ -219,14 +219,21 @@ onMounted(async () => {
 });
 
 const handleLogout = async () => {
+    if (!(await healthCheck())) {
+        const proceedAnyway = confirm(
+            "ACHTUNG! Es ist keine Internetverbindung vorhanden, Daten können verloren gehen.\n\n" +
+            "Möchten Sie trotzdem fortfahren und sich abmelden?"
+        );
+
+        if (!proceedAnyway) {
+            return;
+        }
+    }
+
+
     try {
         await syncFarms();
     } finally {
-        if (await healthCheck()) {    
-            alert('ACHTUNG! Es ist keine Internetverbindung vorhanden, Daten können verloren gehen.');
-            return;
-        }
-
         farmStore.$reset();
         answerStore.$reset();
 
@@ -251,7 +258,6 @@ const preload = async () => {
                         answerStore.updateAnswer(farm.id, answer.question_key, { value: val, id: answer.id });
                     }
                 });
-                console.info("fetched answers");
             } catch (error) {
                 console.error("failed to fetch answers: ", error);
             }

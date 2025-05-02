@@ -122,6 +122,7 @@ const saveManagement = async () => {
 
 onMounted(async () => {
 	try {
+		answerLoaded.value = false;
 		originalAnswers.value = answerStore.getAnswersByFarmIdAndSection(farmId, 'management');
 
 		const rawAnswers = originalAnswers.value;
