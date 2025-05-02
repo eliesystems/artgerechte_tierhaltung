@@ -2,14 +2,11 @@
 FROM node:22 AS build-stage
 WORKDIR /app
 
-COPY Backend/package*.json ./
+COPY .. .
 
 RUN npm install
 
-COPY Backend/prisma ./prisma
-
-# Generate Prisma client
-RUN npx prisma generate --schema=./prisma/schema.prisma
+RUN npx prisma generate
 
 FROM node:22
 
