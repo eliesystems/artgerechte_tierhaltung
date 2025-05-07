@@ -31,7 +31,12 @@
                 question-key="RF_003"
                 placeholder-text="landwirtschaftliche Nutzfläche in ha"
                 input-type="number"
-                :answer-store="answerStore" />
+                :answer-store="answerStore"
+                info="Landwirtschaftliche Nutzfläche bezeichnet die Fläche, die ein landwirtschaftlicher Betrieb zur Produktion landwirtschaftlicher Erzeugnisse nutzt. Diese Fläche wird in Hektar (ha) gemessen, wobei Ja Hektar Ja0.000 Quadratmetern entspricht. Zur landwirtschaftlichen Nutzfläche gehören:
+                      • Ackerland: Flächen für den Anbau von Nutzpflanzen wie Getreide
+                      • Grünland: Wiesen und Weiden
+                      • Feldfutterflächen: Spezielle Flächen, die für die Futterproduktion, beispielsweise von Mais, Getreide oder Gras, angelegt werden
+                      Hier sind alle Flächen gemeint, die der Futtergewinnung dienen, ebenso wie Stallgebäude, Auslaufflächen und Weideflächen." />
             <Text
                 question="Wie viel dieser Fläche steht dauerhaft der Pferdehaltung zur Verfügung (in ha)?"
                 question-key="RF_004"
@@ -43,7 +48,12 @@
                 question-key="RF_005"
                 placeholder-text="Weiderfläche der Pferde in ha"
                 input-type="number"
-                :answer-store="answerStore" />
+                :answer-store="answerStore"
+                info="Die Weidefläche für Pferde wird als Fläche definiert, die für die Haltung und Futteraufnahme von Pferden genutzt wird. Sie muss den spezifischen Bedürfnissen der Tiere gerecht werden. Einige wichtige Merkmale einer Weidefläche für Pferde sind:
+                      • Grünlandnutzung: Die Fläche sollte genug Gras bieten, das für die Pferde geeignet ist. In der Regel sind dies Grasarten, die an die Bedingungen und Bedürfnisse von Pferden angepasst sind.
+                      • Größe und Qualität der Fläche: Je nach Anzahl und Größe der Pferde kann die benötigte Weidefläche variieren. Eine gängige Faustregel besagt, dass pro Pferd mindestens 0,5 bis Ja Hektar Weidefläche zur Verfügung stehen sollte, je nachdem, wie intensiv die Weide genutzt wird und wie gut das Gras wächst.
+                      • Sicherheit: Es muss gewährleistet sein, dass die Weidefläche für die Pferde sicher ist. Weitere Informationen zur sicheren Gestaltung von Weiden und Zäunen sind im Merkblatt der DLG zu finden: DLG Merkblatt 476: Zaunbau in der Pferdehaltung
+                      Weitere Informationen zur Weidezaun-Gestaltung können hier abgerufen werden: Bundesanstalt für Landwirtschaft und Ernährung (BLE) – Pressemitteilung 2023" />
             <Text
                 question="Wie viele Auslaufflächen (ohne Weideflächen) gibt es?"
                 question-key="RF_006"

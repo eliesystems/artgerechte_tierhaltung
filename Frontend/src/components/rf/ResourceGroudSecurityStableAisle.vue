@@ -22,7 +22,11 @@
                         label: 'Nein', 
                         value: 'no' 
                     }
-                ]" />
+                ]"
+                info="Fenster aus zerbrechlichen Materialien in einer von den Pferden erreichbaren Höhe, müssen gesichert sein.
+                      • Leuchten, Elektroleitungen und –Anschlüsse dürfen sich nur in gesichertem Zustand in Reichweite der Pferde befinden.
+                      • Wasserleitungen müssen ausreichend gesichert sein.
+                      • Alle Metallteile müssen geerdet sein. " />
             <RadioYesNo
                 question="Können alle Pferde auf der Stallgasse verletzungsfrei geführt werden?"
                 question-key="RF_031"
