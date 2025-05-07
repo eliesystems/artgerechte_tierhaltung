@@ -43,7 +43,7 @@ import WellbeingCondition from '@/components/ti/WellbeingCondition.vue';
 import WellbeingOther from '@/components/ti/WellbeingOther.vue';
 import WellbeingNotes from '@/components/ti/WellbeingNotes.vue';
 
-import { computed, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNavigationStore } from '@/stores/wellbeingNavigationStore';
 import { useAnswerStore } from '@/stores/answerStore';
@@ -70,17 +70,21 @@ const currentQuestionnaireComponent = computed(() => {
 	return questionnaireComponents[current] || null;
 });
 
-const goToNextQuestionnaire = () => {
+const goToNextQuestionnaire = async () => {
 	const next = navigationStore.getNextQuestionnaire(navigationStore.currentQuestionnaire);
 	if (next) {
 		navigationStore.setCurrentQuestionnaire(next);
+		await nextTick();
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 };
 
-const goToPreviousQuestionnaire = () => {
+const goToPreviousQuestionnaire = async () => {
 	const previous = navigationStore.getPreviousQuestionnaire(navigationStore.currentQuestionnaire);
 	if (previous) {
 		navigationStore.setCurrentQuestionnaire(previous);
+		await nextTick();
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 };
 
