@@ -43,7 +43,8 @@
             <RadioYesNo
                 question="Werden neue Pferde schrittweise in die Herde integriert?"
                 question-key="MF_047"
-                :answer-store="answerStore" />
+                :answer-store="answerStore"
+                info="Die Integration neuer Pferde erfolgt schrittweise und individuell für jedes Pferd. Die Integration wird aufmerksam durch den/die BetriebsleiterIn beobachtet." />
             <RadioYesNo
                 question="Gibt es eine Dokumentation des Gesundheitsmanagements?"
                 question-key="MF_048"

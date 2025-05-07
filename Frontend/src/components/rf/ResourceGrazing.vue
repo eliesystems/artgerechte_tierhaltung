@@ -36,7 +36,8 @@
             <RadioYesNo
                 question="Wird die Weide täglich auf Giftpflanzen kontrolliert?"
                 question-key="RF_021"
-                :answer-store="answerStore" />
+                :answer-store="answerStore"
+                info="Für die Kontrolle der Weideflächen auf Giftpflanzen empfiehlt sich mindestens eine wöchentliche Kontrolle unter nnormalen Aufwuchsbedingungen. Bei stärkerem Aufwuchs, sollte die Kontrolle auf Giftpflanzen häufiger erfolgen. Insbesondere vor der ersten Weidegang im Frühjahr ist die regelmäßige Kontrolle zu empfehlen." />
         </template>
     </QuestionaireCard>
 </template>
