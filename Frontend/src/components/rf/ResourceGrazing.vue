@@ -35,6 +35,10 @@
                 question-key="RF_021"
                 :answer-store="answerStore"
                 info="Für die Kontrolle der Weideflächen auf Giftpflanzen empfiehlt sich mindestens eine wöchentliche Kontrolle unter normalen Aufwuchsbedingungen. Bei stärkerem Aufwuchs, sollte die Kontrolle auf Giftpflanzen häufiger erfolgen. Insbesondere vor dem ersten Weidegang im Frühjahr ist die Kontrolle zu empfehlen." />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_grazing"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -43,6 +47,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
+import Textarea from '../questions/Textarea.vue';
 
 import { computed } from 'vue';
 

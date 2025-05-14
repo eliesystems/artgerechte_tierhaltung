@@ -25,6 +25,10 @@
                 question="Gibt es eine Dokumentation der täglichen Kontrollen des Haltungsumfeldes?"
                 question-key="MF_041"
                 :answer-store="answerStore" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="MF_notes_controll"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -33,7 +37,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
-
+import Textarea from '../questions/Textarea.vue';
 
 defineProps({
     answerStore: {

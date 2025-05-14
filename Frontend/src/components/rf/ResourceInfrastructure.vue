@@ -22,6 +22,10 @@
                 :answer-store="answerStore"
                 info="Freie Tierplätze: die Anzahl an verfügbaren, aber aktuell nicht belegten Stallplätzen für Pferde in einer Haltungseinrichtung.
                       Diese freien Plätze können sich auf verschiedene Haltungsformen beziehen – z. B. Einzelboxenhaltung, Gruppenhaltung oder Freilandhaltung – und geben an, wie viele Pferde zusätzlich aufgenommen werden könnten, ohne die Kapazität der Anlage zu überschreiten." />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_infrastructure"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -31,6 +35,7 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import { computed } from 'vue'
 import Text from '../questions/Text.vue';
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
     answerStore: {

@@ -37,6 +37,10 @@
                       Berechnung der Durchflussrate:
                       Die Durchflussrate berechnest du mit folgender Formel:
                       Durchflussrate (L/min) / gesammeltes Volumen (L)/Messzeit (Sekunden) ×60" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="MF_notes_drinking"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -45,7 +49,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
-
+import Textarea from '../questions/Textarea.vue';
 
 defineProps({
     answerStore: {

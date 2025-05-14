@@ -43,6 +43,10 @@
                     { label: 'Ja, digital', value: 'yes_digital' },
                     { label: 'Nein', value: 'no' }
                 ]" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_fence"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -51,6 +55,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
+import Textarea from '../questions/Textarea.vue';
 
 defineProps({
     answerStore: {

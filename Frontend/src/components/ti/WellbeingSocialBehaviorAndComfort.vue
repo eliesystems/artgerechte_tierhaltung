@@ -22,6 +22,10 @@
 				question="Wird Komfortverhalten bei allen Pferden beobachtet (z. B. scheuern, wälzen, sonnen)?"
 				question-key="TI_004"
 				:answer-store="answerStore" />
+			<Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="TI_notes_social_behavior_and_comfort"
+                :answer-store="answerStore" />
 		</template>
 	</QuestionaireCard>
 </template>
@@ -30,6 +34,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
+import Textarea from '../questions/Textarea.vue';
 
 defineProps({
 	answerStore: {

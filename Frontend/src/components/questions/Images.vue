@@ -60,10 +60,10 @@ const selectedValues = ref<string[]>(
 const toggleImageSelection = (value: string) => {
     if (selectedValues.value.includes(value)) {
         selectedValues.value = selectedValues.value.filter(val => val !== value);
-        props.answerStore[props.questionKey] = selectedValues.value;
+        props.answerStore.saveAnswer(props.questionKey, selectedValues.value);
     } else {
         selectedValues.value.push(value);
-        props.answerStore[props.questionKey] = selectedValues.value;
+        props.answerStore.saveAnswer(props.questionKey, selectedValues.value);
     }
 };
 </script>

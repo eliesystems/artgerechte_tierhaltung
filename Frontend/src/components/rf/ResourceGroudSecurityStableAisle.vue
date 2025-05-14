@@ -55,6 +55,10 @@
                       Ausstattung: Keine herausragenden Gegenstände (Haken, Nägel, Futtertröge, scharfe Kanten)
                       Ordnung und Sauberkeit: Kein herumliegendes Zubehör (Mistgabeln, Schubkarren, Putzzeug)
                       Fluchtwege: Freier Zugang zu Notausgängen" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_ground_security_stable_aisle"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -64,6 +68,7 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 import Images from '../questions/Images.vue';
+import Textarea from '../questions/Textarea.vue';
 
 defineProps({
     answerStore: {

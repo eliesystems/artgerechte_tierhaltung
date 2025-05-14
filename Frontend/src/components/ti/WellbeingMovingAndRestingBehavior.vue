@@ -22,6 +22,10 @@
 				question="Können die Pferde ihr arttypisches Aufsteh-/Ablegeverhalten ausüben?"
 				question-key="TI_013"
 				:answer-store="answerStore" />
+			<Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="TI_notes_moving_and_resting_behavior"
+                :answer-store="answerStore" />
 		</template>
 	</QuestionaireCard>
 </template>
@@ -30,7 +34,7 @@
 import { computed } from 'vue';
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
-
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
 	answerStore: {

@@ -9,7 +9,6 @@ export const useNavigationStore = defineStore('managementNavigation', {
             'drinking',
             'controll',
             'health',
-            'notes',
         ],
     }),
 

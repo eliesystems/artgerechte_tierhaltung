@@ -28,10 +28,16 @@ export const useAuthStore = defineStore("auth", {
 
         		if (authenticated) {
             		this.token = this.keycloak.token ?? null;
+					this.offlineToken = this.keycloak.refreshToken ?? null;
+
+					if (this.offlineToken) {
+						localStorage.setItem("offlineToken", this.offlineToken)
+					}
 
 					setInterval(async () => {
 						this.refreshToken();
 					}, 60000);
+
 					await this.saveTokenToBackend();
         		} else {
             		this.token = null;
@@ -53,7 +59,9 @@ export const useAuthStore = defineStore("auth", {
 
 		logout() {
 			if (this.keycloak) {
-				localStorage.clear();
+				localStorage.removeItem("offlineToken");
+				this.token = null;
+				this.isAuthenticated = false;
 				
 				this.keycloak.logout({
 					redirectUri: import.meta.env.VITE_REDIRECT_URI + "/login"
@@ -67,10 +75,39 @@ export const useAuthStore = defineStore("auth", {
 					const refreshed = await this.keycloak.updateToken(30);
 					if (refreshed) {
 						this.token = this.keycloak.token ?? null;
+						this.offlineToken = this.keycloak.refreshToken ?? null;
+
+						if (this.offlineToken) {
+							localStorage.setItem("offlineToken", this.offlineToken);
+						}
 					}
 				} catch (error) {
 					console.error("Manual token refresh failed", error);
-					this.logout();
+
+					const storedOfflineToken = localStorage.getItem("offlineToken");
+					if (storedOfflineToken) {
+						try {
+							const tokenResponse = await axios.post(
+								`${import.meta.env.VITE_KEYCLOAK_URL}/realms/${import.meta.env.VITE_KEYCLOAK_REALM}/protocol/openid-connect/token`,
+								new URLSearchParams({
+									client_id: import.meta.env.VITE_KEYCLOAK_CLIENT_ID,
+									grant_type: "refresh_token",
+									refresh_token: storedOfflineToken,
+								}),
+								{ headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+							);
+
+							this.offlineToken = storedOfflineToken;
+							this.token = tokenResponse.data.refresh_token;
+
+							localStorage.setItem("offlineToken", this.offlineToken);
+						} catch (error) {
+							console.error("Failed to refresh token using offline token", error);
+							this.logout();
+						}
+					} else {
+						this.logout();
+					}
 				}
 			}
 		},

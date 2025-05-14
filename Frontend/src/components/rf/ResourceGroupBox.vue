@@ -22,6 +22,10 @@
                 question-key="RF_016"
                 :answer-store="answerStore"
                 info="Ein Integrationsbereich in Gruppenhaltungssystemen für Pferde dient der schrittweisen Eingliederung neuer Tiere in eine bestehende Gruppe. Damit die Integration möglichst stressfrei und sicher verläuft – sowohl für das neue Pferd als auch für die bestehende Herde – sollte der Integrationsbereich bestimmte Voraussetzungen erfüllen: Der Integrationsbereich ist durch einen ausbruch- und verletzungssicheren Zaun vom Auslauf der Gruppe getrennt, ermöglicht aber einen Kontakt zu den anderen Pferden der Gruppe und verfügt über einen eigenen Liegebereich sowie Futter und Tränkeplatz. Die Integration sollte schrittweise erfolgen. Stromführende Leiter sind auf Kleinausläufen als tierschutzrelevant einzuordnen." />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_group_box"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -31,6 +35,7 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 import Text from '../questions/Text.vue';
+import Textarea from '../questions/Textarea.vue';
 
 import { computed } from 'vue';
 

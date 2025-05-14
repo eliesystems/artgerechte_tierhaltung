@@ -40,7 +40,6 @@ import WellbeingSocialBehaviorAndComfort from '@/components/ti/WellbeingSocialBe
 import WellbeingFoodAndWater from '@/components/ti/WellbeingFoodAndWater.vue'
 import WellbeingMovingAndRestingBehavior from '@/components/ti/WellbeingMovingAndRestingBehavior.vue';
 import WellbeingOther from '@/components/ti/WellbeingOther.vue';
-import WellbeingNotes from '@/components/ti/WellbeingNotes.vue';
 
 import { computed, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
@@ -60,7 +59,6 @@ const questionnaireComponents = {
 	foodAndWater: WellbeingFoodAndWater,
 	movingAndRestingBehavior: WellbeingMovingAndRestingBehavior,
 	other: WellbeingOther,
-	notes: WellbeingNotes
 }
 
 const currentQuestionnaireComponent = computed(() => {

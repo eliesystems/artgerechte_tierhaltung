@@ -252,6 +252,10 @@
                     { label: 'Nein', value: 'no' },
                     { label: 'Anderes', value: 'other' }
                 ]" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="MF_notes_feeding"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -262,7 +266,7 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
-
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
     answerStore: {

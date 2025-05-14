@@ -51,6 +51,10 @@
                 question="Ist die verwendete Einstreu jederzeit gesundheitlich unbedenklich (z.B. schimmelfreies Stroh, Grünkompost)?"
                 question-key="RF_039"
                 :answer-store="answerStore" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_stable_bedding"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -60,6 +64,7 @@ import { computed } from 'vue';
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
     answerStore: {

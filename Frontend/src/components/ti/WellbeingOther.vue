@@ -19,6 +19,10 @@
 				question-key="TI_017"
 				:answer-store="answerStore"
 				placeholder-text="Beschreiben Sie diese kurz" />
+			<Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="TI_notes_other"
+                :answer-store="answerStore" />
 		</template>
 	</QuestionaireCard>
 </template>

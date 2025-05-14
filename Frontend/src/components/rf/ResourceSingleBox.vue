@@ -13,6 +13,10 @@
                 input-type="number"
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
                 :answer-store="answerStore" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_single_box"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -21,6 +25,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Text from '../questions/Text.vue'
 import MultipleChoice from '../questions/MultipleChoice.vue';
+import Textarea from '../questions/Textarea.vue';
 
 import { computed } from 'vue';
 
