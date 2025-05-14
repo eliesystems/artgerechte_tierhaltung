@@ -16,7 +16,7 @@
     <Text
         v-if="selectedAnswers.includes('other')"
         input-type="text"
-        :question-key="questionKey + '_2'"
+        :question-key="questionKey + 'other'"
         :placeholder-text=placeholderText
         :answer-store="answerStore" />
 </template>
@@ -49,17 +49,17 @@ const props = defineProps({
 });
 
 const selectedAnswers = ref<string[]>(
-	props.answerStore.getAnswerByKey(props.questionKey + '_1') || []
+	props.answerStore.getAnswerByKey(props.questionKey) || []
 );
 
 const updateAnswers = () => {
 	if (selectedAnswers.value.length > 0) {
-    	props.answerStore.saveAnswer(props.questionKey + "_1", selectedAnswers.value);
+    	props.answerStore.saveAnswer(props.questionKey, selectedAnswers.value);
   	} else {
-    	props.answerStore.deleteAnswer(props.questionKey + "_1");
+    	props.answerStore.deleteAnswer(props.questionKey);
   	}
 	if (!selectedAnswers.value.includes('other')) {
-		props.answerStore.deleteAnswer(props.questionKey + "_2");
+		props.answerStore.deleteAnswer(props.questionKey + "other");
 	}
 };
 

@@ -41,7 +41,7 @@ const props = defineProps({
     },
 });
 
-const selectedForms = computed(() => props.answerStore.getAnswerByKey('RF_013_1') ?? []);
+const selectedForms = computed(() => props.answerStore.getAnswerByKey('RF_013') ?? []);
 
 const options = [
     { label: 'Innenlaufstall', value: 'indoor_loose_housing' },

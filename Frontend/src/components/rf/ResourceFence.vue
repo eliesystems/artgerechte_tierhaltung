@@ -7,11 +7,11 @@
                 :answer-store="answerStore" />
             <RadioYesNo
                 question="Sind die Weiden mit Stacheldraht oder Knotengitter eingezäunt?"
-                question-key="RF040+1"
+                question-key="RF_040+1"
                 :answer-store="answerStore" />
             <RadioYesNo
                 question="Werden freiliegende Spiralen bei Torgriffen und Torfedern verwendet?"
-                question-key="RF040+2"
+                question-key="RF_040+2"
                 :answer-store="answerStore" />
             <RadioYesNo
                 question="Wird zur Kontrolle der Zaunspannung bei stromführenden Leitern (Bänder, Seile, Litze) ein Zaunprüfgerät verwendet?"

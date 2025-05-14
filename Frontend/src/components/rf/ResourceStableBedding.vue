@@ -3,7 +3,7 @@
         <template #content>
             <RadioYesNo
                 question="Werden im Stallbereich der Pferde ganz oder teilweise Spaltenböden verwendet?"
-                question-key="RF036-1"
+                question-key="RF_036-1"
                 :answer-store="answerStore" />
             <MultipleChoice
                 question="Wie ist die Liegefläche gestaltet?"
@@ -68,6 +68,6 @@ const props = defineProps({
     },
 });
 
-const selectedLyingArea = computed(() => props.answerStore.getAnswerByKey('RF_036_1') ?? []);
+const selectedLyingArea = computed(() => props.answerStore.getAnswerByKey('RF_036') ?? []);
 const selectedLitter = computed(() => props.answerStore.getAnswerByKey('RF_037') ?? '');
 </script>

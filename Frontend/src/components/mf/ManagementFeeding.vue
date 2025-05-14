@@ -77,7 +77,7 @@
             </div>
             <MultipleChoice
                 question="Welche Strohart wird verfüttert?"
-                question-key="MF019-1"
+                question-key="MF_019-1"
                 :answer-store="answerStore"
                 :options="[
                     { label: 'Haferstroh', value: 'oat_straw' },
@@ -119,7 +119,7 @@
             <RadioYesNo
                 v-if="timeOutside === 'more_than_4h' || timeOutside === '24h_access'"
                 question="Steht auf dem Auslauf oder der Weide Raufutter (Heu,Heulage, Stroh) zur Verfügung?"
-                question-key="MF022-1"
+                question-key="MF_022-1"
                 :answer-store="answerStore" />
             <Radio
                 question="Erfolgt die Raufuttergabe automatisiert oder manuell?"
@@ -275,5 +275,5 @@ const roughage = computed(() => props.answerStore.getAnswerByKey('MF_024') ?? ''
 const timeOutside = computed(() => props.answerStore.getAnswerByKey('RF_026') ?? '');
 const powerFoodAutomatic = computed(() => props.answerStore.getAnswerByKey('MF_030') ?? '');
 const foodAutomatic = computed(() => props.answerStore.getAnswerByKey('MF_022') ?? '');
-const stableFood = computed(() => props.answerStore.getAnswerByKey('MF_012_1') ?? []);
+const stableFood = computed(() => props.answerStore.getAnswerByKey('MF_012') ?? []);
 </script>

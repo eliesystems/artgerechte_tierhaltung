@@ -128,10 +128,10 @@ const options = [
     { label: 'Keine fachspezifische Ausbildung', value: 'none' }
 ]
 
-const caretaker = computed(() => props.answerStore.getAnswerByKey('MF_010_1') ?? [])
+const caretaker = computed(() => props.answerStore.getAnswerByKey('MF_010') ?? [])
 const replacement = computed(() => props.answerStore.getAnswerByKey('MF_008') ?? '')
 const selectedAnswer = computed(() => {
-	const selected: string[] = props.answerStore.getAnswerByKey('MF_001_1') ?? [];
+	const selected: string[] = props.answerStore.getAnswerByKey('MF_001') ?? [];
 	return selected.filter(answer => answer !== 'none');
 });
 const personal = computed(() => props.answerStore.getAnswerByKey('MF_004') ?? 0);
@@ -139,7 +139,7 @@ function getSelectedQuals(personIndex: number): string[] {
 	const result: Set<string> = new Set();
 
 	const baseKey = `MF_006_${personIndex}`;
-	const selected = props.answerStore.getAnswerByKey(baseKey + '_1');
+	const selected = props.answerStore.getAnswerByKey(baseKey);
 
 	if (!selected) return [];
 

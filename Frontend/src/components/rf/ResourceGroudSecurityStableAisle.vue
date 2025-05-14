@@ -3,11 +3,11 @@
         <template #content>
             <RadioYesNo
                 question="Haben alle Pferde regelmäßig und unabhängig von der Witterung die Möglichkeit sich in allen drei Gangarten frei zu bewegen?"
-                question-key="RF029-1"
+                question-key="RF_029-1"
                 :answer-store="answerStore" />
             <Images
                 question="Welche der Abbildungen entspricht dem Boden in der Schlechtwetterperiode auf den Auslauflaufflächen für die freie Bewegung?"
-                question-key="RF029"
+                question-key="RF_029"
                 :answer-store="answerStore"
                 :images="[
                     { imgUrl: '/images/ground/ground_1.png', value: 'image_1' },
@@ -29,7 +29,7 @@
                 info="Fenster aus zerbrechlichen Materialien in einer von den Pferden erreichbaren Höhe, müssen gesichert sein." />
             <Radio
                 question="Sind die Leitungen und Kabel im Pferdebereich gesichert sofern sie sich in Reichweite der Pferde befinden?"
-                question-key="RF030+1"
+                question-key="RF_030+1"
                 :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, die elektrischen Installationen entsprechen den gängigen Normen (z.B. VDE-Norm)', value: 'electric_installations_compliant' },
@@ -38,8 +38,8 @@
                 info="Elektroleitungen und –Anschlüsse dürfen sich nur in gesichertem Zustand in Reichweite der Pferde befinden. Wasserleitungen müssen ausreichend gesichert sein.
                       - Alle Metallteile müssen geerdet sein." />
             <Radio
-                quesion="Sind die wasserführenden Installationen (Leitungen und Schläuche) im Pferdebereich gesichert sofern sie sich in Reichweite der Pferde befinden?"
-                question-key="RF030+2"
+                question="Sind die wasserführenden Installationen (Leitungen und Schläuche) im Pferdebereich gesichert sofern sie sich in Reichweite der Pferde befinden?"
+                question-key="RF_030+2"
                 :answer-store="answerStore"
                 :options="[
                     { label: 'Ja, die wasserführenden Installationen entsprechen den gängigen Normen', value: 'water_installations_compliant' },

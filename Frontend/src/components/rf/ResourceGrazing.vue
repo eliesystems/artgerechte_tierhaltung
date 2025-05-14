@@ -43,7 +43,6 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
-import Textarea from '../questions/Textarea.vue';
 
 import { computed } from 'vue';
 
@@ -54,6 +53,6 @@ const props = defineProps({
     }
 });
 
-const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008_1') ?? []);
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008') ?? []);
 
 </script>

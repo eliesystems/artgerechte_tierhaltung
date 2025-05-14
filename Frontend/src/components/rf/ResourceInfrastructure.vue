@@ -46,7 +46,7 @@ const options = [
     { label: 'Ganzjährige Freilandhaltung', value: 'year_round_pasture' }
 ];
 
-const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008_1') ?? []);
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008') ?? []);
 
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);

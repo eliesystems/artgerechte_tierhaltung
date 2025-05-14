@@ -39,5 +39,5 @@ const props = defineProps({
 	},
 });
 
-const selectedHousing = computed(() => props.answerStore.getAnswerByKey('MF_008_1') ?? []);
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('MF_008') ?? []);
 </script>

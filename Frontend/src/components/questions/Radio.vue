@@ -16,7 +16,7 @@
     <Text
         v-if="selectedAnswer === 'other'"
         :input-type=inputType
-        :question-key="questionKey + '_1'"
+        :question-key="questionKey + '_other'"
         :placeholder-text=placeholderText
         :answer-store="answerStore" />
     <Info :info="info" />
@@ -60,7 +60,7 @@ const props = defineProps({
 
 const updateAnswer = () => {
     if(selectedAnswer.value !== 'other') {
-        props.answerStore.deleteAnswer(props.questionKey + "_1");
+        props.answerStore.deleteAnswer(props.questionKey + "_other");
     }
 }
 

@@ -17,7 +17,7 @@
                     { label: '3-4x jährlich', value: 'three_to_four_times_annually' },
                     { label: 'Selektives Entwurmungsmanagement', value: 'selective_deworming_management' }
                 ]" />
-            <MultipleChoice
+            <Radio
                 question="Werden alle Pferde regelmäßig immunisiert (z. B. Tetanus, Influenza)?"
                 question-key="MF_044"
                 :answer-store="answerStore"

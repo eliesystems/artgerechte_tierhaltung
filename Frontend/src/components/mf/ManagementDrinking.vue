@@ -3,7 +3,7 @@
         <template #content>
             <MultipleChoice
                 question="Welche Arten von Tränkeeinrichtungen gibt es?"
-                question-key="MF036+1"
+                question-key="MF_036+1"
                 :answer-store="answerStore"
                 :options="[
                     { label: 'Schwimmertränke', value: 'float_valve_trough' },

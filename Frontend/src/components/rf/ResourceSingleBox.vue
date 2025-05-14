@@ -31,7 +31,7 @@ const props = defineProps({
     },
 });
 
-const selectedChoices = computed(() => props.answerStore.getAnswerByKey('RF_011_1') ?? []);
+const selectedChoices = computed(() => props.answerStore.getAnswerByKey('RF_011') ?? []);
 
 const options = [
     { label: 'Innenboxen', value: 'indoor_boxes' },

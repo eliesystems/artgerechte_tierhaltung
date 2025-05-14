@@ -9,7 +9,7 @@
             input-type="text"
             placeholder-text="Name der Fläche" />
         <Text
-            :question-key="`${questionKey}_${index}_1`"
+            :question-key="`${questionKey}_${index}_size`"
             :answer-store="answerStore"
             input-type="number"
             placeholder-text="Fläche in Quadratmetern" />
@@ -45,7 +45,7 @@ watch(() => props.areaCount, (newCount, oldCount) => {
     if (newCount < oldCount) {
         for (let i = oldCount; i > newCount; i--) {
             props.answerStore.deleteAnswer(`${props.questionKey}_${i}`);
-            props.answerStore.deleteAnswer(`${props.questionKey}_${i}_1`);
+            props.answerStore.deleteAnswer(`${props.questionKey}_${i}_size`);
         }
     }
     previousCount.value = newCount;
