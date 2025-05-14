@@ -2,46 +2,36 @@
     <QuestionaireCard topic-name="Ausläufe">
         <template #content>
             <Radio
-                question="Haben alle Pferde täglich freie Bewegung im Auslauf?"
+                question="Haben alle Pferde täglich freie Bewegung im Auslauf oder der Weide?"
                 question-key="RF_025"
                 :answer-store="answerStore"
                 :options="[
-                    { label: 'Ja, außerhalb der Vegetationszeit', value: 'outside_growing_season' },
-                    { label: 'Ja, ganzjährig', value: 'yes_always' },
+                    { label: 'Ja, nur während der Vegetationszeit', value: 'yes_seasonal' },
+                    { label: 'Ja, ganzjährig', value: 'yes_year_round' },
                     { label: 'Nein', value: 'no' }
-                ]" />
-            <MultipleChoice
+                ]"
+                info="Unter Auslaufflächen sind alle Flächen zu verstehen, die für die freie Bewegung vorgesehen sind. Dazu zählen z.B. befestigte und unbefestigte Flächen mit einer Mindestgröße von 150m2. Die Auslaufflächen dienen der freien Bewegung, sozialen Interaktion, dem Ausleben des natürlichen Verhaltens (wie Wälzen, Spielen, Ruhen) und dem Aufenthalt an der frischen Luft." />
+            <Radio
                 v-if="selectedDailyMovement !== 'no'"
-                question="Wie lange haben die Pferde täglich die Möglichkeit zur freien Bewegung auf dem Auslauf?"
+                question="Wie lange haben die Pferde täglich die Möglichkeit zur freien Bewegung auf dem Auslauf oder der Weide?"
                 question-key="RF_026"
                 :answer-store="answerStore"
                 :options="[
-                    { label: 'Dauerhaft im Sommer', value: 'summer' },
-                    { label: 'Dauerhaft im Winter', value: 'winter' },
-                    { label: 'Mehr als 2 Stunden', value: 'more_than_two' },
-                    { label: 'Weniger als 2 Stunden', value: 'less_than_two' },
-                    { label: 'Kein freie Bewegung täglich', value: 'no_movement' }
+                    { label: 'Weniger als 2 Stunden pro Tag', value: 'less_than_2h' },
+                    { label: '2 - 4 Stunden pro Tag', value: '2_to_4h' },
+                    { label: 'Mehr als 4 Stunden pro Tag', value: 'more_than_4h' },
+                    { label: '24h täglich (dauerhafter Zugang zum Auslauf)', value: '24h_access' }
                 ]" />
-            <Radio
+            <MultipleChoice
                 question="Sind die Pferde einzeln oder in Gruppen auf dem Auslauf?"
                 question-key="RF_027"
                 :answer-store="answerStore"
                 :options="[
-                    { label: 'Immer in einer festen Gruppe (mehr als 2 Pferde)', value: 'regular_group' },
-                    { label: 'Teilweise in festen Gruppen', value: 'mostly_in_group' },
-                    { label: 'Teilweise alleine', value: 'mostly_alone' },
+                    { label: 'Immer in einer festen Gruppe (mehr als 2 Pferde)', value: 'fixed_group' },
                     { label: 'Immer einzeln', value: 'always_alone' },
-                    { label: 'Immer in wechselnder Gruppenzusammensetzung', value: 'always_changing_group' }
-                ]" />
-            <MultipleChoice
-                question="Welche Form haben die Ausläufe?"
-                question-key="RF_028"
-                :answer-store="answerStore"
-                :options="[
-                    { label: 'Rund', value: 'round' },
-                    { label: 'Quadratisch', value: 'square' },
-                    { label: 'Rechteckig', value: 'rectangle' },
-                    { label: 'Unregelmäßige Form', value: 'irregular' }
+                    { label: 'Immer in wechselnder Gruppenzusammensetzung', value: 'changing_groups' },
+                    { label: 'Teilweise in festen Gruppen', value: 'partly_fixed_group' },
+                    { label: 'Teilweise alleine', value: 'partly_alone' }
                 ]" />
         </template>
     </QuestionaireCard>

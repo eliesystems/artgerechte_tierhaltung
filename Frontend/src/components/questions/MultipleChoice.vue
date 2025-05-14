@@ -2,7 +2,7 @@
     <div class="manrope-brown mb-2 mt-8">
         {{ question }}
     </div>
-    <div class="flex flex-wrap">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
         <label v-for="(option, index) in options" :key="index" class="roboto-answers mr-6">
             <input
                 type="checkbox"

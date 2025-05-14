@@ -14,7 +14,7 @@ export interface CreateAnswerDto extends BaseAnswer {
 
 export interface Answer extends CreateAnswerDto {
 	id: number;
-	created_at: Date;
+	last_modified: Date;
 }
 
 export interface UpdateAnswersDto extends BaseAnswer {

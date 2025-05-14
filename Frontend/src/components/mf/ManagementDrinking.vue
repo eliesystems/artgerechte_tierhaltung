@@ -1,6 +1,17 @@
 <template>
     <QuestionaireCard topic-name="Tränkenmanagment">
         <template #content>
+            <MultipleChoice
+                question="Welche Arten von Tränkeeinrichtungen gibt es?"
+                question-key="MF036+1"
+                :answer-store="answerStore"
+                :options="[
+                    { label: 'Schwimmertränke', value: 'float_valve_trough' },
+                    { label: 'Tränkebecken', value: 'drinking_bowl' },
+                    { label: 'Mobile Tränke (z.B. Wasserwagen)', value: 'mobile_trough' },
+                    { label: 'Trogtränke/Tränkwanne', value: 'open_trough' },
+                    { label: 'Natürliches Gewässer', value: 'natural_water_source' }
+                ]" />
             <RadioYesNo
                 question="Werden die Tränkeeinrichtungen täglich auf Sauberkeit kontrolliert?"
                 question-key="MF_036"
@@ -32,6 +43,7 @@
 
 <script setup lang="ts">
 import QuestionaireCard from '../common/QuestionaireCard.vue';
+import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 

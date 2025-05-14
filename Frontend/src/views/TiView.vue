@@ -39,11 +39,10 @@
 import WellbeingSocialBehaviorAndComfort from '@/components/ti/WellbeingSocialBehaviorAndComfort.vue';
 import WellbeingFoodAndWater from '@/components/ti/WellbeingFoodAndWater.vue'
 import WellbeingMovingAndRestingBehavior from '@/components/ti/WellbeingMovingAndRestingBehavior.vue';
-import WellbeingCondition from '@/components/ti/WellbeingCondition.vue';
 import WellbeingOther from '@/components/ti/WellbeingOther.vue';
 import WellbeingNotes from '@/components/ti/WellbeingNotes.vue';
 
-import { computed, nextTick, ref } from 'vue';
+import { computed, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNavigationStore } from '@/stores/wellbeingNavigationStore';
 import { useAnswerStore } from '@/stores/answerStore';
@@ -60,7 +59,6 @@ const questionnaireComponents = {
 	socialBehavior: WellbeingSocialBehaviorAndComfort,
 	foodAndWater: WellbeingFoodAndWater,
 	movingAndRestingBehavior: WellbeingMovingAndRestingBehavior,
-	condition: WellbeingCondition,
 	other: WellbeingOther,
 	notes: WellbeingNotes
 }

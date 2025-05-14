@@ -75,6 +75,16 @@
                         { label: 'Keine Stängel, nur Blattmasse, sehr weich im Griff', value: 'no_stems_only_leaf_mass_very_soft' }
                     ]" />
             </div>
+            <MultipleChoice
+                question="Welche Strohart wird verfüttert?"
+                question-key="MF019-1"
+                :answer-store="answerStore"
+                :options="[
+                    { label: 'Haferstroh', value: 'oat_straw' },
+                    { label: 'Gerstenstroh', value: 'barley_straw' },
+                    { label: 'Weizenstroh', value: 'wheat_straw' },
+                    { label: 'Roggenstroh', value: 'rye_straw' }
+                ]" />
             <div v-if="stableFood.includes('straw')">
                 <MultipleChoice
                     question="Welche Farbe hat das Raufutter (Stroh)?"
@@ -106,6 +116,11 @@
                         { label: 'Klamm/stark verdichtet', value: 'clammy_heavily_compacted' }
                     ]" />
             </div>
+            <RadioYesNo
+                v-if="timeOutside === 'more_than_4h' || timeOutside === '24h_access'"
+                question="Steht auf dem Auslauf oder der Weide Raufutter (Heu,Heulage, Stroh) zur Verfügung?"
+                question-key="MF022-1"
+                :answer-store="answerStore" />
             <Radio
                 question="Erfolgt die Raufuttergabe automatisiert oder manuell?"
                 question-key="MF_022"
@@ -129,12 +144,12 @@
                         { label: 'Fütterung aus einer Raufe', value: 'feeding_from_trough' }
                     ]" />
                 <Radio
-                    question="Wird das Raufutter portioniert oder steht es dauerhaft zur Verfügung?"
+                    question="Wird das Raufutter (Heu, Heulage) portioniert oder steht es unbegrenzt zur Verfügung?"
                     question-key="MF_024"
                     :answer-store="answerStore"
                     :options="[
-                        { label: 'Unbegrenzt/zur freien Verfügung', value: 'unlimited_free_access' },
-                        { label: 'Portionierte Raufuttervorlage', value: 'portioned_fiber_feed_supply' }
+                        { label: 'Unbegrenzte Raufuttervorlage (ad libitum)', value: 'roughage_ad_libitum' },
+                        { label: 'Portionierte Raufuttervorlage', value: 'roughage_portioned' }
                     ]" />
             </div>
             <div v-if="foodAutomatic === 'automatic'">
@@ -143,10 +158,10 @@
                     question-key="MF_025"
                     :answer-store="answerStore"
                     :options="[
-                        { label: 'Fütterung in Heuboxen', value: 'feeding_in_hay_boxes' },
-                        { label: 'Im Fressstand', value: 'in_feed_rack' },
-                        { label: 'Durchfressgitter', value: 'through_feed_grid' },
-                        { label: 'Fütterung aus einer Raufe', value: 'feeding_from_trough' }
+                        { label: 'Fütterung in Heuboxen', value: 'feeding_hay_boxes' },
+                        { label: 'Fütterung in einem Fressstand', value: 'feeding_feed_stand' },
+                        { label: 'Fütterung in einem Durchfressgitter', value: 'feeding_headlock_gate' },
+                        { label: 'Fütterung aus einer Raufe (z.B. Rundraufe mit Ballen im Netz aufgehangen)', value: 'feeding_rack_with_net' }
                     ]" />
                 <RadioYesNo
                     question="Gibt es eine Zeitsteuerung für die automatisierte Raufuttergabe (z. B. Futterautomaten, Heuraufen mit zeitgesteuerten Öffnungen)?"
@@ -165,6 +180,16 @@
                     { label: '3x täglich', value: 'three_times_daily' },
                     { label: '4x täglich', value: 'four_times_daily' },
                     { label: 'Andere', value: 'other' }
+                ]" />
+            <Radio
+                v-if="roughage === 'roughage_ad_libitum'"
+                question="Wie lange haben die Pferde die Möglichkeit zur Aufnahme von Raufutter (sowohl Heu, Heulage als auch Stroh)? Formulierung überarbeiten"
+                question-key="MF_028"
+                :answer-store="answerStore"
+                :options="[
+                    { label: '0–8 Stunden', value: '0_8_hours' },
+                    { label: '8–12 Stunden', value: '8_12_hours' },
+                    { label: 'Mehr als 12 Stunden', value: 'more_than_12_hours' }
                 ]" />
             <RadioYesNo
                 question="Werden die Fütterungseinrichtungen täglich auf Funktionalität kontrolliert?"
@@ -246,6 +271,8 @@ const props = defineProps({
     },
 });
 
+const roughage = computed(() => props.answerStore.getAnswerByKey('MF_024') ?? '');
+const timeOutside = computed(() => props.answerStore.getAnswerByKey('RF_026') ?? '');
 const powerFoodAutomatic = computed(() => props.answerStore.getAnswerByKey('MF_030') ?? '');
 const foodAutomatic = computed(() => props.answerStore.getAnswerByKey('MF_022') ?? '');
 const stableFood = computed(() => props.answerStore.getAnswerByKey('MF_012_1') ?? []);
