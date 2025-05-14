@@ -65,6 +65,10 @@
                 question-key="MF_048"
                 :answer-store="answerStore"
                 info="Die Integration neuer Pferde erfolgt schrittweise, sorgfältig und individuell für jedes Pferd. Die Integration wird aufmerksam durch den/die BetriebsleiterIn beobachtet." />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="MF_notes_health"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -75,6 +79,7 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 import Radio from '../questions/Radio.vue';
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
     answerStore: {

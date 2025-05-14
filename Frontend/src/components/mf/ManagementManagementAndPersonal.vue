@@ -95,6 +95,10 @@
 				question-key="MF_011"
 				:answer-store="answerStore"
 				:options="options" />
+			<Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="MF_notes_management_and_personal"
+                :answer-store="answerStore" />
 		</template>
 	</QuestionaireCard>
 </template>
@@ -106,6 +110,7 @@ import Text from '../questions/Text.vue';
 import Radio from "../questions/Radio.vue"
 import { computed } from 'vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
 	answerStore: {

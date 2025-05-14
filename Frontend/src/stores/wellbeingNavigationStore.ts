@@ -8,7 +8,6 @@ export const useNavigationStore = defineStore('wellbeingNavigation', {
 			'foodAndWater',
 			'movingAndRestingBehavior',
 			'other',
-			'notes',
 		],
 	}),
 

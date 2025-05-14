@@ -6,7 +6,8 @@
         :type="inputType"
         class="mt-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
         :placeholder="placeholderText"
-        v-model="inputValue">
+        v-model="inputValue"
+        @input="preventNegative">
     <Info :info="info" />
 </template>
 
@@ -47,5 +48,16 @@ const inputValue = computed({
 		props.answerStore.saveAnswer(props.questionKey, newValue);
     }
 });
+
+const preventNegative = (event: Event) => {
+    if (props.inputType === 'number') {
+        const target = event.target as HTMLInputElement;
+        let value = parseFloat(target.value);
+        if (isNaN(value) || value < 0) {
+            value = 0;
+        }
+        inputValue.value = value;
+    }
+};
 
 </script>

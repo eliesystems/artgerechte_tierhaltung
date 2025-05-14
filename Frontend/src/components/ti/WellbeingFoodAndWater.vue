@@ -21,6 +21,10 @@
 				:images="[
 					{ imgUrl: '/images/body_index/body_index_1.png', value: 'body_1' }
 				]" />
+			<Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="TI_notes_food_and_water"
+                :answer-store="answerStore" />
 		</template>
 	</QuestionaireCard>
 </template>
@@ -29,6 +33,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Images from '../questions/Images.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
+import Textarea from '../questions/Textarea.vue';
 
 defineProps({
 	answerStore: {

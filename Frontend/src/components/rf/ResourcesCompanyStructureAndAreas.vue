@@ -69,6 +69,10 @@
                 :area-count=areaCount
                 :answer-store="answerStore"
                 />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_company_structure_and_areas"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -79,6 +83,7 @@ import AreaSize from '../questions/AreaSize.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import Radio from '../questions/Radio.vue';
 import Text from '../questions/Text.vue';
+import Textarea from '../questions/Textarea.vue';
 
 import { computed } from 'vue';
 

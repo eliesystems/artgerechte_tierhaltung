@@ -34,6 +34,10 @@
                 question-key="RF_024"
                 :answer-store="answerStore"
                 info="die Liegefläche im künstlichen Witterungsschutz > 3 x Wh2/Pferd? (Eine Reduzierung ist möglich bis 2,5 x Wh2/Pferd, wenn günstige Voraussetzungen hinsichtlich Raumstruktur und Management vorhanden sind.)" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_weather_protection"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -42,6 +46,7 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 import Radio from '../questions/Radio.vue'
+import Textarea from '../questions/Textarea.vue';
 import { computed } from 'vue';
 
 const props = defineProps({

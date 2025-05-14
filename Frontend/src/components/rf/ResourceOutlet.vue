@@ -33,6 +33,10 @@
                     { label: 'Teilweise in festen Gruppen', value: 'partly_fixed_group' },
                     { label: 'Teilweise alleine', value: 'partly_alone' }
                 ]" />
+            <Textarea
+                question="Hier können Sie sich noch Notizen machen: "
+                question-key="RF_notes_outlet"
+                :answer-store="answerStore" />
         </template>
     </QuestionaireCard>
 </template>
@@ -42,6 +46,7 @@ import { computed } from 'vue';
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import Radio from '../questions/Radio.vue';
+import Textarea from '../questions/Textarea.vue';
 
 const props = defineProps({
     answerStore: {
