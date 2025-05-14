@@ -31,7 +31,7 @@ export const useNavigationStore = defineStore('resourceNavigation', {
     	},
 
     	shouldSkipQuestionnaire(current: string) {
-			const selectedHousing = this.store.getAnswerByKey('RF_008_1') || [];
+			const selectedHousing = this.store.getAnswerByKey('RF_008') || [];
 			if (current === 'singleBox') {
 				return !selectedHousing.includes('individual_stabling');
 			}

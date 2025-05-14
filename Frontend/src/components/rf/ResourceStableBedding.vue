@@ -2,8 +2,8 @@
     <QuestionaireCard topic-name="Stallboden und Einstreu">
         <template #content>
             <RadioYesNo
-                question="Ist die Liegefläche trocken und verformbar?"
-                question-key="RF_035"
+                question="Werden im Stallbereich der Pferde ganz oder teilweise Spaltenböden verwendet?"
+                question-key="RF_036-1"
                 :answer-store="answerStore" />
             <MultipleChoice
                 question="Wie ist die Liegefläche gestaltet?"
@@ -13,11 +13,16 @@
                 :options="[
                     { label: 'Betonboden oder vergleichbares', value: 'concrete_or_similar' },
                     { label: 'Gummimatten', value: 'rubber_mats' },
-                    { label: 'Softbetten', value: 'soft_beds' },
-                    { label: 'Naturboden', value: 'natural_floor' },
-                    { label: 'Anders', value: 'other' }
+                    { label: 'Softbetten', value: 'soft_bedding' },
+                    { label: 'Naturboden (z.B Sand, Grasnarbe)', value: 'natural_ground' },
+                    { label: 'Anderes', value: 'other' }
                 ]" />
             <RadioYesNo
+                question="Ist die Liegefläche trocken und verformbar?"
+                question-key="RF_035"
+                :answer-store="answerStore" />
+            <RadioYesNo
+                v-if="selectedLyingArea.includes('natural_ground')"
                 question="Wird auf der Liegefläche eine Einstreu verwendet?"
                 question-key="RF_037"
                 :answer-store="answerStore" />
@@ -42,7 +47,8 @@
                     { label: 'Andere Einstreu', value: 'other_litter' }
                 ]" />
             <RadioYesNo
-                question="Ist die verwendete Einstreu jederzeit gesundheitlich unbedenklich (z.B. schimmelfreies Stroh, unbedenkliches Schreddergut)?"
+                v-if="!selectedLyingArea.includes('natural_ground')"
+                question="Ist die verwendete Einstreu jederzeit gesundheitlich unbedenklich (z.B. schimmelfreies Stroh, Grünkompost)?"
                 question-key="RF_039"
                 :answer-store="answerStore" />
         </template>
@@ -62,5 +68,6 @@ const props = defineProps({
     },
 });
 
+const selectedLyingArea = computed(() => props.answerStore.getAnswerByKey('RF_036') ?? []);
 const selectedLitter = computed(() => props.answerStore.getAnswerByKey('RF_037') ?? '');
 </script>

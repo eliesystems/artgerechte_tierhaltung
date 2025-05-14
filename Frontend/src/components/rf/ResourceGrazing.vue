@@ -1,21 +1,18 @@
 <template>
     <QuestionaireCard topic-name="Weidehaltung">
         <template #content>
+            <!-- value is other so, the Text field is shown -->
             <Radio
                 v-if="!selectedHousing.includes('year_round_pasture')"
-                question="Gibt es für alle Pferde Weidegang?"
-                question-key="RF_018_1"
+                question="Gibt es für alle Pferde täglich Weidegang?"
+                question-key="RF_018"
                 :answer-store="answerStore"
+                placeholder-text="Warum nicht?"
                 :options="[
                     { label: 'Täglich (auch in den Wintermonaten)', value: 'daily_all_year' },
                     { label: 'Während der Vegetationsperiode', value: 'during_vegetation_period' },
-                    { label: 'Nein (z.B. aus gesundheitlichen Gründen)', value: 'no_access' }
+                    { label: 'Nein (z.B. aus gesundheitlichen Gründen)', value: 'other' }
                 ]" />
-            <Textarea
-                v-if="selectedOutlet === 'no_access'"
-                question-key="RF_018_2"
-                placeholder-text="Warum nicht?"
-                :answer-store="answerStore" />
             <RadioYesNo
                 v-if="selectedHousing.includes('year_round_pasture')"
                 question="Werden alle Pferde täglich auf der Weide kontrolliert?"
@@ -34,10 +31,10 @@
                     { label: 'Es erfolgt keine Kontrolle', value: 'no_monitoring' }
                 ]" />
             <RadioYesNo
-                question="Wird die Weide täglich auf Giftpflanzen kontrolliert?"
+                question="Wird die Weide regelmäßig auf Giftpflanzen kontrolliert?"
                 question-key="RF_021"
                 :answer-store="answerStore"
-                info="Für die Kontrolle der Weideflächen auf Giftpflanzen empfiehlt sich mindestens eine wöchentliche Kontrolle unter nnormalen Aufwuchsbedingungen. Bei stärkerem Aufwuchs, sollte die Kontrolle auf Giftpflanzen häufiger erfolgen. Insbesondere vor der ersten Weidegang im Frühjahr ist die regelmäßige Kontrolle zu empfehlen." />
+                info="Für die Kontrolle der Weideflächen auf Giftpflanzen empfiehlt sich mindestens eine wöchentliche Kontrolle unter normalen Aufwuchsbedingungen. Bei stärkerem Aufwuchs, sollte die Kontrolle auf Giftpflanzen häufiger erfolgen. Insbesondere vor dem ersten Weidegang im Frühjahr ist die Kontrolle zu empfehlen." />
         </template>
     </QuestionaireCard>
 </template>
@@ -46,7 +43,6 @@
 import QuestionaireCard from '../common/QuestionaireCard.vue';
 import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
-import Textarea from '../questions/Textarea.vue';
 
 import { computed } from 'vue';
 
@@ -57,7 +53,6 @@ const props = defineProps({
     }
 });
 
-const selectedOutlet = computed(() => props.answerStore.getAnswerByKey('RF_018_1') ?? '');
-const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008_1') ?? []);
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008') ?? []);
 
 </script>

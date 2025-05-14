@@ -39,7 +39,7 @@ model answers {
   numeric_answer       Int?
   numeric_array_answer Int[]
   file_url             String?
-  created_at           DateTime     @default(now()) @db.Timestamptz
+  last_modified        DateTime     @default(now()) @db.Timestamptz
   farm                 farms        @relation(fields: [farm_id], references: [id], onDelete: Cascade)
 }
 

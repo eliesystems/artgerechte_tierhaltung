@@ -5,10 +5,9 @@
 				question="Welche Qualifikationen hat die Betriebsleitung?"
 				question-key="MF_001"
 				:answer-store="answerStore"
-				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:options="options" />
 			<Text
-				v-for="(choice, index) in selectedAnswer" :key="`RF_009_${index}`"
+				v-for="(choice, index) in selectedAnswer" :key="`MF_009_${index}`"
 				:question="`Seit wann besteht diese Qualifikation? ${getLabel(choice)}`"
 				:question-key="`MF_002_${index}`"
 				:answer-store="answerStore"
@@ -26,7 +25,7 @@
 					{ label: 'Nein, keine passenden Angebote', value: 'no_suitable_offers' }
 				]" />
 			<Text
-				question="Wie viele Mitarbeiter gibt es auf dem Betrieb?"
+				question="Wie viele Mitarbeiter gibt es für den Betriebszweig der Pferdehaltung (Anzahl der Personen)?"
 				question-key="MF_004"
 				input-type="number"
 				placeholder-text="Bitte tragen Sie die Anzahl der Mitarbeiter ein."
@@ -46,9 +45,8 @@
 					question="Welche Qualifikation/en hat/haben die für die Tiere verantwortliche/n Person/en (Tierbetreuer)?"
 					:question-key="`MF_006_${index}`"
 					:answer-store="answerStore"
-					placeholder-text="Tragen Sie bitte die Qualifikation ein."
 					:options="options" />
-				<div v-for="choice in getSelectedQuals(index)" :key="`RF_007_${index}_${choice}`">
+				<div v-for="choice in getSelectedQuals(index)" :key="`MF_007_${index}_${choice}`">
 					<Text
 						:question="`Seit wann besteht ${getLabel(choice)}?`"
 						:question-key="`MF_007_${index}_${choice}`"
@@ -66,24 +64,35 @@
 				question="Welche Qualifikationen hat die Vertretung?"
 				question-key="MF_009"
 				:answer-store="answerStore"
-				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:options="options" />
 			<MultipleChoice
-				question="Wer führt die Pflege des Außenbereichs durch (z.B. Grünlandmanagement und Anlagenpflegen)"
+				question="Wer ist verantwortlich für das Grünlandmanagement?"
 				question-key="MF_010"
 				:answer-store="answerStore"
 				:options="[
-					{ label: 'Betriebsleiter', value: 'farm_manager' },
-					{ label: 'Auszubildende', value: 'trainee' },
-					{ label: 'Mitarbeiter', value: 'staff' },
+				    { label: 'Betriebsleiter', value: 'farm_manager' },
+					{ label: 'Auszubildende', value: 'apprentice' },
+					{ label: 'Mitarbeiter', value: 'employee' },
 					{ label: 'Lohnunternehmer', value: 'contractor' },
-					{ label: 'Niemand', value: 'no_one' }
+					{ label: 'Sonstige', value: 'other' },
+					{ label: 'Niemand', value: 'none' }
+				]" />
+			<MultipleChoice
+				question="Wer ist verantwortlich für die Anlagenpflege?"
+				question-key="MF_010+1"
+				:answer-store="answerStore"
+				:options="[
+				    { label: 'Betriebsleiter', value: 'farm_manager' },
+					{ label: 'Auszubildende', value: 'apprentice' },
+					{ label: 'Mitarbeiter', value: 'employee' },
+					{ label: 'Lohnunternehmer', value: 'contractor' },
+					{ label: 'Sonstige', value: 'other' },
+					{ label: 'Niemand', value: 'none' }
 				]" />
 			<MultipleChoice
 				v-if="caretaker.size > 0"
 				question="Welche Qualifikation hat diese Person?"
 				question-key="MF_011"
-				placeholder-text="Tragen Sie bitte die Qualifikation ein."
 				:answer-store="answerStore"
 				:options="options" />
 		</template>
@@ -106,36 +115,37 @@ const props = defineProps({
 });
 
 const options = [
-	{ label: 'Sachkundenachweis', value: 'certificate_of_knowledge' },
-	{ label: 'Pferdewirt', value: 'horse_specialist' },
-	{ label: 'Pferdewirtschaftsmeister', value: 'horse_management_master' },
-	{ label: 'Landwirt', value: 'farmer' },
-	{ label: 'Berufliche Erfahrung in der Pferdebranche', value: 'experience_in_horse_industry' },
-	{ label: 'Abschluss Pferdewissenschaften', value: 'degree_in_horse_sciences' },
-	{ label: 'Abschluss Agrarwissenschaften', value: 'degree_in_agricultural_sciences' },
-	{ label: 'Andere Qualifikation', value: 'other' },
-	{ label: 'Keine Qualifikation', value: 'no_qualification' }
+    { label: 'Ausbildung zum Pferdewirt', value: 'horse_management_training' },
+    { label: 'Ausbildung zum Landwirt', value: 'farmer_training' },
+    { label: 'Pferdewirtschaftsmeister', value: 'horse_management_master' },
+    { label: 'Agrarbetriebswirt', value: 'agriculture_business_manager' },
+    { label: 'Studium Agrarwissenschaften / Pferdewissenschaften (B.Sc., M.Sc.)', value: 'agrarian_horse_sciences_degree' },
+    { label: 'Studium Tierwissenschaften/Nutztierwissenschaften (B.Sc., M.Sc.)', value: 'animal_sciences_degree' },
+    { label: 'Studium Pferdemanagement / Pferdewirtschaft (B.A. / B.Sc.)', value: 'horse_management_degree' },
+    { label: 'Tiermedizin (Staatsexamen / Dr. med. vet.)', value: 'veterinary_medicine_degree' },
+    { label: 'Sachkundenachweis Pferdehaltung', value: 'horse_management_certification' },
+    { label: 'Langjährige praktische Erfahrung in der Pferdehaltung', value: 'long_term_experience' },
+    { label: 'Keine fachspezifische Ausbildung', value: 'none' }
 ]
 
-const caretaker = computed(() => props.answerStore.getAnswerByKey('MF_010_1') ?? [])
+const caretaker = computed(() => props.answerStore.getAnswerByKey('MF_010') ?? [])
 const replacement = computed(() => props.answerStore.getAnswerByKey('MF_008') ?? '')
-const selectedAnswer = computed(() => props.answerStore.getAnswerByKey('MF_001_1') ?? []);
+const selectedAnswer = computed(() => {
+	const selected: string[] = props.answerStore.getAnswerByKey('MF_001') ?? [];
+	return selected.filter(answer => answer !== 'none');
+});
 const personal = computed(() => props.answerStore.getAnswerByKey('MF_004') ?? 0);
 function getSelectedQuals(personIndex: number): string[] {
 	const result: Set<string> = new Set();
 
 	const baseKey = `MF_006_${personIndex}`;
-	const selected = props.answerStore.getAnswerByKey(baseKey + '_1');
+	const selected = props.answerStore.getAnswerByKey(baseKey);
 
 	if (!selected) return [];
 
 	for (const answer of selected) {
-		if (answer === 'other') {
-			const otherValue = props.answerStore.getAnswerByKey(baseKey + '_2');
-			if (otherValue) result.add(otherValue);
-		} else {
-			result.add(answer);
-		}
+		if (answer === 'none') continue;
+		result.add(answer);
 	}
 
 	return Array.from(result);

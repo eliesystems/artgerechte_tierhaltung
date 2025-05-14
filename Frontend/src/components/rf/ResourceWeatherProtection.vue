@@ -53,7 +53,7 @@ const props = defineProps({
 
 const naturalProtection = computed(() => props.answerStore.getAnswerByKey('RF_022') ?? '');
 const artificalProtection = computed(() => props.answerStore.getAnswerByKey('RF_023') ?? '');
-const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008_1') ?? []);
-const selectedGrazing = computed(() => props.answerStore.getAnswerByKey('RF_018_1') ?? '');
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008') ?? []);
+const selectedGrazing = computed(() => props.answerStore.getAnswerByKey('RF_018') ?? '');
 
 </script>
