@@ -2,7 +2,7 @@
     <div class="manrope-brown mb-2 mt-8">
         {{ question }}
     </div>
-    <div class="flex flex-wrap">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
         <label class="roboto-answers mr-6">
             <input
                 type="radio"
@@ -20,9 +20,11 @@
             Nein
         </label>
     </div>
+    <Info :info="info" />
 </template>
 
 <script setup lang="ts">
+import Info from './Info.vue';
 import { computed } from "vue";
 
 const props = defineProps({
@@ -37,6 +39,10 @@ const props = defineProps({
     answerStore: {
         type: Object,
         required: true,
+    },
+    info: {
+        type: String,
+        default: '',
     },
 });
 

@@ -1,14 +1,12 @@
-import prisma from '../utils/prisma';  // Assuming you're using Prisma
+import prisma from '../utils/prisma';
 
 export const saveUserId = async (userId: string) => {
 	
-  // Check if the user already exists
   const existingUser = await prisma.users.findUnique({
     where: { id: userId },
   });
 
   if (!existingUser) {
-    // Create a new user in the database if it doesn't exist
     await prisma.users.create({
       data: {
         id: userId,
@@ -16,5 +14,5 @@ export const saveUserId = async (userId: string) => {
     });
   }
 
-  return existingUser || { id: userId };  // Return existing or newly created user
+  return existingUser || { id: userId };
 };

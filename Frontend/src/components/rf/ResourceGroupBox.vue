@@ -14,19 +14,14 @@
                 placeholder-text="Anzahl der Pferde in der Haltungsform"
                 :answer-store="answerStore" />
             <RadioYesNo
-                question="Können kranke oder verletzte Pferde separat aber mit Sichtkontakt zu Artgenossen untergebracht werden?"
+                question="Können kranke oder verletzte Pferde separat aber mindestens mit Sichtkontakt zu Artgenossen untergebracht werden?"
                 question-key="RF_015"
                 :answer-store="answerStore" />
             <RadioYesNo
-                question="Gibt es einen separaten Integrationsbereich?"
+                question="Gibt es einen separaten Integrationsbereich mit Kontaktmöglichkeit zu den anderen Pferden der Gruppe?"
                 question-key="RF_016"
-                :answer-store="answerStore" />
-            <Textarea
-                v-if="selectedAnswer === 'yes'"
-                question="Wie ist der Integrationsbereich gestaltet?"
-                question-key="RF_017"
-                placeholder-text="Bitte beschreiben Sie den Integrationsbereich kurz."
-                :answer-store="answerStore" />
+                :answer-store="answerStore"
+                info="Ein Integrationsbereich in Gruppenhaltungssystemen für Pferde dient der schrittweisen Eingliederung neuer Tiere in eine bestehende Gruppe. Damit die Integration möglichst stressfrei und sicher verläuft – sowohl für das neue Pferd als auch für die bestehende Herde – sollte der Integrationsbereich bestimmte Voraussetzungen erfüllen: Der Integrationsbereich ist durch einen ausbruch- und verletzungssicheren Zaun vom Auslauf der Gruppe getrennt, ermöglicht aber einen Kontakt zu den anderen Pferden der Gruppe und verfügt über einen eigenen Liegebereich sowie Futter und Tränkeplatz. Die Integration sollte schrittweise erfolgen. Stromführende Leiter sind auf Kleinausläufen als tierschutzrelevant einzuordnen." />
         </template>
     </QuestionaireCard>
 </template>
@@ -36,9 +31,8 @@ import QuestionaireCard from '../common/QuestionaireCard.vue';
 import MultipleChoice from '../questions/MultipleChoice.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 import Text from '../questions/Text.vue';
-import Textarea from '../questions/Textarea.vue';
 
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
     answerStore: {
@@ -47,25 +41,18 @@ const props = defineProps({
     },
 });
 
-const selectedAnswer = computed(() => props.answerStore.getAnswerByKey('RF_016') ?? '');
-const selectedForms = computed(() => props.answerStore.getAnswerByKey('RF_013_1') ?? []);
+const selectedForms = computed(() => props.answerStore.getAnswerByKey('RF_013') ?? []);
 
 const options = [
     { label: 'Innenlaufstall', value: 'indoor_loose_housing' },
     { label: 'Außenlaufstall', value: 'outdoor_loose_housing' },
     { label: 'Bewegungsstall', value: 'active_stable' },
-    { label: 'Weidehaltung', value: 'pasture_housing' }
+    { label: 'Freilandhaltung', value: 'pasture_holding' }
 ];
 
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);
   return option?.label ?? value;
 };
-
-watch(selectedAnswer, (newValue) => {
-	if (newValue === 'no') {
-		props.answerStore.deleteAnswer('RF_017');
-	}
-});
 
 </script>

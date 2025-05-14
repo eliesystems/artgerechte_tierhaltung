@@ -49,7 +49,7 @@ import ResourceStableBedding from '@/components/rf/ResourceStableBedding.vue';
 import ResourceFence from '@/components/rf/ResourceFence.vue';
 import ResourceNotes from '@/components/rf/ResourceNotes.vue';
 
-import { computed, onMounted, ref } from 'vue';
+import { computed, nextTick, onMounted, ref } from 'vue';
 import { useNavigationStore } from '@/stores/resourceNavigationStore';
 import { useRouter } from 'vue-router';
 import { useTemporaryAnswerStore } from '@/stores/temporaryAnswerStore';
@@ -84,17 +84,21 @@ const currentQuestionnaireComponent = computed(() => {
 	return questionnaireComponents[current] || null;
 });
 
-const goToNextQuestionnaire = () => {
+const goToNextQuestionnaire = async () => {
 	const next = navigationStore.getNextQuestionnaire(navigationStore.currentQuestionnaire);
 	if (next) {
 		navigationStore.setCurrentQuestionnaire(next);
+		await nextTick();
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 };
 
-const goToPreviousQuestionnaire = () => {
+const goToPreviousQuestionnaire = async () => {
 	const previous = navigationStore.getPreviousQuestionnaire(navigationStore.currentQuestionnaire);
 	if (previous) {
 		navigationStore.setCurrentQuestionnaire(previous);
+		await nextTick();
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 };
 

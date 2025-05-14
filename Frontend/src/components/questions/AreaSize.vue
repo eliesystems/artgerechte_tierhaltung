@@ -2,45 +2,22 @@
     <div class="manrope-brown mb-2 mt-8">
         {{ question }}
     </div>
-    <div v-for="index in areaCount" :key="index" class="flex items-center">
-        {{ index }}.
-        <input
-            type="radio"
-            class="accent-black ml-2"
-            v-model="selectedOption[index]"
-            :value="'first'">
-        <input
-            type="number"
-            v-model="areaValues[index][0]"
-            class="mx-2 my-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
-            placeholder="Fläche in Quadratmetern"
-            :disabled="selectedOption[index] === 'second'"
-            :class="{ 'border-gray-300': selectedOption[index] === 'second', 'border-gray-700': selectedOption[index] !== 'second'}">
-        oder
-        <input
-            type="radio"
-            class="accent-black ml-2"
-            v-model="selectedOption[index]"
-            :value="'second'">
-        <input
-            type="number"
-            v-model="areaValues[index][1]"
-            class="mx-2 my-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
-            placeholder="z.B. 100"
-            :disabled="selectedOption[index] === 'first'"
-            :class="{ 'border-gray-300': selectedOption[index] === 'first', 'border-gray-700': selectedOption[index] !== 'first'}">
-        x
-        <input
-            type="number"
-            v-model="areaValues[index][2]"
-            class="mx-2 my-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
-            placeholder="z.B. 100"
-            :disabled="selectedOption[index] === 'first'"
-            :class="{ 'border-gray-300': selectedOption[index] === 'first', 'border-gray-700': selectedOption[index] !== 'first'}">
+    <div v-for="index in areaCount" :key="index" class="flex flex-col md:flex-row mb-4 gap-2">
+        <Text
+            :question-key="`${questionKey}_${index}`"
+            :answer-store="answerStore"
+            input-type="text"
+            placeholder-text="Name der Fläche" />
+        <Text
+            :question-key="`${questionKey}_${index}_size`"
+            :answer-store="answerStore"
+            input-type="number"
+            placeholder-text="Fläche in Quadratmetern" />
     </div>
 </template>
 
 <script setup lang="ts">
+import Text from './Text.vue';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
@@ -62,66 +39,15 @@ const props = defineProps({
     },
 });
 
-const selectedOption = ref<{ [key: number]: string }>({});
-const areaValues = ref<{ [key: number]: number[] }>({});
-
-for (let i = 1; i <= props.areaCount; i++) {
-    const key = `${props.questionKey}_${i}`;
-    const answer = props.answerStore.getAnswerByKey(key);
-
-    if (typeof answer === 'number') {
-        selectedOption.value[i] = 'first';
-        areaValues.value[i] = [answer];
-    } else if (Array.isArray(answer)) {
-        selectedOption.value[i] = 'second';
-        areaValues.value[i] = [0, ...answer];
-    } else {
-        selectedOption.value[i] = 'first';
-        areaValues.value[i] = [0, 0, 0];
-    }
-};
+const previousCount = ref(props.areaCount);
 
 watch(() => props.areaCount, (newCount, oldCount) => {
-    if (oldCount !== undefined && oldCount > newCount) {
-        for (let i = newCount + 1; i <= oldCount; i++) {
-            const key = `${props.questionKey}_${i}`;
-            props.answerStore.deleteAnswer(key);
-            delete areaValues.value[i]; // Remove unused values
+    if (newCount < oldCount) {
+        for (let i = oldCount; i > newCount; i--) {
+            props.answerStore.deleteAnswer(`${props.questionKey}_${i}`);
+            props.answerStore.deleteAnswer(`${props.questionKey}_${i}_size`);
         }
     }
-
-    for (let i = 1; i <= newCount; i++) {
-        if (!selectedOption.value[i]) {
-            selectedOption.value[i] = "first"; 
-        }
-        if (!areaValues.value[i]) {
-            areaValues.value[i] = [0, 0]; // Initialize as an array with default values
-        }
-    }
-}, { immediate: true });
-
-
-const saveAnswers = () => {
-    for (let i = 1; i <= props.areaCount; i++) {
-        const key = `${props.questionKey}_${i}`;
-        
-        // Save the selected answer based on the radio button choice
-        if (selectedOption.value[i] === 'first') {
-            const areaValue = areaValues.value[i]?.[0];
-            if (areaValue !== undefined) {
-                props.answerStore.saveAnswer(key, areaValue);  // Save single value
-            }
-        }
-
-        if (selectedOption.value[i] === 'second') {
-            const width = areaValues.value[i]?.[1];
-            const height = areaValues.value[i]?.[2];
-            if (width !== undefined && height !== undefined) {
-                props.answerStore.saveAnswer(key, [width, height]);  // Save array of values
-            }
-        }
-    }
-};
-
-watch([areaValues, selectedOption], saveAnswers, { deep: true });
+    previousCount.value = newCount;
+});
 </script>

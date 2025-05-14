@@ -1,12 +1,17 @@
 <template>
 	<QuestionaireCard topic-name="Sozialverhalten und Komfortverhalten">
 		<template #content>
-			<RadioYesNo
+			<Radio
 				question="Haben alle Pferde Sicht-, Hör-, Geruchskontakt zu Artgenossen?"
 				question-key="TI_001"
-				:answer-store="answerStore" />
+				:answer-store="answerStore"
+				:options="[
+				    { label: 'Ja, soziale Interaktionen sind allen Pferden möglich', value: 'yes_all_horses' },
+					{ label: 'Ja, soziale Interaktionen sind für einige Pferde möglich', value: 'yes_some_horses' },
+					{ label: 'Nein', value: 'no' }
+				]" />
 			<RadioYesNo
-				question="Können soziale Interaktionen zwischen allen Pferden beobachtet werden (z. B. Zusammensein bzw. Zusammenstehen von Pferden, gegenseitige Fellpflege)?"
+				question="Sind soziale Interaktionen zwischen allen Pferden möglich (z. B. Zusammensein bzw. Zusammenstehen von Pferden, gegenseitige Fellpflege)?"
 				question-key="TI_002"
 				:answer-store="answerStore" />
 			<RadioYesNo
@@ -23,6 +28,7 @@
 
 <script setup lang="ts">
 import QuestionaireCard from '../common/QuestionaireCard.vue';
+import Radio from '../questions/Radio.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 defineProps({

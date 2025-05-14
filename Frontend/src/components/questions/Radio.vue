@@ -2,7 +2,7 @@
     <div class="manrope-brown mb-2 mt-8">
         {{ question }}
     </div>
-    <div class="flex flex-wrap">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-1">
         <label v-for="(option, index) in options" :key="index" class="roboto-answers mr-6">
             <input
                 type="radio"
@@ -16,14 +16,16 @@
     <Text
         v-if="selectedAnswer === 'other'"
         :input-type=inputType
-        :question-key="questionKey + '_1'"
+        :question-key="questionKey + '_other'"
         :placeholder-text=placeholderText
         :answer-store="answerStore" />
+    <Info :info="info" />
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 import Text from "./Text.vue";
+import Info from "./Info.vue";
 
 const props = defineProps({
     question: {
@@ -49,12 +51,16 @@ const props = defineProps({
     inputType: {
         type: String,
         default: '',
+    },    
+    info: {
+        type: String,
+        default: '',
     },
 });
 
 const updateAnswer = () => {
     if(selectedAnswer.value !== 'other') {
-        props.answerStore.deleteAnswer(props.questionKey + "_1");
+        props.answerStore.deleteAnswer(props.questionKey + "_other");
     }
 }
 

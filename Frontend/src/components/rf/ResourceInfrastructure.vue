@@ -19,7 +19,9 @@
                 :question-key="`RF_010_${choice}`"
                 input-type="number"
                 placeholder-text="Anzahl der freien Plätze"
-                :answer-store="answerStore" />
+                :answer-store="answerStore"
+                info="Freie Tierplätze: die Anzahl an verfügbaren, aber aktuell nicht belegten Stallplätzen für Pferde in einer Haltungseinrichtung.
+                      Diese freien Plätze können sich auf verschiedene Haltungsformen beziehen – z. B. Einzelboxenhaltung, Gruppenhaltung oder Freilandhaltung – und geben an, wie viele Pferde zusätzlich aufgenommen werden könnten, ohne die Kapazität der Anlage zu überschreiten." />
         </template>
     </QuestionaireCard>
 </template>
@@ -40,11 +42,11 @@ const props = defineProps({
 const options = [
     { label: 'Einzelboxenhaltung', value: 'individual_stabling' },
     { label: 'Gruppenhaltung', value: 'group_housing' },
-    { label: 'Weidehaltung saisonal in der Vegetationsperiode', value: 'seasonal_pasture' },
-    { label: 'Weidehaltung ganzjährig', value: 'year_round_pasture' }
+    { label: 'Saisonale Freilandhaltung', value: 'seasonal_pasture' },
+    { label: 'Ganzjährige Freilandhaltung', value: 'year_round_pasture' }
 ];
 
-const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008_1') ?? []);
+const selectedHousing = computed(() => props.answerStore.getAnswerByKey('RF_008') ?? []);
 
 function getLabel(value: string) {
   const option = options.find(opt => opt.value === value);

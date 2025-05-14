@@ -7,11 +7,12 @@
         class="mt-2 appearance-none block w-full text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none"
         :placeholder="placeholderText"
         v-model="inputValue">
-        
+    <Info :info="info" />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Info from './Info.vue';
 
 const props = defineProps({
     question: {
@@ -33,6 +34,10 @@ const props = defineProps({
     answerStore: {
         type: Object,
         required: true,
+    },
+    info: {
+        type: String,
+        default: '',
     },
 });
 

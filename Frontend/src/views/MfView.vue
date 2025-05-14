@@ -43,7 +43,7 @@ import ManagementControll from '@/components/mf/ManagementControll.vue';
 import ManagementHealth from '@/components/mf/ManagementHealth.vue';
 import ManagementNotes from '@/components/mf/ManagementNotes.vue';
 
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { useNavigationStore } from '@/stores/managementNavigationStore';
 import { useAnswerStore } from '@/stores/answerStore'
@@ -72,17 +72,21 @@ const currentQuestionnaireComponent = computed(() => {
 	return questionnaireComponents[current] || null;
 });
 
-const goToNextQuestionnaire = () => {
+const goToNextQuestionnaire = async () => {
 	const next = navigationStore.getNextQuestionnaire(navigationStore.currentQuestionnaire);
 	if (next) {
 		navigationStore.setCurrentQuestionnaire(next);
+		await nextTick();
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 };
 
-const goToPreviousQuestionnaire = () => {
+const goToPreviousQuestionnaire = async () => {
 	const previous = navigationStore.getPreviousQuestionnaire(navigationStore.currentQuestionnaire);
 	if (previous) {
 		navigationStore.setCurrentQuestionnaire(previous);
+		await nextTick();
+		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
 };
 

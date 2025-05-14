@@ -98,12 +98,12 @@ export const getAnswers = async (req: Request, res: Response): Promise<void> => 
 		const answers = await answerService.getAnswers(farmId, sectionEnumValue);
 
 		const filteredAnswers = answers.map(({ 
-			id, farm_id, question_key, section, created_at, 
+			id, farm_id, question_key, section, last_modified, 
 			string_answer, string_array_answer, numeric_answer, 
 			numeric_array_answer, file_url 
 		}) => {
 			const filtered = {
-				id, farm_id, question_key, section, created_at,
+				id, farm_id, question_key, section, last_modified,
 				...(string_answer && { string_answer }),
 				...(string_array_answer?.length > 0 && { string_array_answer }),
 				...(numeric_answer !== null && { numeric_answer }),
@@ -132,12 +132,12 @@ export const getAnswersByFarmId = async (req: Request, res: Response): Promise<v
 
 		const answers = await answerService.getAnswersByFarmId(farmId);
 		const filteredAnswers = answers.map(({ 
-			id, farm_id, question_key, section, created_at, 
+			id, farm_id, question_key, section, last_modified,
 			string_answer, string_array_answer, numeric_answer, 
 			numeric_array_answer, file_url 
 		}) => {
 			const filtered = {
-				id, farm_id, question_key, section, created_at,
+				id, farm_id, question_key, section, last_modified,
 				...(string_answer && { string_answer }),
 				...(string_array_answer?.length > 0 && { string_array_answer }),
 				...(numeric_answer !== null && { numeric_answer }),

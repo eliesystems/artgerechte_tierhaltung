@@ -13,14 +13,21 @@
 				question="Haben alle Pferde ausreichend Ruhe und Zeit für die Futteraufnahme?"
 				question-key="TI_007"
 				:answer-store="answerStore" />
-			Wie verteilen sich die Pferde auf die Kategorien des Body Condition Scores (BCS)?
-			Hier fehlen noch Bilder
+			<Images
+				question="Wie verteilen sich die Pferde auf die Kategorien des Body Condition Scores (BCS)?"
+				question-key="TI_008"
+				:text="true"
+				:answer-store="answerStore"
+				:images="[
+					{ imgUrl: '/images/body_index/body_index_1.png', value: 'body_1' }
+				]" />
 		</template>
 	</QuestionaireCard>
 </template>
 
 <script setup lang="ts">
 import QuestionaireCard from '../common/QuestionaireCard.vue';
+import Images from '../questions/Images.vue';
 import RadioYesNo from '../questions/RadioYesNo.vue';
 
 defineProps({
